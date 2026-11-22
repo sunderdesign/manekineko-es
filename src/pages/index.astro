@@ -1,61 +1,447 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const posts = (await getCollection('cultura')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
 ---
 
 <BaseLayout
-  title="Manekineko.es — Historia, Significado y Cultura del Gato de la Suerte"
-  description="Descubre el origen japonés del Maneki-neko, el significado de sus colores, cómo colocarlo según el Feng Shui y una selección curada de piezas tradicionales."
+  title="Manekineko.es — Cultura, Simbolismo y Tradición del Gato de la Fortuna"
+  description="Descubre el verdadero significado del Maneki-neko japonés: qué pata levanta, el poder de cada color, la leyenda del templo Gōtokuji y cómo elegir el tuyo."
 >
-  <section class="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
-    <p class="text-xs uppercase tracking-[0.3em] text-[#B91C1C] mb-4">招き猫 • Tradición Japonesa</p>
-    <h1 class="font-serif text-4xl sm:text-5xl font-normal leading-tight text-[#1A1A1A] mb-6">
-      El arte de invitar a la buena fortuna
-    </h1>
-    <p class="text-stone-600 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
-      Un espacio dedicado a la historia auténtica del Maneki-neko: desde las leyendas del periodo Edo en Tokio hasta el simbolismo de cada color y gesto.
-    </p>
-    <div class="flex flex-wrap justify-center gap-4">
-      <a href="/cultura/" class="px-6 py-3 bg-[#1A1A1A] text-white text-sm tracking-wide hover:bg-[#B91C1C] transition-colors">
-        Explorar la revista
-      </a>
-      <a href="/tienda/" class="px-6 py-3 border border-stone-300 text-sm tracking-wide hover:border-[#1A1A1A] transition-colors">
-        Ver selección tradicional
-      </a>
-    </div>
-  </section>
+  <!-- SECCIÓN 1: HERO ESCAPARATE CON IDENTIDAD MANEKI-NEKO -->
+  <section class="bg-seigaiha border-b border-[#E5DEC9] relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-6 py-14 sm:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- Columna Texto & Acción -->
+      <div class="lg:col-span-7 text-center lg:text-left">
+        <div class="inline-flex items-center gap-3 mb-5">
+          <span class="hanko-stamp px-2.5 py-0.5 text-xs font-bold tracking-widest uppercase bg-white/80">
+            招き猫 • EDO 1615
+          </span>
+          <span class="text-xs uppercase tracking-[0.2em] text-[#8E1323] font-semibold">
+            Cultura &amp; Fortuna Japonesa
+          </span>
+        </div>
 
-  <section class="max-w-5xl mx-auto px-6 py-12 border-t border-stone-200/80">
-    <div class="flex items-baseline justify-between mb-10">
-      <h2 class="font-serif text-2xl">Últimos artículos culturales</h2>
-      <a href="/cultura/" class="text-sm text-[#B91C1C] hover:underline">Ver todos →</a>
-    </div>
+        <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.4rem] leading-[1.12] text-[#161412] mb-6">
+          El guardián japonés que <span class="text-[#8E1323] italic">invita</span> a la buena fortuna
+        </h1>
 
-    <div class="grid md:grid-cols-3 gap-8">
-      {posts.map((post) => (
-        <article class="group border border-stone-200 bg-white/60 p-6 flex flex-col justify-between hover:border-stone-400 transition-colors">
-          <div>
-            <div class="flex items-center gap-2 text-xs text-stone-500 mb-3">
-              <span class="text-[#B91C1C] font-medium uppercase tracking-wider">{post.data.category}</span>
-              <span>•</span>
-              <span>{post.data.readTime}</span>
-            </div>
-            <h3 class="font-serif text-xl mb-3 group-hover:text-[#B91C1C] transition-colors">
-              <a href={`/cultura/${post.id}/`}>{post.data.title}</a>
-            </h3>
-            <p class="text-sm text-stone-600 leading-relaxed mb-6">
-              {post.data.description}
-            </p>
-          </div>
-          <a href={`/cultura/${post.id}/`} class="text-xs font-medium uppercase tracking-widest text-[#1A1A1A] group-hover:text-[#B91C1C]">
-            Leer artículo →
+        <p class="text-base sm:text-lg text-stone-700 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
+          Más allá de ser un icono pop, el <strong>Maneki-neko</strong> es un talismán centenario nacido en los templos de Tokio. Descubre qué significa cada pata alzada, el propósito de sus colores y cómo elegir la figura adecuada para tu hogar o negocio.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+          <a
+            href="#simbolismo"
+            class="px-6 py-3.5 rounded-lg bg-[#161412] text-white text-sm font-medium tracking-wide hover:bg-[#8E1323] transition-colors shadow-sm"
+          >
+            Descubrir qué gato necesitas
           </a>
-        </article>
-      ))}
+          <a
+            href="/tienda/"
+            class="px-6 py-3.5 rounded-lg bg-white border border-[#C6922C] text-[#161412] text-sm font-medium tracking-wide hover:bg-[#FDF8EC] transition-colors"
+          >
+            Explorar figuras tradicionales →
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna Emblema Central con el Gato Oficial -->
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="relative w-72 h-72 sm:w-80 sm:h-80 rounded-full bg-white border-2 border-[#C6922C]/60 shadow-xl flex items-center justify-center p-8">
+          <!-- Aro interior decorativo -->
+          <div class="absolute inset-3 rounded-full border border-dashed border-[#8E1323]/30"></div>
+          
+          <!-- Etiquetas kanji flotantes -->
+          <span class="absolute -top-3 bg-[#8E1323] text-white text-xs font-serif px-3.5 py-1 rounded-full tracking-widest shadow-sm">
+            開運 • FORTUNA
+          </span>
+          <span class="absolute -left-3 top-1/2 -translate-y-1/2 bg-[#FAF6F0] border border-[#C6922C] text-[#161412] text-xs font-serif px-2.5 py-1.5 rounded-md shadow-xs">
+            財運<br/><span class="text-[10px] text-stone-500">Riqueza</span>
+          </span>
+          <span class="absolute -right-3 top-1/2 -translate-y-1/2 bg-[#FAF6F0] border border-[#C6922C] text-[#161412] text-xs font-serif px-2.5 py-1.5 rounded-md shadow-xs">
+            良縁<br/><span class="text-[10px] text-stone-500">Vínculos</span>
+          </span>
+
+          <img
+            src="/logo_img_gato.svg"
+            alt="Ilustración tradicional Maneki-neko"
+            class="w-48 sm:w-56 h-auto object-contain relative z-10 drop-shadow-xs"
+          />
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- SECCIÓN 2: EXPLORADOR INTERACTIVO DE PATAS Y COLORES -->
+  <section id="simbolismo" class="max-w-6xl mx-auto px-6 py-20">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs uppercase tracking-[0.25em] text-[#8E1323] font-semibold">Simbolismo Tradicional</span>
+      <h2 class="font-serif text-3xl sm:text-4xl text-[#161412] mt-2 mb-4">
+        El lenguaje de las patas y los colores
+      </h2>
+      <p class="text-stone-600 text-sm sm:text-base">
+        En la tradición japonesa ningún detalle es casual: la pata que levanta determina qué atrae y su color define el ámbito de protección.
+      </p>
+    </div>
+
+    <!-- Selector Interactivo de Pata -->
+    <div class="bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-8 shadow-xs mb-14">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-6 border-b border-stone-200">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-[#C6922C]">Paso 1 • El Gesto (Maneku)</span>
+          <h3 class="font-serif text-xl sm:text-2xl text-[#161412]">¿Qué pata tiene levantada?</h3>
+        </div>
+
+        <div class="inline-flex rounded-lg bg-[#FAF6F0] p-1 border border-[#E5DEC9]" role="tablist">
+          <button
+            type="button"
+            data-paw="derecha"
+            class="paw-tab px-4 py-2 rounded-md text-xs sm:text-sm font-medium bg-[#8E1323] text-white transition-all cursor-pointer"
+          >
+            Pata Derecha
+          </button>
+          <button
+            type="button"
+            data-paw="izquierda"
+            class="paw-tab px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-stone-700 hover:text-[#8E1323] transition-all cursor-pointer"
+          >
+            Pata Izquierda
+          </button>
+          <button
+            type="button"
+            data-paw="ambas"
+            class="paw-tab px-4 py-2 rounded-md text-xs sm:text-sm font-medium text-stone-700 hover:text-[#8E1323] transition-all cursor-pointer"
+          >
+            Ambas Patas
+          </button>
+        </div>
+      </div>
+
+      <!-- Paneles dinámicos de pata -->
+      <div id="paw-derecha" class="paw-panel pt-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2 space-y-2">
+          <div class="inline-block text-xs font-semibold px-2.5 py-1 rounded bg-[#FDF8EC] text-[#9A6B12] border border-[#E2B455]/40">
+            右手招き • Fortuna Económica y Hogar
+          </div>
+          <h4 class="font-serif text-xl text-[#161412]">Invita al dinero, la estabilidad y la suerte material</h4>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Es el gesto clásico para colocar en el hogar o junto a la caja de un negocio. Simboliza la llegada de recursos económicos, oportunidades financieras y bienestar familiar.
+          </p>
+        </div>
+        <div class="bg-[#FAF6F0] rounded-xl p-4 border border-[#E5DEC9] text-center">
+          <p class="text-xs text-stone-500 uppercase tracking-wider mb-1">Ideal para</p>
+          <p class="font-serif text-base text-[#161412]">Recibidor de casa, despachos y zonas de trabajo</p>
+        </div>
+      </div>
+
+      <div id="paw-izquierda" class="paw-panel hidden pt-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2 space-y-2">
+          <div class="inline-block text-xs font-semibold px-2.5 py-1 rounded bg-[#FDF2F4] text-[#8E1323] border border-[#8E1323]/20">
+            左手招き • Clientes, Visitas y Relaciones
+          </div>
+          <h4 class="font-serif text-xl text-[#161412]">Atrae personas, clientes y buenas conexiones</h4>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Es el modelo imprescindible en restaurantes, tiendas, estudios creativos y comercios abiertos al público. Su movimiento saluda y da la bienvenida a quienes cruzan la puerta.
+          </p>
+        </div>
+        <div class="bg-[#FAF6F0] rounded-xl p-4 border border-[#E5DEC9] text-center">
+          <p class="text-xs text-stone-500 uppercase tracking-wider mb-1">Ideal para</p>
+          <p class="font-serif text-base text-[#161412]">Tiendas, restaurantes y estudios abiertos al público</p>
+        </div>
+      </div>
+
+      <div id="paw-ambas" class="paw-panel hidden pt-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2 space-y-2">
+          <div class="inline-block text-xs font-semibold px-2.5 py-1 rounded bg-stone-100 text-stone-800 border border-stone-300">
+            両手招き • Protección Integral y Prosperidad
+          </div>
+          <h4 class="font-serif text-xl text-[#161412]">Combina prosperidad económica y protección del espacio</h4>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Representa el deseo doble de atraer fortuna y resguardar el hogar o el proyecto frente a contratiempos. En Japón se elige como pieza especial de inauguración.
+          </p>
+        </div>
+        <div class="bg-[#FAF6F0] rounded-xl p-4 border border-[#E5DEC9] text-center">
+          <p class="text-xs text-stone-500 uppercase tracking-wider mb-1">Ideal para</p>
+          <p class="font-serif text-base text-[#161412]">Regalos de apertura, nuevos hogares y estudio</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mosaico Visual de Colores Sagrados -->
+    <div class="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+      <div>
+        <span class="text-xs font-semibold uppercase tracking-wider text-[#C6922C]">Paso 2 • El Color del Pelaje</span>
+        <h3 class="font-serif text-2xl text-[#161412]">Seis colores, seis propósitos</h3>
+      </div>
+      <a href="/cultura/significado-colores-manekineko/" class="text-sm font-medium text-[#8E1323] hover:underline">
+        Ver guía completa de colores →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Blanco Tricolor -->
+      <div class="bg-white border border-[#E5DEC9] rounded-xl p-5 hover:border-[#C6922C] transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-8 h-8 rounded-full border border-stone-300 bg-gradient-to-tr from-white via-amber-400 to-stone-900 shrink-0"></span>
+          <div>
+            <h4 class="font-serif text-lg text-[#161412]">Tricolor (Mi-ke)</h4>
+            <span class="text-[11px] uppercase tracking-wider text-stone-500">El diseño original Edo</span>
+          </div>
+        </div>
+        <p class="text-sm text-stone-600 leading-relaxed">
+          Blanco con manchas negras y anaranjadas. Es el modelo histórico más valorado en Japón: simboliza pureza, armonía en el hogar y suerte general.
+        </p>
+      </div>
+
+      <!-- Dorado -->
+      <div class="bg-white border border-[#E5DEC9] rounded-xl p-5 hover:border-[#C6922C] transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-8 h-8 rounded-full border border-amber-500/40 bg-gradient-to-tr from-[#B7811E] via-[#E5B84B] to-[#FFF1B8] shrink-0"></span>
+          <div>
+            <h4 class="font-serif text-lg text-[#161412]">Dorado (Kin)</h4>
+            <span class="text-[11px] uppercase tracking-wider text-stone-500">Riqueza y abundancia</span>
+          </div>
+        </div>
+        <p class="text-sm text-stone-600 leading-relaxed">
+          Evoca el brillo de las monedas antiguas <em>koban</em>. Es el favorito en comercios, despachos y escritorios para impulsar el éxito profesional.
+        </p>
+      </div>
+
+      <!-- Negro -->
+      <div class="bg-white border border-[#E5DEC9] rounded-xl p-5 hover:border-[#C6922C] transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-8 h-8 rounded-full bg-[#18181B] border border-stone-700 shrink-0"></span>
+          <div>
+            <h4 class="font-serif text-lg text-[#161412]">Negro (Kuro)</h4>
+            <span class="text-[11px] uppercase tracking-wider text-stone-500">Escudo y bienestar</span>
+          </div>
+        </div>
+        <p class="text-sm text-stone-600 leading-relaxed">
+          En el folclore nipón actúa como guardián contra infortunios, envidias y enfermedades, manteniendo despejada la entrada de la casa.
+        </p>
+      </div>
+
+      <!-- Rojo -->
+      <div class="bg-white border border-[#E5DEC9] rounded-xl p-5 hover:border-[#C6922C] transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-8 h-8 rounded-full bg-[#8E1323] border border-red-900 shrink-0"></span>
+          <div>
+            <h4 class="font-serif text-lg text-[#161412]">Rojo Carmesí (Aka)</h4>
+            <span class="text-[11px] uppercase tracking-wider text-stone-500">Salud y vitalidad</span>
+          </div>
+        </div>
+        <p class="text-sm text-stone-600 leading-relaxed">
+          Color protector ligado a deidades de la salud en Japón. Tradicionalmente se regala para desear fortaleza física y protección infantil.
+        </p>
+      </div>
+
+      <!-- Blanco Puro -->
+      <div class="bg-white border border-[#E5DEC9] rounded-xl p-5 hover:border-[#C6922C] transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-8 h-8 rounded-full bg-[#FAF8F5] border-2 border-stone-300 shrink-0"></span>
+          <div>
+            <h4 class="font-serif text-lg text-[#161412]">Blanco Puro (Shiro)</h4>
+            <span class="text-[11px] uppercase tracking-wider text-stone-500">Claridad y nuevos comienzos</span>
+          </div>
+        </div>
+        <p class="text-sm text-stone-600 leading-relaxed">
+          Representa la serenidad espiritual y la felicidad cotidiana. Es el color de los miles de gatos votivos que descansan en el templo Gōtokuji.
+        </p>
+      </div>
+
+      <!-- Rosa -->
+      <div class="bg-white border border-[#E5DEC9] rounded-xl p-5 hover:border-[#C6922C] transition-all">
+        <div class="flex items-center gap-3 mb-3">
+          <span class="w-8 h-8 rounded-full bg-rose-300 border border-rose-400 shrink-0"></span>
+          <div>
+            <h4 class="font-serif text-lg text-[#161412]">Rosa (Sakura)</h4>
+            <span class="text-[11px] uppercase tracking-wider text-stone-500">Amor y afinidad</span>
+          </div>
+        </div>
+        <p class="text-sm text-stone-600 leading-relaxed">
+          Una variante moderna muy apreciada entre jóvenes en Tokio para favorecer el romance, la amistad sincera y la armonía emocional.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3: ANATOMÍA DEL AMULETO (LO QUE LLEVA TU GATO) -->
+  <section id="anatomia" class="bg-[#161412] text-white py-20 border-y-4 border-[#C6922C]">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs uppercase tracking-[0.25em] text-[#E2B455] font-semibold">Iconografía Japonesa</span>
+        <h2 class="font-serif text-3xl sm:text-4xl mt-2 mb-4">
+          Los cuatro símbolos ocultos en cada figura
+        </h2>
+        <p class="text-stone-400 text-sm sm:text-base">
+          Cada detalle esculpido en un Maneki-neko clásico encierra un código cultural de la época de los samuráis y comerciantes de Edo.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <span class="font-serif text-2xl text-[#E2B455] block mb-3">一 • La Pata</span>
+          <h3 class="font-serif text-lg mb-2">El saludo «Maneku»</h3>
+          <p class="text-xs text-stone-300 leading-relaxed">
+            En Japón se llama a alguien con la palma hacia abajo moviendo los dedos. Cuanto más alta supera la pata a la oreja, desde más lejos atrae la suerte.
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <span class="font-serif text-2xl text-[#E2B455] block mb-3">二 • El Koban</span>
+          <h3 class="font-serif text-lg mb-2">La moneda ovalada</h3>
+          <p class="text-xs text-stone-300 leading-relaxed">
+            Sostiene una moneda de oro del periodo Edo marcada habitualmente como «Senman Ryō» (diez millones de piezas de oro), emblema de abundancia.
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <span class="font-serif text-2xl text-[#E2B455] block mb-3">三 • El Collar</span>
+          <h3 class="font-serif text-lg mb-2">Cascabel y babero rojo</h3>
+          <p class="text-xs text-stone-300 leading-relaxed">
+            En los siglos XVII y XVIII los gatos domésticos eran un lujo aristocrático y llevaban collares rojos de tela <em>chirimen</em> con cascabel para localizarlos.
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-white/10 rounded-xl p-6">
+          <span class="font-serif text-2xl text-[#E2B455] block mb-3">四 • El Gesto</span>
+          <h3 class="font-serif text-lg mb-2">Ojos arqueados en sonrisa</h3>
+          <p class="text-xs text-stone-300 leading-relaxed">
+            Su expresión serena y acogedora representa la hospitalidad japonesa (<em>omotenashi</em>), invitando a entrar en un espacio seguro y próspero.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4: CRÓNICAS CULTURALES (ENLACE A TUS 3 GUÍAS EN PROFUNDIDAD) -->
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+      <div>
+        <span class="text-xs uppercase tracking-[0.25em] text-[#8E1323] font-semibold">Archivo Cultural</span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-[#161412] mt-2">
+          Historia, Leyenda y Colocación
+        </h2>
+      </div>
+      <a href="/cultura/" class="text-sm font-medium text-[#8E1323] hover:underline">
+        Abrir archivo completo →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Capítulo 1 -->
+      <a
+        href="/cultura/origen-leyenda-templo-gotokuji/"
+        class="group bg-white border border-[#E5DEC9] rounded-2xl p-7 hover:shadow-md hover:border-[#8E1323]/50 transition-all flex flex-col justify-between"
+      >
+        <div>
+          <div class="flex items-center justify-between mb-5">
+            <span class="hanko-stamp px-2 py-0.5 text-xs font-bold">第一章 • HISTORIA</span>
+            <span class="text-xs text-stone-400">5 min lectura</span>
+          </div>
+          <h3 class="font-serif text-xl text-[#161412] group-hover:text-[#8E1323] transition-colors mb-3">
+            La leyenda del templo Gōtokuji: el origen real del Maneki-neko
+          </h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Cómo un gato llamado Tama salvó de un rayo al señor feudal Ii Naotaka en el Tokio del siglo XVII y dio nacimiento al amuleto.
+          </p>
+        </div>
+        <span class="mt-6 inline-block text-xs font-semibold uppercase tracking-wider text-[#8E1323]">
+          Leer crónica →
+        </span>
+      </a>
+
+      <!-- Capítulo 2 -->
+      <a
+        href="/cultura/pata-izquierda-derecha-donde-colocar-manekineko/"
+        class="group bg-white border border-[#E5DEC9] rounded-2xl p-7 hover:shadow-md hover:border-[#8E1323]/50 transition-all flex flex-col justify-between"
+      >
+        <div>
+          <div class="flex items-center justify-between mb-5">
+            <span class="hanko-stamp px-2 py-0.5 text-xs font-bold">第二章 • GUÍA</span>
+            <span class="text-xs text-stone-400">4 min lectura</span>
+          </div>
+          <h3 class="font-serif text-xl text-[#161412] group-hover:text-[#8E1323] transition-colors mb-3">
+            Pata izquierda o derecha y dónde colocar tu Maneki-neko
+          </h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Orientación correcta en casa o en el comercio, altura de la pata y reglas tradicionales de ubicación según el Feng Shui japonés.
+          </p>
+        </div>
+        <span class="mt-6 inline-block text-xs font-semibold uppercase tracking-wider text-[#8E1323]">
+          Leer guía →
+        </span>
+      </a>
+
+      <!-- Capítulo 3 -->
+      <a
+        href="/cultura/significado-colores-manekineko/"
+        class="group bg-white border border-[#E5DEC9] rounded-2xl p-7 hover:shadow-md hover:border-[#8E1323]/50 transition-all flex flex-col justify-between"
+      >
+        <div>
+          <div class="flex items-center justify-between mb-5">
+            <span class="hanko-stamp px-2 py-0.5 text-xs font-bold">第三章 • COLOR</span>
+            <span class="text-xs text-stone-400">4 min lectura</span>
+          </div>
+          <h3 class="font-serif text-xl text-[#161412] group-hover:text-[#8E1323] transition-colors mb-3">
+            Significado de los colores del Maneki-neko en la tradición japonesa
+          </h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Del tricolor original Mi-ke al dorado, negro o rojo: qué simboliza cada tonalidad en la cultura popular de Japón.
+          </p>
+        </div>
+        <span class="mt-6 inline-block text-xs font-semibold uppercase tracking-wider text-[#8E1323]">
+          Leer guía →
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 5: LLAMADA A LA GALERÍA DE FIGURAS -->
+  <section class="max-w-6xl mx-auto px-6">
+    <div class="bg-gradient-to-r from-[#8E1323] to-[#6B0D19] rounded-2xl p-8 sm:p-12 text-white flex flex-col lg:flex-row items-center justify-between gap-8 shadow-lg">
+      <div class="max-w-xl text-center lg:text-left">
+        <span class="text-xs uppercase tracking-[0.25em] text-[#E2B455] font-semibold">Selección Curada</span>
+        <h2 class="font-serif text-2xl sm:text-3xl mt-2 mb-3">
+          Encuentra un Maneki-neko auténtico para tu espacio
+        </h2>
+        <p class="text-sm sm:text-base text-red-100 leading-relaxed">
+          Hemos reunido figuras de porcelana japonesa, modelos tradicionales de cerámica y versiones solares con movimiento suave de pata.
+        </p>
+      </div>
+      <a
+        href="/tienda/"
+        class="px-7 py-4 rounded-xl bg-[#FAF6F0] text-[#161412] font-semibold text-sm tracking-wide hover:bg-white transition-colors shrink-0 shadow-md"
+      >
+        Ver Galería de Figuras →
+      </a>
+    </div>
+  </section>
+
+  <!-- Script ligero para el selector interactivo de patas -->
+  <script>
+    const tabs = document.querySelectorAll('.paw-tab');
+    const panels = document.querySelectorAll('.paw-panel');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-paw');
+
+        tabs.forEach((t) => {
+          t.classList.remove('bg-[#8E1323]', 'text-white');
+          t.classList.add('text-stone-700');
+        });
+        tab.classList.add('bg-[#8E1323]', 'text-white');
+        tab.classList.remove('text-stone-700');
+
+        panels.forEach((panel) => {
+          if (panel.id === `paw-${target}`) {
+            panel.classList.remove('hidden');
+          } else {
+            panel.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
 </BaseLayout>

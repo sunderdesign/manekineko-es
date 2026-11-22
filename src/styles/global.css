@@ -1,10 +1,35 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
 @layer base {
-  body {
-    background-color: #FAF8F5;
-    color: #1A1A1A;
-    font-feature-settings: "kern" 1;
+  html {
+    scroll-behavior: smooth;
+    background-color: #FAF6F0;
+    color: #161412;
   }
+
+  body {
+    background-color: #FAF6F0;
+    background-image: radial-gradient(rgba(142, 19, 35, 0.04) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+}
+
+/* Patrón tradicional japonés Seigaiha (olas de fortuna) */
+.bg-seigaiha {
+  background-color: #FAF6F0;
+  background-image: 
+    radial-gradient(circle at 100% 150%, #FAF6F0 24%, rgba(198, 146, 44, 0.09) 25%, rgba(198, 146, 44, 0.09) 28%, #FAF6F0 29%, #FAF6F0 36%, rgba(198, 146, 44, 0.09) 36%, rgba(198, 146, 44, 0.09) 40%, transparent 40%, transparent),
+    radial-gradient(circle at 0    150%, #FAF6F0 24%, rgba(198, 146, 44, 0.09) 25%, rgba(198, 146, 44, 0.09) 28%, #FAF6F0 29%, #FAF6F0 36%, rgba(198, 146, 44, 0.09) 36%, rgba(198, 146, 44, 0.09) 40%, transparent 40%, transparent),
+    radial-gradient(circle at 50%  100%, rgba(198, 146, 44, 0.09) 10%, #FAF6F0 11%, #FAF6F0 23%, rgba(198, 146, 44, 0.09) 24%, rgba(198, 146, 44, 0.09) 30%, #FAF6F0 31%, #FAF6F0 43%, rgba(198, 146, 44, 0.09) 44%, rgba(198, 146, 44, 0.09) 50%, #FAF6F0 51%, #FAF6F0 63%, rgba(198, 146, 44, 0.09) 64%, rgba(198, 146, 44, 0.09) 71%, transparent 71%, transparent),
+    radial-gradient(circle at 100% 50%, rgba(198, 146, 44, 0.09) 5%, #FAF6F0 6%, #FAF6F0 15%, rgba(198, 146, 44, 0.09) 16%, rgba(198, 146, 44, 0.09) 20%, #FAF6F0 21%, #FAF6F0 30%, rgba(198, 146, 44, 0.09) 31%, rgba(198, 146, 44, 0.09) 35%, #FAF6F0 36%, #FAF6F0 45%, rgba(198, 146, 44, 0.09) 46%, rgba(198, 146, 44, 0.09) 49%, transparent 50%, transparent),
+    radial-gradient(circle at 0    50%, rgba(198, 146, 44, 0.09) 5%, #FAF6F0 6%, #FAF6F0 15%, rgba(198, 146, 44, 0.09) 16%, rgba(198, 146, 44, 0.09) 20%, #FAF6F0 21%, #FAF6F0 30%, rgba(198, 146, 44, 0.09) 31%, rgba(198, 146, 44, 0.09) 35%, #FAF6F0 36%, #FAF6F0 45%, rgba(198, 146, 44, 0.09) 46%, rgba(198, 146, 44, 0.09) 49%, transparent 50%, transparent);
+  background-size: 60px 30px;
+}
+
+/* Sello tradicional japonés Hanko */
+.hanko-stamp {
+  border: 2px solid #8E1323;
+  box-shadow: inset 0 0 0 1px #8E1323;
+  color: #8E1323;
+  font-family: Georgia, serif;
 }

@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title,
-  description = 'Portal cultural sobre la historia, significado y tradición del Maneki-neko en Japón.',
+  description = 'Universo cultural del Maneki-neko: historia japonesa, simbolismo de patas y colores, templo Gōtokuji y amuletos tradicionales.',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -28,26 +28,35 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
   </head>
-  <body class="min-h-screen flex flex-col antialiased selection:bg-red-800 selection:text-white">
-    <header class="border-b border-stone-200/80 bg-[#FAF8F5]/95 sticky top-0 z-10 backdrop-blur-sm">
-      <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <a href="/" class="flex items-center gap-3 group" aria-label="Manekineko.es - Inicio">
+  <body class="min-h-screen flex flex-col text-[#161412] antialiased selection:bg-[#8E1323] selection:text-white">
+    <!-- Franja superior decorativa estilo Torii / Koban -->
+    <div class="h-1.5 w-full bg-gradient-to-r from-[#161412] via-[#8E1323] to-[#C6922C]"></div>
+
+    <header class="border-b border-[#E5DEC9] bg-[#FAF6F0]/95 sticky top-0 z-20 backdrop-blur-md">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <a href="/" class="flex items-center gap-2.5 group" aria-label="Manekineko.es - Inicio">
           <img
             src="/logo_img_gato.svg"
             alt="Manekineko"
-            class="h-12 sm:h-14 w-auto shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
+            class="h-14 sm:h-16 w-auto shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
           />
           <img
             src="/logo_type.svg"
             alt="Manekineko.es"
-            class="h-8 sm:h-10 w-auto shrink-0 object-contain mt-1"
+            class="h-14 sm:h-16 w-auto shrink-0 object-contain mt-1"
           />
         </a>
 
-        <nav class="flex items-center gap-8 text-sm tracking-wide text-stone-700">
-          <a href="/" class="hover:text-[#B91C1C] transition-colors">Inicio</a>
-          <a href="/cultura/" class="hover:text-[#B91C1C] transition-colors">Revista Cultural</a>
-          <a href="/tienda/" class="hover:text-[#B91C1C] transition-colors">Selección</a>
+        <nav class="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-sm font-medium tracking-wide text-stone-800">
+          <a href="/#simbolismo" class="hover:text-[#8E1323] transition-colors">Patas y Colores</a>
+          <a href="/#anatomia" class="hover:text-[#8E1323] transition-colors">El Amuleto</a>
+          <a href="/cultura/" class="hover:text-[#8E1323] transition-colors">Tradición y Leyenda</a>
+          <a
+            href="/tienda/"
+            class="px-4 py-2 rounded-full bg-[#8E1323] text-white hover:bg-[#700E1B] transition-colors shadow-xs"
+          >
+            Galería de Figuras
+          </a>
         </nav>
       </div>
     </header>
@@ -56,12 +65,41 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
 
-    <footer class="border-t border-stone-200 mt-20 py-12 text-xs text-stone-500">
-      <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <p>© {new Date().getFullYear()} Manekineko.es — Archivo cultural del amuleto japonés.</p>
-        <p class="text-center sm:text-right max-w-md">
-          Algunos enlaces de la sección Selección participan en programas de afiliación sin coste adicional para el lector.
-        </p>
+    <footer class="bg-[#161412] text-stone-300 mt-24 border-t-4 border-[#8E1323]">
+      <div class="max-w-6xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#8E1323] text-white font-serif text-sm">
+              招福
+            </span>
+            <span class="font-serif text-lg tracking-wider text-white">MANEKINEKO.ES</span>
+          </div>
+          <p class="text-xs leading-relaxed text-stone-400">
+            Archivo cultural, simbólico y artesanal dedicado al gato de la fortuna japonés desde el periodo Edo hasta nuestros días.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xs uppercase tracking-widest text-[#E2B455] font-semibold mb-4">Explorar el Universo</h3>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="/cultura/significado-colores-manekineko/" class="hover:text-white transition-colors">Significado de los colores</a></li>
+            <li><a href="/cultura/pata-izquierda-derecha-donde-colocar-manekineko/" class="hover:text-white transition-colors">Pata izquierda o derecha y colocación</a></li>
+            <li><a href="/cultura/origen-leyenda-templo-gotokuji/" class="hover:text-white transition-colors">La leyenda del templo Gōtokuji</a></li>
+            <li><a href="/tienda/" class="hover:text-white transition-colors">Selección de figuras tradicionales</a></li>
+          </ul>
+        </div>
+
+        <div class="flex flex-col justify-between">
+          <div>
+            <h3 class="text-xs uppercase tracking-widest text-[#E2B455] font-semibold mb-4">Tradición Nipona</h3>
+            <p class="text-xs leading-relaxed text-stone-400">
+              «Maneku» (招く) significa invitar a pasar; «Neko» (猫) significa gato. Un símbolo de hospitalidad, prosperidad y protección.
+            </p>
+          </div>
+          <p class="text-[11px] text-stone-500 mt-6">
+            © {new Date().getFullYear()} Manekineko.es — Algunos enlaces de la galería participan en programas de afiliación.
+          </p>
+        </div>
       </div>
     </footer>
   </body>
