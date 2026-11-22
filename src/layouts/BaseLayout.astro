@@ -8,7 +8,7 @@ interface Props {
 
 const {
   title,
-  description = 'Universo cultural del Maneki-neko: historia japonesa, simbolismo de patas y colores, templo Gōtokuji y amuletos tradicionales.',
+  description = 'Universo cultural del Maneki-neko: configurador interactivo de patas y colores, historia japonesa, leyenda del templo Gōtokuji y figuras tradicionales.',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -32,7 +32,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Franja superior decorativa estilo Torii / Koban -->
     <div class="h-1.5 w-full bg-gradient-to-r from-[#161412] via-[#8E1323] to-[#C6922C]"></div>
 
-    <header class="border-b border-[#E5DEC9] bg-[#FAF6F0]/95 sticky top-0 z-20 backdrop-blur-md">
+    <header class="border-b border-[#E5DEC9] bg-[#FAF6F0]/95 sticky top-0 z-40 backdrop-blur-md">
       <div class="max-w-6xl mx-auto px-5 sm:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
         <a href="/" class="flex items-center gap-2.5 group" aria-label="Manekineko.es - Inicio">
           <img
@@ -48,14 +48,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         </a>
 
         <nav class="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-sm font-medium tracking-wide text-stone-800">
-          <a href="/#simbolismo" class="hover:text-[#8E1323] transition-colors">Patas y Colores</a>
-          <a href="/#anatomia" class="hover:text-[#8E1323] transition-colors">El Amuleto</a>
-          <a href="/cultura/" class="hover:text-[#8E1323] transition-colors">Tradición y Leyenda</a>
+          <a href="/" class="hover:text-[#8E1323] transition-colors">El Amuleto</a>
+          <a href="/#tradicion" class="hover:text-[#8E1323] transition-colors">Tradición y Leyenda</a>
           <a
             href="/tienda/"
             class="px-4 py-2 rounded-full bg-[#8E1323] text-white hover:bg-[#700E1B] transition-colors shadow-xs"
           >
-            Galería de Figuras
+            Figuras
           </a>
         </nav>
       </div>
@@ -75,17 +74,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             <span class="font-serif text-lg tracking-wider text-white">MANEKINEKO.ES</span>
           </div>
           <p class="text-xs leading-relaxed text-stone-400">
-            Archivo cultural, simbólico y artesanal dedicado al gato de la fortuna japonés desde el periodo Edo hasta nuestros días.
+            Archivo cultural, simbólico y artesanal dedicado al gato de la fortuna japonés desde sus orígenes hasta nuestros días.
           </p>
         </div>
 
         <div>
-          <h3 class="text-xs uppercase tracking-widest text-[#E2B455] font-semibold mb-4">Explorar el Universo</h3>
+          <h3 class="text-xs uppercase tracking-widest text-[#E2B455] font-semibold mb-4">Explorar</h3>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="/cultura/significado-colores-manekineko/" class="hover:text-white transition-colors">Significado de los colores</a></li>
-            <li><a href="/cultura/pata-izquierda-derecha-donde-colocar-manekineko/" class="hover:text-white transition-colors">Pata izquierda o derecha y colocación</a></li>
-            <li><a href="/cultura/origen-leyenda-templo-gotokuji/" class="hover:text-white transition-colors">La leyenda del templo Gōtokuji</a></li>
-            <li><a href="/tienda/" class="hover:text-white transition-colors">Selección de figuras tradicionales</a></li>
+            <li><a href="/" class="hover:text-white transition-colors">El Amuleto</a></li>
+            <li><a href="/#tradicion" class="hover:text-white transition-colors">Tradición y Leyenda</a></li>
+            <li><a href="/tienda/" class="hover:text-white transition-colors">Figuras</a></li>
           </ul>
         </div>
 
@@ -97,7 +95,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             </p>
           </div>
           <p class="text-[11px] text-stone-500 mt-6">
-            © {new Date().getFullYear()} Manekineko.es — Algunos enlaces de la galería participan en programas de afiliación.
+            © {new Date().getFullYear()} Manekineko.es — Algunos enlaces de la sección Figuras participan en programas de afiliación.
           </p>
         </div>
       </div>
