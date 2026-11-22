@@ -1,0 +1,121 @@
+---
+interface Milestone {
+  era: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  alt: string;
+}
+
+const milestones: Milestone[] = [
+  {
+    era: "Siglo XVI",
+    title: "Antes del gato",
+    subtitle: "Dōsojin y talismanes rústicos",
+    description:
+      "Antes de que existiera el Maneki-neko, los viajeros y comerciantes japoneses confiaban su suerte a los Dōsojin: pequeñas deidades talladas en piedra situadas en los cruces de caminos para proteger las aldeas y atraer buenas cosechas.",
+    image: "/images/timeline-1-dosojin.jpeg",
+    alt: "Antiguas estatuas japonesas de piedra Dōsojin en un sendero",
+  },
+  {
+    era: "Año 1615",
+    title: "Templo Gōtokuji",
+    subtitle: "La leyenda de Tama",
+    description:
+      "Durante una tormenta eléctrica en Tokio, el gato blanco Tama alzó su pata desde la entrada de un templo humilde para llamar al señor feudal Ii Naotaka, salvándolo de un rayo y convirtiendo el lugar en un santuario próspero.",
+    image: "/images/timeline-2-gotokuji.jpeg",
+    alt: "Gato blanco alzando su pata frente a la puerta del templo tradicional japonés",
+  },
+  {
+    era: "Siglo XVIII",
+    title: "Cerámica Imado",
+    subtitle: "El Edo popular",
+    description:
+      "En el barrio ribereño de Imado (Asakusa), los artesanos comenzaron a modelar figuras de barro cocido con la pata levantada. Fueron los primeros amuletos populares vendidos junto a los templos para atraer sustento y clientela.",
+    image: "/images/timeline-3-imado.jpeg",
+    alt: "Figura rústica de arcilla estilo cerámica Imado del período Edo",
+  },
+  {
+    era: "1868 - 1912",
+    title: "Era Meiji",
+    subtitle: "El relevo comercial",
+    description:
+      "Con la apertura de Japón y el auge del comercio urbano, el Maneki-neko dio el salto definitivo a los mostradores de posadas, casas de té y tiendas, consolidando la distinción entre la pata derecha (dinero) y la izquierda (clientes).",
+    image: "/images/timeline-4-meiji.jpeg",
+    alt: "Comercio tradicional japonés de la era Meiji con un Maneki-neko en la entrada",
+  },
+  {
+    era: "Siglo XX - Hoy",
+    title: "Tokoname y Mundo",
+    subtitle: "Ícono universal",
+    description:
+      "Los talleres de cerámica de Tokoname perfeccionaron la silueta redondeada actual con babero rojo, cascabel y moneda Koban de oro, exportando el amuleto desde Japón hasta los escaparates de todo el planeta.",
+    image: "/images/timeline-5-tokoname.jpeg",
+    alt: "Maneki-neko moderno de cerámica sosteniendo una moneda dorada Koban",
+  },
+];
+---
+
+<section id="historia" class="py-16 sm:py-24 bg-[#FAF6F0] border-y border-[#E6DCCB]">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6">
+    <header class="max-w-2xl mx-auto text-center mb-16">
+      <p class="text-xs uppercase tracking-[0.25em] text-[#8B1E1E] font-semibold mb-3">
+        Evolución Histórica
+      </p>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-[#2C1810] mb-4">
+        De los talismanes rústicos al gato imperial
+      </h2>
+      <p class="text-base text-[#5C4A3E] leading-relaxed">
+        Cinco siglos de transformación cultural y artesanal que convirtieron un gesto cotidiano en el símbolo de prosperidad más reconocible de Japón.
+      </p>
+    </header>
+
+    <div class="relative">
+      <div
+        class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-[#D9CBB5] -translate-x-1/2"
+        aria-hidden="true"
+      ></div>
+
+      <div class="space-y-12 md:space-y-16">
+        {milestones.map((item, index) => {
+          const isEven = index % 2 === 0;
+          return (
+            <div class="relative flex flex-col md:flex-row items-center gap-8">
+              <div
+                class="hidden md:flex items-center justify-center w-4 h-4 rounded-full bg-[#8B1E1E] ring-4 ring-[#FAF6F0] border border-[#C9A227] absolute left-1/2 -translate-x-1/2 z-10"
+                aria-hidden="true"
+              ></div>
+
+              <div class={`w-full md:w-1/2 ${isEven ? 'md:pr-12' : 'md:order-2 md:pl-12'}`}>
+                <div class="rounded-2xl overflow-hidden border border-[#E6DCCB] bg-[#FFFDF9] shadow-sm">
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    class="w-full aspect-[3/2] object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+
+              <div class={`w-full md:w-1/2 ${isEven ? 'md:pl-12' : 'md:order-1 md:pr-12 md:text-right'}`}>
+                <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-[#F3E8D8] text-[#8B1E1E] border border-[#E2D1B8] mb-3">
+                  {item.era}
+                </span>
+                <h3 class="font-serif text-2xl font-bold text-[#2C1810] mb-1">
+                  {item.title}
+                </h3>
+                <p class="text-sm font-medium text-[#9A7B3E] mb-3">
+                  {item.subtitle}
+                </p>
+                <p class="text-sm sm:text-base text-[#5C4A3E] leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,5 +1,10 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const leyendas = (await getCollection('leyendas')).sort(
+  (a, b) => a.data.order - b.data.order
+);
 ---
 
 <BaseLayout
@@ -55,7 +60,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
                 class="w-44 sm:w-48 h-auto object-contain relative z-10 transition-transform duration-500 ease-in-out"
               />
 
-              <!-- Hotspots situados en los bordes externos para no tapar cara, cascabel ni moneda -->
+              <!-- Hotspots -->
               <button
                 id="hotspot-koban"
                 data-info="koban"
@@ -113,7 +118,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <!-- Separador vertical -->
           <div class="hidden md:block h-6 w-px bg-stone-200"></div>
 
-          <!-- Bloque Medio: Colores (ninguno activado al inicio) -->
+          <!-- Bloque Medio: Colores -->
           <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <span class="text-[11px] font-bold uppercase tracking-widest text-stone-400 mr-1">Color:</span>
             
@@ -168,15 +173,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <div class="relative mb-10 overflow-x-auto pb-4">
       <div class="min-w-[640px] relative px-6 pt-2">
         
-        <!-- Línea base horizontal -->
         <div class="absolute top-[42px] left-12 right-12 h-[2px] bg-[#E5DEC9]"></div>
-        <!-- Línea de progreso activa -->
         <div id="timeline-progress" class="absolute top-[42px] left-12 h-[2px] bg-[#8E1323] transition-all duration-500" style="width: 0%;"></div>
 
-        <!-- 5 Nodos Cronológicos -->
         <div class="relative z-10 grid grid-cols-5 gap-2">
           
-          <!-- Nodo 0: Pre-Edo -->
           <button type="button" data-era="0" class="era-node active flex flex-col items-center text-center group cursor-pointer focus:outline-none">
             <span class="era-year text-xs font-bold tracking-wider uppercase text-[#8E1323] mb-2 transition-colors">
               Siglo XVI
@@ -188,7 +189,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <span class="text-[11px] text-stone-500 mt-0.5">Talismanes Pre-Edo</span>
           </button>
 
-          <!-- Nodo 1: 1615 Gōtokuji -->
           <button type="button" data-era="1" class="era-node flex flex-col items-center text-center group cursor-pointer focus:outline-none">
             <span class="era-year text-xs font-bold tracking-wider uppercase text-stone-500 group-hover:text-[#8E1323] mb-2 transition-colors">
               Año 1615
@@ -200,7 +200,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <span class="text-[11px] text-stone-400 mt-0.5">La leyenda de Tama</span>
           </button>
 
-          <!-- Nodo 2: Siglo XVIII Imado -->
           <button type="button" data-era="2" class="era-node flex flex-col items-center text-center group cursor-pointer focus:outline-none">
             <span class="era-year text-xs font-bold tracking-wider uppercase text-stone-500 group-hover:text-[#8E1323] mb-2 transition-colors">
               Siglo XVIII
@@ -212,7 +211,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <span class="text-[11px] text-stone-400 mt-0.5">Usugumo y el Edo popular</span>
           </button>
 
-          <!-- Nodo 3: Era Meiji -->
           <button type="button" data-era="3" class="era-node flex flex-col items-center text-center group cursor-pointer focus:outline-none">
             <span class="era-year text-xs font-bold tracking-wider uppercase text-stone-500 group-hover:text-[#8E1323] mb-2 transition-colors">
               1868 – 1912
@@ -224,7 +222,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <span class="text-[11px] text-stone-400 mt-0.5">El relevo comercial</span>
           </button>
 
-          <!-- Nodo 4: Siglo XX - Hoy -->
           <button type="button" data-era="4" class="era-node flex flex-col items-center text-center group cursor-pointer focus:outline-none">
             <span class="era-year text-xs font-bold tracking-wider uppercase text-stone-500 group-hover:text-[#8E1323] mb-2 transition-colors">
               Siglo XX – Hoy
@@ -271,11 +268,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="lg:col-span-5">
-          <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <span class="font-serif text-4xl text-[#C6922C]/40 mb-2">道祖神</span>
-            <p class="font-serif text-sm text-stone-700">Espacio para ilustración o fotografía</p>
-            <p class="text-xs text-stone-400 mt-1">Piedras Dōsojin / Talismanes tradicionales Pre-Edo</p>
-          </div>
+          <figure class="aspect-[3/2] rounded-xl bg-[#FAF6F0] border border-[#E5DEC9] overflow-hidden shadow-xs">
+            <img
+              src="/images/timeline-1-dosojin.jpeg"
+              alt="Ilustración estilo ukiyo-e de estatuas Dōsojin y talismanes tradicionales Pre-Edo"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </figure>
         </div>
       </article>
 
@@ -307,11 +307,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="lg:col-span-5">
-          <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <span class="font-serif text-4xl text-[#8E1323]/35 mb-2">豪徳寺</span>
-            <p class="font-serif text-sm text-stone-700">Espacio para fotografía del Templo Gōtokuji</p>
-            <p class="text-xs text-stone-400 mt-1">Altar de miles de gatos blancos en Setagaya, Tokio</p>
-          </div>
+          <figure class="aspect-[3/2] rounded-xl bg-[#FAF6F0] border border-[#E5DEC9] overflow-hidden shadow-xs">
+            <img
+              src="/images/timeline-2-gotokuji.jpeg"
+              alt="Ilustración estilo ukiyo-e del gato blanco Tama frente al templo Gōtokuji"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </figure>
         </div>
       </article>
 
@@ -343,11 +346,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="lg:col-span-5">
-          <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <span class="font-serif text-4xl text-[#C6922C]/40 mb-2">今戸焼</span>
-            <p class="font-serif text-sm text-stone-700">Espacio para grabado Ukiyo-e o cerámica Imado</p>
-            <p class="text-xs text-stone-400 mt-1">Primeras representaciones comerciales en Asakusa</p>
-          </div>
+          <figure class="aspect-[3/2] rounded-xl bg-[#FAF6F0] border border-[#E5DEC9] overflow-hidden shadow-xs">
+            <img
+              src="/images/timeline-3-imado.jpeg"
+              alt="Ilustración estilo ukiyo-e de figura de cerámica Imado del período Edo"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </figure>
         </div>
       </article>
 
@@ -379,11 +385,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="lg:col-span-5">
-          <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <span class="font-serif text-4xl text-[#8E1323]/35 mb-2">明治時代</span>
-            <p class="font-serif text-sm text-stone-700">Espacio para fotografía histórica Era Meiji</p>
-            <p class="text-xs text-stone-400 mt-1">Comercios tradicionales y adopción de la moneda Koban</p>
-          </div>
+          <figure class="aspect-[3/2] rounded-xl bg-[#FAF6F0] border border-[#E5DEC9] overflow-hidden shadow-xs">
+            <img
+              src="/images/timeline-4-meiji.jpeg"
+              alt="Ilustración estilo ukiyo-e de un comercio tradicional japonés en la Era Meiji"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </figure>
         </div>
       </article>
 
@@ -415,11 +424,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </div>
 
         <div class="lg:col-span-5">
-          <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <span class="font-serif text-4xl text-[#C6922C]/40 mb-2">常滑焼</span>
-            <p class="font-serif text-sm text-stone-700">Espacio para fotografía de cerámica Tokoname</p>
-            <p class="text-xs text-stone-400 mt-1">Artesanía contemporánea y variedad cromática</p>
-          </div>
+          <figure class="aspect-[3/2] rounded-xl bg-[#FAF6F0] border border-[#E5DEC9] overflow-hidden shadow-xs">
+            <img
+              src="/images/timeline-5-tokoname.jpeg"
+              alt="Ilustración estilo ukiyo-e de Maneki-neko moderno de cerámica con moneda Koban"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </figure>
         </div>
       </article>
 
@@ -439,16 +451,92 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
+  <!-- 3. SECCIÓN DE LEYENDAS Y RELATOS -->
+  {leyendas.length > 0 && (
+    <section id="leyendas" class="border-t border-[#E5DEC9] bg-white/70 py-16 sm:py-20">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <div class="inline-flex items-center gap-2.5 mb-2.5">
+              <span class="hanko-stamp px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-white">
+                物語 • CRÓNICAS Y LEYENDAS
+              </span>
+            </div>
+            <h2 class="font-serif text-3xl sm:text-4xl text-[#161412]">
+              Los relatos detrás del amuleto
+            </h2>
+          </div>
+
+          <a
+            href="/leyendas/"
+            class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#8E1323] hover:text-[#700E1B] transition-colors"
+          >
+            <span>Explorar todas las leyendas</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {leyendas.map((leyenda) => (
+            <article class="group bg-[#FAF6F0] border border-[#E5DEC9] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col">
+              <a href={`/leyendas/${leyenda.id}/`} class="block aspect-[3/2] overflow-hidden bg-white relative">
+                <img
+                  src={leyenda.data.coverImage}
+                  alt={leyenda.data.coverAlt}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <span class="absolute top-3 left-3 px-2.5 py-1 text-[11px] font-semibold rounded-full bg-white/95 text-[#8E1323] border border-[#E5DEC9]">
+                  {leyenda.data.isOriginal ? 'Leyenda Original' : leyenda.data.era}
+                </span>
+              </a>
+
+              <div class="p-6 flex-1 flex flex-col">
+                <div class="text-xs text-stone-500 mb-2 flex items-center justify-between">
+                  <span>{leyenda.data.location}</span>
+                  <span>{leyenda.data.readingTime}</span>
+                </div>
+
+                <h3 class="font-serif text-xl font-bold text-[#161412] group-hover:text-[#8E1323] transition-colors mb-2.5">
+                  <a href={`/leyendas/${leyenda.id}/`}>
+                    {leyenda.data.title}
+                  </a>
+                </h3>
+
+                <p class="text-sm text-stone-600 leading-relaxed mb-5 flex-1">
+                  {leyenda.data.summary}
+                </p>
+
+                <div class="pt-3.5 border-t border-[#E5DEC9]">
+                  <a
+                    href={`/leyendas/${leyenda.id}/`}
+                    class="text-sm font-semibold text-[#8E1323] hover:text-[#700E1B] inline-flex items-center gap-1"
+                  >
+                    Leer historia completa
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   <!-- SCRIPTS: CONFIGURADOR SUPERIOR + TIMELINE HORIZONTAL -->
   <script>
-    // --- 1. CONFIGURADOR SUPERIOR ---
-    const pawConfig = {
+    type PawKey = 'left' | 'right' | 'both';
+    type ColorKey = 'line' | 'tricolor' | 'white' | 'black' | 'gold' | 'yellow' | 'green' | 'blue' | 'purple' | 'pink' | 'red';
+    type AnatomyKey = 'koban' | 'collar' | 'cara';
+
+    const pawConfig: Record<PawKey, { tag: string; phrase: string; goal: string; sentence: string }> = {
       left: { tag: "Pata Izquierda", phrase: "la pata izquierda", goal: "atraer clientes y armonía", sentence: "Su gesto con la pata izquierda da la bienvenida a visitantes, clientes y vínculos positivos." },
       right: { tag: "Pata Derecha", phrase: "la pata derecha", goal: "atraer riqueza y prosperidad", sentence: "Su gesto con la pata derecha invoca la entrada de dinero, oportunidades y estabilidad material." },
       both: { tag: "Ambas Patas", phrase: "ambas patas", goal: "unir fortuna y protección", sentence: "Al alzar ambas patas a la vez, multiplica la llamada a la prosperidad mientras resguarda el espacio." }
     };
 
-    const colorConfig = {
+    const colorConfig: Record<ColorKey, { file: string; tag: string; adj: string; accent: string; sentence: string }> = {
       line:     { file: "00_line",   tag: "Sin color",      adj: "sin color",        accent: "text-stone-500",   sentence: "Selecciona un color en la barra inferior para descubrir el significado tradicional de cada acabado." },
       tricolor: { file: "01_tri",    tag: "Tricolor Mi-ke", adj: "tricolor (Mi-ke)", accent: "text-amber-700",   sentence: "Combinado con el pelaje tricolor original de Japón, se convierte en el talismán más completo de suerte suprema y equilibrio." },
       white:    { file: "02_white",  tag: "Color Blanco",   adj: "blanco",           accent: "text-stone-600",   sentence: "Al ser blanco como los gatos del templo Gōtokuji, aporta pureza, calma y buena fortuna general al hogar." },
@@ -462,7 +550,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       red:      { file: "10_red",    tag: "Color Rojo",     adj: "rojo",             accent: "text-[#8E1323]",   sentence: "El rojo carmesí actúa como talismán de vitalidad, fortaleza física y protección de la salud." }
     };
 
-    const anatomyConfig = {
+    const anatomyConfig: Record<AnatomyKey, { tag: string; name: string; text: string }> = {
       koban: { tag: "小判 • DETALLE", name: "Moneda Koban", text: "Moneda de oro del periodo Edo equivalente a diez millones de piezas («Senman Ryō»), símbolo de abundancia infinita." },
       collar: { tag: "首輪と鈴 • DETALLE", name: "Collar y Cascabel", text: "En el siglo XVII los gatos llevaban collar rojo de seda chirimen con cascabel para proteger el hogar y llamar a la fortuna." },
       cara: { tag: "表情 • DETALLE", name: "Expresión y Mirada", text: "Sus ojos arqueados en sonrisa encarnan el «Omotenashi»: la hospitalidad japonesa que recibe con calidez a cada invitado." }
@@ -489,8 +577,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const hotspots = document.querySelectorAll('.hotspot');
     const searchBtn = document.getElementById('btn-search-figure');
 
-    let currentPaw = 'left';
-    let currentColor = 'line';
+    let currentPaw: PawKey = 'left';
+    let currentColor: ColorKey = 'line';
 
     function updateCatAsset() {
       const p = pawConfig[currentPaw];
@@ -586,11 +674,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         btn.classList.remove('bg-[#FAF6F0]', 'text-stone-600', 'border-stone-200');
         btn.classList.add('bg-[#161412]', 'text-white', 'border-transparent');
 
-        currentPaw = btn.getAttribute('data-key') || 'left';
+        currentPaw = (btn.getAttribute('data-key') as PawKey) || 'left';
         updateCatAsset();
 
         const start = performance.now();
-        function animateLine(now) {
+        function animateLine(now: number) {
           updateSchematicLine();
           if (now - start < 520) requestAnimationFrame(animateLine);
         }
@@ -601,7 +689,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     colorBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const clickedColor = btn.getAttribute('data-key') || 'line';
+        const clickedColor = (btn.getAttribute('data-key') as ColorKey) || 'line';
         const isDeselecting = clickedColor === currentColor;
 
         colorBtns.forEach(b => {
@@ -626,8 +714,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       });
     });
 
-    function selectAnatomy(spot) {
-      const key = spot.getAttribute('data-info');
+    function selectAnatomy(spot: Element) {
+      const key = spot.getAttribute('data-info') as AnatomyKey | null;
+      if (!key) return;
       const info = anatomyConfig[key];
       if (!info) return;
 

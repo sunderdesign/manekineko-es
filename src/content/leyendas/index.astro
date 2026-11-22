@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const leyendas = (await getCollection('leyendas')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<BaseLayout
+  title="Leyendas del Maneki-neko | Origen, mitos y relatos"
+  description="Descubre las tres grandes leyendas japonesas que dieron origen al Maneki-neko y explora nuevos relatos inspirados en la tradición."
+>
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+    <header class="max-w-3xl mx-auto text-center mb-14">
+      <p class="text-xs uppercase tracking-[0.25em] text-[#8B1E1E] font-semibold mb-3">
+        Folclore y Tradición
+      </p>
+      <h1 class="font-serif text-3xl sm:text-5xl text-[#2C1810] font-bold leading-tight mb-4">
+        Las Leyendas del Maneki-neko
+      </h1>
+      <p class="text-base sm:text-lg text-[#5C4A3E] leading-relaxed">
+        Detrás de cada pata alzada existe una historia de gratitud, artesanía o protección.
+        Explora los tres relatos clásicos del período Edo y nuestras propias crónicas inspiradas en su simbolismo.
+      </p>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {leyendas.map((leyenda) => (
+        <article class="group bg-[#FFFDF9] border border-[#E6DCCB] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col">
+          <a href={`/leyendas/${leyenda.id}/`} class="block overflow-hidden aspect-[3/2] bg-[#F3ECE0] relative">
+            <img
+              src={leyenda.data.coverImage}
+              alt={leyenda.data.coverAlt}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+            <span class="absolute top-3 left-3 px-3 py-1 text-xs font-medium rounded-full bg-[#FAF6F0]/95 text-[#7A1C1C] border border-[#E6DCCB]">
+              {leyenda.data.isOriginal ? 'Leyenda Original' : leyenda.data.era}
+            </span>
+          </a>
+
+          <div class="p-6 flex-1 flex flex-col">
+            <div class="text-xs text-[#8C735B] mb-2 flex items-center justify-between">
+              <span>{leyenda.data.location}</span>
+              <span>{leyenda.data.readingTime}</span>
+            </div>
+
+            <h2 class="font-serif text-xl font-bold text-[#2C1810] group-hover:text-[#8B1E1E] transition-colors mb-3">
+              <a href={`/leyendas/${leyenda.id}/`}>
+                {leyenda.data.title}
+              </a>
+            </h2>
+
+            <p class="text-sm text-[#5C4A3E] leading-relaxed mb-6 flex-1">
+              {leyenda.data.summary}
+            </p>
+
+            <div class="pt-4 border-t border-[#EFE7D8] flex items-center justify-between">
+              <a
+                href={`/leyendas/${leyenda.id}/`}
+                class="text-sm font-semibold text-[#8B1E1E] hover:text-[#5E1212] inline-flex items-center gap-1"
+              >
+                Leer leyenda
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+  </main>
+</BaseLayout>
