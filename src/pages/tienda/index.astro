@@ -1,4 +1,5 @@
 ---
+// Si usas src/pages/tienda.astro en lugar de carpeta, cambia '../../' por '../'
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
@@ -166,59 +167,52 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
             </div>
           </details>
 
-          <!-- 3. RANGO DE PRECIO -->
+          <!-- 3. RANGO DE PRECIO CON BARRA DUAL -->
           <details open class="py-4 group">
             <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
-              <span>Precio (€)</span>
+              <span>Rango de Precio</span>
               <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
             </summary>
-            <div class="mt-3 space-y-2.5">
-              <div class="grid grid-cols-2 gap-2">
-                <label class="block">
-                  <span class="sr-only">Precio mínimo</span>
+            
+            <div class="mt-5 px-1.5 mb-1">
+              <!-- Barra deslizante -->
+              <div class="relative h-1.5 w-full bg-[#E5DEC9] rounded-full mb-5">
+                <div id="price-track" class="absolute top-0 bottom-0 bg-[#8E1323] rounded-full pointer-events-none" style="left: 0%; right: 0%;"></div>
+                <input type="range" id="range-min" min="0" max="250" step="5" value="0" class="dual-range absolute w-full -top-[5px] h-1.5 appearance-none bg-transparent pointer-events-none z-20" />
+                <input type="range" id="range-max" min="0" max="250" step="5" value="250" class="dual-range absolute w-full -top-[5px] h-1.5 appearance-none bg-transparent pointer-events-none z-30" />
+              </div>
+
+              <!-- Inputs numéricos acoplados -->
+              <div class="flex items-center gap-3">
+                <label class="block flex-1">
+                  <span class="sr-only">Mínimo</span>
                   <div class="relative">
                     <input
                       type="number"
                       id="input-price-min"
                       min="0"
-                      step="1"
-                      placeholder="Mín"
-                      class="w-full rounded-lg border border-[#E5DEC9] bg-[#FAF6F0]/50 px-2.5 py-1.5 pr-6 text-xs text-[#161412] placeholder:text-stone-400 focus:border-[#8E1323] focus:bg-white focus:outline-none"
+                      max="250"
+                      placeholder="0"
+                      class="w-full rounded-lg border border-[#E5DEC9] bg-white px-2.5 py-1.5 pr-6 text-xs text-[#161412] focus:border-[#8E1323] focus:outline-none"
                     />
-                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400">€</span>
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400 font-medium">€</span>
                   </div>
                 </label>
-
-                <label class="block">
-                  <span class="sr-only">Precio máximo</span>
+                <span class="text-stone-300">-</span>
+                <label class="block flex-1">
+                  <span class="sr-only">Máximo</span>
                   <div class="relative">
                     <input
                       type="number"
                       id="input-price-max"
                       min="0"
-                      step="1"
-                      placeholder="Máx"
-                      class="w-full rounded-lg border border-[#E5DEC9] bg-[#FAF6F0]/50 px-2.5 py-1.5 pr-6 text-xs text-[#161412] placeholder:text-stone-400 focus:border-[#8E1323] focus:bg-white focus:outline-none"
+                      max="250"
+                      placeholder="250+"
+                      class="w-full rounded-lg border border-[#E5DEC9] bg-white px-2.5 py-1.5 pr-6 text-xs text-[#161412] focus:border-[#8E1323] focus:outline-none"
                     />
-                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400">€</span>
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400 font-medium">€</span>
                   </div>
                 </label>
-              </div>
-
-              <!-- Tramos rápidos -->
-              <div class="flex flex-wrap gap-1.5">
-                <button type="button" data-price-preset="0-25" class="price-preset-btn px-2 py-1 rounded-md border border-[#E5DEC9] bg-white text-[11px] text-stone-600 hover:border-[#C6922C] transition-colors cursor-pointer">
-                  Hasta 25 €
-                </button>
-                <button type="button" data-price-preset="25-60" class="price-preset-btn px-2 py-1 rounded-md border border-[#E5DEC9] bg-white text-[11px] text-stone-600 hover:border-[#C6922C] transition-colors cursor-pointer">
-                  25 – 60 €
-                </button>
-                <button type="button" data-price-preset="60-120" class="price-preset-btn px-2 py-1 rounded-md border border-[#E5DEC9] bg-white text-[11px] text-stone-600 hover:border-[#C6922C] transition-colors cursor-pointer">
-                  60 – 120 €
-                </button>
-                <button type="button" data-price-preset="120-" class="price-preset-btn px-2 py-1 rounded-md border border-[#E5DEC9] bg-white text-[11px] text-stone-600 hover:border-[#C6922C] transition-colors cursor-pointer">
-                  +120 €
-                </button>
               </div>
             </div>
           </details>
@@ -295,7 +289,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
             </div>
           </details>
 
-          <!-- 6. MECANISMO Y RASGOS TRADICIONALES -->
+          <!-- 6. MECANISMO Y DETALLES -->
           <details class="py-4 group">
             <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
               <span>Mecanismo y detalles</span>
@@ -307,7 +301,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
                 <span>Figura rígida / estática</span>
               </label>
               <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
-                <input type="checkbox" name="extra" value="solar" data-label="Pata móvil (Solar / Pila)" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <input type="checkbox" name="extra" value="solar" data-label="Pata móvil (Solar)" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
                 <span>Pata articulada (Solar / Pila)</span>
               </label>
               <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
@@ -387,13 +381,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
             </div>
           </div>
 
-          <!-- Etiquetas dinámicas de filtros activos -->
-          <div id="active-chips-bar" class="hidden pt-2.5 border-t border-[#E5DEC9]/80 flex flex-wrap items-center gap-1.5">
-            <!-- Se rellena dinámicamente desde JS -->
-          </div>
+          <div id="active-chips-bar" class="hidden pt-2.5 border-t border-[#E5DEC9]/80 flex flex-wrap items-center gap-1.5"></div>
         </div>
 
-        <!-- Bloque de Próximamente (sin ejemplos ficticios) -->
+        <!-- Bloque de Próximamente -->
         <div class="bg-white border border-[#E5DEC9] rounded-2xl p-8 sm:p-14 text-center shadow-xs relative overflow-hidden">
           <div class="max-w-lg mx-auto flex flex-col items-center">
             
@@ -401,13 +392,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
               準備中 • PRÓXIMAMENTE
             </span>
 
-            <!-- Vista previa visual vinculada a postura y color -->
-            <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-[#FAF6F0] border border-dashed border-[#C6922C]/70 flex items-center justify-center p-5 mb-6">
+            <!-- Círculo blanco fundido sin bordes de recuadro -->
+            <div class="w-40 h-40 sm:w-44 sm:h-44 rounded-full overflow-hidden bg-white border border-dashed border-[#C6922C]/70 shadow-xs flex items-center justify-center p-5 mb-6">
               <img
                 id="store-preview-cat"
                 src="/MN_1_00_line.svg"
                 alt="Vista previa de búsqueda"
-                class="w-24 sm:w-28 h-auto object-contain opacity-90 transition-transform duration-300"
+                class="w-28 sm:w-32 h-auto object-contain transition-transform duration-300"
               />
             </div>
 
@@ -431,8 +422,32 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
   </section>
 
+  <!-- Estilos necesarios para los puntos (thumbs) de la barra dual -->
+  <style is:global>
+    .dual-range::-webkit-slider-thumb {
+      pointer-events: auto;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background-color: #8E1323;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .dual-range::-moz-range-thumb {
+      pointer-events: auto;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background-color: #8E1323;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+  </style>
+
   <script>
-    // Contrato de consulta listo para conectar con la base de datos / API
     interface CatalogQuery {
       pata: string | null;
       color: string | null;
@@ -445,6 +460,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       orden: string;
     }
 
+    const maxSliderPrice = 250;
+    
     const pawLabels: Record<string, string> = {
       left: 'Pata izquierda',
       right: 'Pata derecha',
@@ -482,12 +499,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       orden: 'recientes',
     };
 
-    // Referencias DOM
     const pawButtons = document.querySelectorAll<HTMLButtonElement>('.sidebar-paw-btn');
     const colorButtons = document.querySelectorAll<HTMLButtonElement>('.sidebar-color-btn');
+    
+    // Controles de precio (Rango Dual + Inputs Numéricos)
+    const rangeMin = document.getElementById('range-min') as HTMLInputElement | null;
+    const rangeMax = document.getElementById('range-max') as HTMLInputElement | null;
+    const priceTrack = document.getElementById('price-track');
     const priceMinInput = document.getElementById('input-price-min') as HTMLInputElement | null;
     const priceMaxInput = document.getElementById('input-price-max') as HTMLInputElement | null;
-    const pricePresetBtns = document.querySelectorAll<HTMLButtonElement>('.price-preset-btn');
+    
     const checkboxes = document.querySelectorAll<HTMLInputElement>('.filter-checkbox');
     const dateRadios = document.querySelectorAll<HTMLInputElement>('input[name="fecha"]');
     const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
@@ -505,7 +526,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       state.pata ? params.set('pata', state.pata) : params.delete('pata');
       state.color ? params.set('color', state.color) : params.delete('color');
       state.precio_min ? params.set('precio_min', state.precio_min) : params.delete('precio_min');
-      state.precio_max ? params.set('precio_max', state.precio_max) : params.delete('precio_max');
+      state.precio_max && state.precio_max !== String(maxSliderPrice) ? params.set('precio_max', state.precio_max) : params.delete('precio_max');
 
       state.material.length ? params.set('material', state.material.join(',')) : params.delete('material');
       state.tamano.length ? params.set('tamano', state.tamano.join(',')) : params.delete('tamano');
@@ -515,6 +536,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       state.orden !== 'recientes' ? params.set('orden', state.orden) : params.delete('orden');
 
       window.history.replaceState({}, '', url.toString());
+    }
+
+    // Actualiza la barra roja de color entre los dos tiradores
+    function updatePriceTrackUI() {
+      if (!rangeMin || !rangeMax || !priceTrack) return;
+      const minVal = parseInt(rangeMin.value);
+      const maxVal = parseInt(rangeMax.value);
+      const percentMin = (minVal / maxSliderPrice) * 100;
+      const percentMax = (maxVal / maxSliderPrice) * 100;
+      priceTrack.style.left = `${percentMin}%`;
+      priceTrack.style.right = `${100 - percentMax}%`;
     }
 
     function buildActiveChips() {
@@ -535,16 +567,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         });
       }
 
-      if (state.precio_min || state.precio_max) {
+      // Chip para precio
+      if (state.precio_min || (state.precio_max && state.precio_max !== String(maxSliderPrice))) {
         const minTxt = state.precio_min ? `${state.precio_min} €` : '0 €';
-        const maxTxt = state.precio_max ? `${state.precio_max} €` : '∞';
+        const maxTxt = (state.precio_max && state.precio_max !== String(maxSliderPrice)) ? `${state.precio_max} €` : '250+ €';
         chips.push({
           label: `Precio: ${minTxt} – ${maxTxt}`,
           onRemove: () => {
             state.precio_min = '';
             state.precio_max = '';
-            if (priceMinInput) priceMinInput.value = '';
-            if (priceMaxInput) priceMaxInput.value = '';
             render();
           },
         });
@@ -596,7 +627,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     }
 
     function render() {
-      // 1. Estilos botones de pata
+      // 1. Activar botones Patas
       pawButtons.forEach((btn) => {
         const isActive = (btn.dataset.filterPaw || '') === state.pata;
         const indicator = btn.querySelector('.paw-indicator');
@@ -615,7 +646,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         }
       });
 
-      // 2. Estilos botones de color
+      // 2. Activar botones Colores
       colorButtons.forEach((btn) => {
         const isActive = (btn.dataset.filterColor || '') === state.color;
 
@@ -629,20 +660,20 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         btn.classList.toggle('bg-white', !isActive);
       });
 
-      // 3. Estilos presets de precio
-      pricePresetBtns.forEach((btn) => {
-        const [pMin = '', pMax = ''] = (btn.dataset.pricePreset || '').split('-');
-        const isActive = state.precio_min === pMin && state.precio_max === pMax && (pMin !== '' || pMax !== '');
-        btn.classList.toggle('border-[#8E1323]', isActive);
-        btn.classList.toggle('bg-[#FAF6F0]', isActive);
-        btn.classList.toggle('text-[#8E1323]', isActive);
-        btn.classList.toggle('font-semibold', isActive);
-        btn.classList.toggle('border-[#E5DEC9]', !isActive);
-        btn.classList.toggle('bg-white', !isActive);
-        btn.classList.toggle('text-stone-600', !isActive);
-      });
+      // 3. Sincronizar Precio (Slider + Inputs)
+      let minVal = state.precio_min ? parseInt(state.precio_min) : 0;
+      let maxVal = state.precio_max ? parseInt(state.precio_max) : maxSliderPrice;
+      
+      if (rangeMin && rangeMax) {
+        rangeMin.value = String(minVal);
+        rangeMax.value = String(maxVal);
+      }
+      if (priceMinInput) priceMinInput.value = state.precio_min;
+      if (priceMaxInput) priceMaxInput.value = state.precio_max === String(maxSliderPrice) ? '' : state.precio_max;
+      
+      updatePriceTrackUI();
 
-      // 4. Chips y contador
+      // 4. Actualizar Chips y Contador
       const activeChips = buildActiveChips();
       const count = activeChips.length;
 
@@ -652,7 +683,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         filterCountBadge.classList.toggle('hidden', count === 0);
       }
 
-      // 5. Mensaje contextual y silueta de referencia
+      // 5. Mensaje de Próximamente Dinámico
       if (descriptionEl) {
         if (count > 0) {
           const summary = activeChips.map((c) => c.label).join(' · ');
@@ -662,6 +693,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         }
       }
 
+      // 6. Actualizar silueta Gato
       if (previewImg) {
         const prefix = state.pata === 'both' ? '2' : '1';
         const fileSuffix = state.color && colorMeta[state.color] ? colorMeta[state.color].file : '00_line';
@@ -672,7 +704,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       syncURL();
     }
 
-    // Hidratar estado desde la URL al cargar la página
     function hydrateFromURL() {
       const params = new URLSearchParams(window.location.search);
 
@@ -682,12 +713,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       const color = params.get('color');
       if (color && colorMeta[color]) state.color = color;
 
-      const pMin = params.get('precio_min') || '';
-      const pMax = params.get('precio_max') || '';
-      state.precio_min = pMin;
-      state.precio_max = pMax;
-      if (priceMinInput) priceMinInput.value = pMin;
-      if (priceMaxInput) priceMaxInput.value = pMax;
+      state.precio_min = params.get('precio_min') || '';
+      state.precio_max = params.get('precio_max') || '';
 
       (['material', 'tamano', 'extra'] as const).forEach((group) => {
         const raw = params.get(group);
@@ -714,7 +741,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       }
     }
 
-    // Eventos
+    // Escuchadores de eventos - Pata y Color
     pawButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const key = btn.dataset.filterPaw || null;
@@ -731,29 +758,57 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       });
     });
 
-    priceMinInput?.addEventListener('input', () => {
-      state.precio_min = priceMinInput.value.trim();
+    // Escuchadores de eventos - Sliders de Rango de Precio Dual
+    rangeMin?.addEventListener('input', (e) => {
+      let val = parseInt((e.target as HTMLInputElement).value);
+      let max = parseInt(rangeMax?.value || '250');
+      if (val > max - 5) {
+        val = max - 5;
+        (e.target as HTMLInputElement).value = String(val);
+      }
+      state.precio_min = val === 0 ? '' : String(val);
+      updatePriceTrackUI();
+      if (priceMinInput) priceMinInput.value = state.precio_min;
+      syncURL();
+    });
+    
+    rangeMin?.addEventListener('change', render);
+
+    rangeMax?.addEventListener('input', (e) => {
+      let val = parseInt((e.target as HTMLInputElement).value);
+      let min = parseInt(rangeMin?.value || '0');
+      if (val < min + 5) {
+        val = min + 5;
+        (e.target as HTMLInputElement).value = String(val);
+      }
+      state.precio_max = val === maxSliderPrice ? '' : String(val);
+      updatePriceTrackUI();
+      if (priceMaxInput) priceMaxInput.value = state.precio_max;
+      syncURL();
+    });
+    
+    rangeMax?.addEventListener('change', render);
+
+    // Escuchadores de eventos - Inputs Numéricos de Precio
+    priceMinInput?.addEventListener('change', () => {
+      let val = parseInt(priceMinInput.value);
+      let max = state.precio_max ? parseInt(state.precio_max) : maxSliderPrice;
+      if (isNaN(val) || val < 0) val = 0;
+      if (val > max - 5) val = max - 5;
+      state.precio_min = val === 0 ? '' : String(val);
       render();
     });
 
-    priceMaxInput?.addEventListener('input', () => {
-      state.precio_max = priceMaxInput.value.trim();
+    priceMaxInput?.addEventListener('change', () => {
+      let val = parseInt(priceMaxInput.value);
+      let min = state.precio_min ? parseInt(state.precio_min) : 0;
+      if (isNaN(val) || val > maxSliderPrice) val = maxSliderPrice;
+      if (val < min + 5) val = min + 5;
+      state.precio_max = val === maxSliderPrice ? '' : String(val);
       render();
     });
 
-    pricePresetBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const [pMin = '', pMax = ''] = (btn.dataset.pricePreset || '').split('-');
-        const alreadySelected = state.precio_min === pMin && state.precio_max === pMax;
-
-        state.precio_min = alreadySelected ? '' : pMin;
-        state.precio_max = alreadySelected ? '' : pMax;
-        if (priceMinInput) priceMinInput.value = state.precio_min;
-        if (priceMaxInput) priceMaxInput.value = state.precio_max;
-        render();
-      });
-    });
-
+    // Escuchadores de eventos - Checkboxes y Radios
     checkboxes.forEach((cb) => {
       cb.addEventListener('change', () => {
         const group = cb.name as 'material' | 'tamano' | 'extra';
@@ -797,6 +852,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       render();
     });
 
+    // Inicialización
     hydrateFromURL();
     render();
   </script>
