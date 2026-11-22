@@ -21,6 +21,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -29,23 +30,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="min-h-screen flex flex-col antialiased selection:bg-red-800 selection:text-white">
     <header class="border-b border-stone-200/80 bg-[#FAF8F5]/95 sticky top-0 z-10 backdrop-blur-sm">
-      <div class="max-w-5xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <a href="/" class="flex items-center gap-3.5 group">
-          <svg class="w-10 h-10 text-[#1A1A1A] transition-transform duration-300 group-hover:scale-105" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M26 36 L22 16 L39 26 Q50 23 61 26 L78 16 L74 36 C82 44 82 58 72 64 C80 71 81 84 70 89 L30 89 C19 84 20 71 28 64 C18 58 18 44 26 36 Z" />
-            <path d="M35 46 Q40 41 45 46" />
-            <path d="M55 46 Q60 41 65 46" />
-            <path d="M74 44 C86 36 92 22 83 16 C76 12 71 22 73 32" />
-            <ellipse cx="47" cy="73" rx="10" ry="13" stroke-width="3.5" />
-          </svg>
-          <div>
-            <span class="block font-serif text-xl tracking-[0.14em] font-semibold">
-              MANEKI<span class="text-[#B91C1C]">NEKO</span><span class="text-sm font-normal text-stone-500">.ES</span>
-            </span>
-            <span class="block text-[10px] tracking-[0.25em] text-stone-500 uppercase">
-              Cultura &amp; Fortuna
-            </span>
-          </div>
+      <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <a href="/" class="flex items-center gap-3.5 group" aria-label="Manekineko.es - Inicio">
+          <img
+            src="/logo_img_gato.svg"
+            alt="Manekineko"
+            class="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+          <img
+            src="/logo_type.svg"
+            alt="Manekineko.es"
+            class="h-6 sm:h-7 w-auto object-contain"
+          />
         </a>
 
         <nav class="flex items-center gap-8 text-sm tracking-wide text-stone-700">
