@@ -33,9 +33,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </p>
         </div>
 
-        <!-- Columna Derecha (7 cols): Medallón + Línea Fina SVG + Texto Minimalista -->
+        <!-- Columna Derecha (7 cols): Medallón Blanco Grande + Línea Fina SVG + Texto Minimalista -->
         <div class="lg:col-span-7 flex flex-col items-center">
-          <div id="schematic-stage" class="relative w-full flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-5 sm:gap-9">
+          <div id="schematic-stage" class="relative w-full flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-5 sm:gap-8">
             
             <!-- Capa SVG para la línea conectora -->
             <svg id="schematic-svg" class="hidden sm:block absolute inset-0 w-full h-full pointer-events-none z-30" aria-hidden="true">
@@ -44,37 +44,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <circle id="schematic-end-dot" cx="0" cy="0" r="2.5" fill="#8E1323" opacity="0" />
             </svg>
 
-            <!-- Medallón del Gato -->
-            <div class="relative w-52 h-52 sm:w-56 sm:h-56 shrink-0 flex items-center justify-center">
-              <div id="cat-backdrop" class="absolute inset-0 rounded-full border-2 border-[#C6922C]/40 shadow-xl transition-colors duration-700 ease-in-out bg-white"></div>
-              <div class="absolute inset-2.5 rounded-full border border-dashed border-[#161412]/20"></div>
+            <!-- Medallón del Gato (Fondo Blanco Fijo y Mayor Tamaño) -->
+            <div class="relative w-64 h-64 sm:w-72 sm:h-72 shrink-0 flex items-center justify-center rounded-full overflow-hidden bg-white border-2 border-[#C6922C]/45 shadow-xl">
+              <div class="absolute inset-3 rounded-full border border-dashed border-[#161412]/15 pointer-events-none z-20"></div>
               
               <img
                 id="interactive-cat"
-                src="/logo_img_gato.svg"
-                alt="Maneki-neko Interactivo"
-                class="w-36 sm:w-40 h-auto object-contain relative z-10 drop-shadow-md transition-transform duration-500 ease-in-out"
+                src="/MN_1_02_white.svg"
+                alt="Maneki-neko blanco con la pata izquierda levantada"
+                class="w-44 sm:w-48 h-auto object-contain relative z-10 transition-transform duration-500 ease-in-out"
               />
 
-              <!-- Hotspots -->
+              <!-- Hotspots calibrados a las proporciones de MN_1 y MN_2 -->
               <button
                 id="hotspot-koban"
                 data-info="koban"
-                class="hotspot absolute z-20 left-[48%] top-[66%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-[#E2B455]/75 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
+                class="hotspot absolute z-20 left-[45%] top-[73%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-[#E2B455]/85 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
                 aria-label="Moneda Koban"
                 title="Moneda Koban"
               ></button>
 
               <button
                 data-info="collar"
-                class="hotspot absolute z-20 left-[51%] top-[50%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-[#8E1323]/75 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
+                class="hotspot absolute z-20 left-[50%] top-[53%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-[#8E1323]/80 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
                 aria-label="Collar y Cascabel"
                 title="Collar y Cascabel"
               ></button>
 
               <button
                 data-info="cara"
-                class="hotspot absolute z-20 left-[50%] top-[22%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-stone-700/60 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
+                class="hotspot absolute z-20 left-[50%] top-[34%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-stone-700/65 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
                 aria-label="Expresión de la cara"
                 title="Expresión y mirada"
               ></button>
@@ -118,16 +117,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <span class="text-[11px] font-bold uppercase tracking-widest text-stone-400 mr-1">Color:</span>
             
-            <button data-type="color" data-key="tricolor" data-bg="bg-orange-100" data-ring="ring-amber-700" class="control-color w-6 h-6 rounded-full bg-gradient-to-tr from-stone-900 via-amber-500 to-white border border-stone-400 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Tricolor Mi-ke" title="Tricolor (Mi-ke)"></button>
-            <button data-type="color" data-key="white" data-bg="bg-white" data-ring="ring-stone-800" class="control-color w-6 h-6 rounded-full bg-white border-2 border-stone-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-stone-800 scale-110 cursor-pointer" aria-label="Blanco" title="Blanco"></button>
-            <button data-type="color" data-key="gold" data-bg="bg-amber-200" data-ring="ring-amber-600" class="control-color w-6 h-6 rounded-full bg-gradient-to-tr from-[#B7811E] to-[#FFF1B8] border border-amber-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Dorado" title="Dorado"></button>
-            <button data-type="color" data-key="yellow" data-bg="bg-yellow-100" data-ring="ring-yellow-500" class="control-color w-6 h-6 rounded-full bg-yellow-300 border border-yellow-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Amarillo" title="Amarillo"></button>
-            <button data-type="color" data-key="green" data-bg="bg-emerald-100" data-ring="ring-emerald-600" class="control-color w-6 h-6 rounded-full bg-emerald-600 border border-emerald-800 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Verde" title="Verde"></button>
-            <button data-type="color" data-key="blue" data-bg="bg-sky-100" data-ring="ring-sky-600" class="control-color w-6 h-6 rounded-full bg-sky-600 border border-sky-800 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Azul" title="Azul"></button>
-            <button data-type="color" data-key="purple" data-bg="bg-purple-100" data-ring="ring-purple-700" class="control-color w-6 h-6 rounded-full bg-purple-700 border border-purple-900 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Morado" title="Morado / Púrpura"></button>
-            <button data-type="color" data-key="pink" data-bg="bg-rose-100" data-ring="ring-rose-400" class="control-color w-6 h-6 rounded-full bg-rose-300 border border-rose-400 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Rosa" title="Rosa"></button>
-            <button data-type="color" data-key="red" data-bg="bg-red-200" data-ring="ring-[#8E1323]" class="control-color w-6 h-6 rounded-full bg-[#8E1323] border border-red-950 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Rojo" title="Rojo"></button>
-            <button data-type="color" data-key="black" data-bg="bg-stone-300" data-ring="ring-stone-800" class="control-color w-6 h-6 rounded-full bg-[#18181B] border border-black shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Negro" title="Negro"></button>
+            <button data-type="color" data-key="tricolor" data-ring="ring-amber-700" class="control-color w-6 h-6 rounded-full bg-gradient-to-tr from-stone-900 via-amber-500 to-white border border-stone-400 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Tricolor Mi-ke" title="Tricolor (Mi-ke)"></button>
+            <button data-type="color" data-key="white" data-ring="ring-stone-800" class="control-color w-6 h-6 rounded-full bg-white border-2 border-stone-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-stone-800 scale-110 cursor-pointer" aria-label="Blanco" title="Blanco"></button>
+            <button data-type="color" data-key="gold" data-ring="ring-amber-600" class="control-color w-6 h-6 rounded-full bg-gradient-to-tr from-[#B7811E] to-[#FFF1B8] border border-amber-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Dorado" title="Dorado"></button>
+            <button data-type="color" data-key="yellow" data-ring="ring-yellow-500" class="control-color w-6 h-6 rounded-full bg-yellow-300 border border-yellow-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Amarillo" title="Amarillo"></button>
+            <button data-type="color" data-key="green" data-ring="ring-emerald-600" class="control-color w-6 h-6 rounded-full bg-emerald-600 border border-emerald-800 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Verde" title="Verde"></button>
+            <button data-type="color" data-key="blue" data-ring="ring-sky-600" class="control-color w-6 h-6 rounded-full bg-sky-600 border border-sky-800 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Azul" title="Azul"></button>
+            <button data-type="color" data-key="purple" data-ring="ring-purple-700" class="control-color w-6 h-6 rounded-full bg-purple-700 border border-purple-900 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Morado" title="Morado / Púrpura"></button>
+            <button data-type="color" data-key="pink" data-ring="ring-rose-400" class="control-color w-6 h-6 rounded-full bg-rose-300 border border-rose-400 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Rosa" title="Rosa"></button>
+            <button data-type="color" data-key="red" data-ring="ring-[#8E1323]" class="control-color w-6 h-6 rounded-full bg-[#8E1323] border border-red-950 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Rojo" title="Rojo"></button>
+            <button data-type="color" data-key="black" data-ring="ring-stone-800" class="control-color w-6 h-6 rounded-full bg-[#18181B] border border-black shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Negro" title="Negro"></button>
           </div>
         </div>
 
@@ -271,10 +270,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <!-- Espacio para imagen de la Etapa 0 -->
         <div class="lg:col-span-5">
           <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <!-- Cuando tengas tu imagen, sustituye este bloque por: <img src="/images/historia-pre-edo.jpg" alt="Talismanes Dōsojin Pre-Edo" class="w-full h-full object-cover" /> -->
             <span class="font-serif text-4xl text-[#C6922C]/40 mb-2">道祖神</span>
             <p class="font-serif text-sm text-stone-700">Espacio para ilustración o fotografía</p>
             <p class="text-xs text-stone-400 mt-1">Piedras Dōsojin / Talismanes tradicionales Pre-Edo</p>
@@ -309,10 +306,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <!-- Espacio para imagen de la Etapa 1 -->
         <div class="lg:col-span-5">
           <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <!-- Sustituir por: <img src="/images/historia-gotokuji.jpg" alt="Templo Gōtokuji Tokio" class="w-full h-full object-cover" /> -->
             <span class="font-serif text-4xl text-[#8E1323]/35 mb-2">豪徳寺</span>
             <p class="font-serif text-sm text-stone-700">Espacio para fotografía del Templo Gōtokuji</p>
             <p class="text-xs text-stone-400 mt-1">Altar de miles de gatos blancos en Setagaya, Tokio</p>
@@ -347,10 +342,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <!-- Espacio para imagen de la Etapa 2 -->
         <div class="lg:col-span-5">
           <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <!-- Sustituir por: <img src="/images/historia-imado.jpg" alt="Grabado Ukiyo-e y cerámica Imado" class="w-full h-full object-cover" /> -->
             <span class="font-serif text-4xl text-[#C6922C]/40 mb-2">今戸焼</span>
             <p class="font-serif text-sm text-stone-700">Espacio para grabado Ukiyo-e o cerámica Imado</p>
             <p class="text-xs text-stone-400 mt-1">Primeras representaciones comerciales en Asakusa</p>
@@ -385,10 +378,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <!-- Espacio para imagen de la Etapa 3 -->
         <div class="lg:col-span-5">
           <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <!-- Sustituir por: <img src="/images/historia-meiji.jpg" alt="Comercio japonés en la Era Meiji" class="w-full h-full object-cover" /> -->
             <span class="font-serif text-4xl text-[#8E1323]/35 mb-2">明治時代</span>
             <p class="font-serif text-sm text-stone-700">Espacio para fotografía histórica Era Meiji</p>
             <p class="text-xs text-stone-400 mt-1">Comercios tradicionales y adopción de la moneda Koban</p>
@@ -423,10 +414,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </div>
 
-        <!-- Espacio para imagen de la Etapa 4 -->
         <div class="lg:col-span-5">
           <div class="aspect-[4/3] rounded-xl bg-[#FAF6F0] border border-dashed border-[#C6922C]/60 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden">
-            <!-- Sustituir por: <img src="/images/historia-tokoname.jpg" alt="Cerámica de Tokoname" class="w-full h-full object-cover" /> -->
             <span class="font-serif text-4xl text-[#C6922C]/40 mb-2">常滑焼</span>
             <p class="font-serif text-sm text-stone-700">Espacio para fotografía de cerámica Tokoname</p>
             <p class="text-xs text-stone-400 mt-1">Artesanía contemporánea y variedad cromática</p>
@@ -460,16 +449,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     };
 
     const colorConfig = {
-      tricolor: { tag: "Tricolor Mi-ke", adj: "tricolor (Mi-ke)", accent: "text-amber-700", sentence: "Combinado con el pelaje tricolor original de Japón, se convierte en el talismán más completo de suerte suprema y equilibrio." },
-      white: { tag: "Color Blanco", adj: "blanco", accent: "text-stone-600", sentence: "Al ser blanco como los gatos del templo Gōtokuji, aporta pureza, calma y buena fortuna general al hogar." },
-      gold: { tag: "Color Dorado", adj: "dorado", accent: "text-[#C6922C]", sentence: "Su acabado dorado potencia directamente el éxito comercial, los negocios y la abundancia financiera." },
-      yellow: { tag: "Color Amarillo", adj: "amarillo", accent: "text-yellow-600", sentence: "En tono amarillo, favorece el ahorro, la estabilidad económica familiar y la alegría cotidiana." },
-      green: { tag: "Color Verde", adj: "verde", accent: "text-emerald-700", sentence: "El color verde suma concentración académica, sabiduría y protección en los viajes y la salud." },
-      blue: { tag: "Color Azul", adj: "azul", accent: "text-sky-700", sentence: "El pelaje azul añade serenidad mental, claridad para tomar decisiones y avance profesional." },
-      purple: { tag: "Color Morado", adj: "morado", accent: "text-purple-700", sentence: "En color morado, simboliza longevidad, nobleza e inspiración creativa." },
-      pink: { tag: "Color Rosa", adj: "rosa", accent: "text-rose-500", sentence: "Su tonalidad rosa (sakura) favorece el amor, el romance y la cercanía afectiva." },
-      red: { tag: "Color Rojo", adj: "rojo", accent: "text-[#8E1323]", sentence: "El rojo carmesí actúa como talismán de vitalidad, fortaleza física y protección de la salud." },
-      black: { tag: "Color Negro", adj: "negro", accent: "text-stone-800", sentence: "El pelaje negro funciona como un poderoso escudo frente a las malas energías, envidias e infortunios." }
+      tricolor: { file: "01_tri",    tag: "Tricolor Mi-ke", adj: "tricolor (Mi-ke)", accent: "text-amber-700",   sentence: "Combinado con el pelaje tricolor original de Japón, se convierte en el talismán más completo de suerte suprema y equilibrio." },
+      white:    { file: "02_white",  tag: "Color Blanco",   adj: "blanco",           accent: "text-stone-600",   sentence: "Al ser blanco como los gatos del templo Gōtokuji, aporta pureza, calma y buena fortuna general al hogar." },
+      black:    { file: "03_black",  tag: "Color Negro",    adj: "negro",            accent: "text-stone-800",   sentence: "El pelaje negro funciona como un poderoso escudo frente a las malas energías, envidias e infortunios." },
+      gold:     { file: "04_golden", tag: "Color Dorado",   adj: "dorado",           accent: "text-[#C6922C]",   sentence: "Su acabado dorado potencia directamente el éxito comercial, los negocios y la abundancia financiera." },
+      yellow:   { file: "05_yellow", tag: "Color Amarillo", adj: "amarillo",         accent: "text-yellow-600",  sentence: "En tono amarillo, favorece el ahorro, la estabilidad económica familiar y la alegría cotidiana." },
+      green:    { file: "06_green",  tag: "Color Verde",    adj: "verde",            accent: "text-emerald-700", sentence: "El color verde suma concentración académica, sabiduría y protección en los viajes y la salud." },
+      blue:     { file: "07_blue",   tag: "Color Azul",     adj: "azul",             accent: "text-sky-700",     sentence: "El pelaje azul añade serenidad mental, claridad para tomar decisiones y avance profesional." },
+      purple:   { file: "08_purple", tag: "Color Morado",   adj: "morado",           accent: "text-purple-700",  sentence: "En color morado, simboliza longevidad, nobleza e inspiración creativa." },
+      pink:     { file: "09_pink",   tag: "Color Rosa",     adj: "rosa",             accent: "text-rose-500",    sentence: "Su tonalidad rosa (sakura) favorece el amor, el romance y la cercanía afectiva." },
+      red:      { file: "10_red",    tag: "Color Rojo",     adj: "rojo",             accent: "text-[#8E1323]",   sentence: "El rojo carmesí actúa como talismán de vitalidad, fortaleza física y protección de la salud." }
     };
 
     const anatomyConfig = {
@@ -492,17 +481,37 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const schematicHalo = document.getElementById('schematic-line-halo');
     const schematicEndDot = document.getElementById('schematic-end-dot');
 
-    const catBackdrop = document.getElementById('cat-backdrop');
-    const catImage = document.getElementById('interactive-cat');
+    const catImage = document.getElementById('interactive-cat') as HTMLImageElement | null;
     const kobanSpot = document.getElementById('hotspot-koban');
     const pawBtns = document.querySelectorAll('[data-type="paw"]');
     const colorBtns = document.querySelectorAll('[data-type="color"]');
     const hotspots = document.querySelectorAll('.hotspot');
     const searchBtn = document.getElementById('btn-search-figure');
 
-    const baseBackdropClass = "absolute inset-0 rounded-full border-2 border-[#C6922C]/40 shadow-xl transition-colors duration-700 ease-in-out";
     let currentPaw = 'left';
     let currentColor = 'white';
+
+    function updateCatAsset() {
+      const p = pawConfig[currentPaw];
+      const c = colorConfig[currentColor];
+      if (!catImage || !p || !c) return;
+
+      const posePrefix = currentPaw === 'both' ? '2' : '1';
+      catImage.src = `/MN_${posePrefix}_${c.file}.svg`;
+      catImage.alt = `Maneki-neko ${c.adj} con ${p.phrase}`;
+      catImage.style.transform = currentPaw === 'right' ? 'scaleX(-1)' : 'scaleX(1)';
+
+      if (kobanSpot) {
+        kobanSpot.classList.remove('left-[45%]', 'left-[55%]', 'left-[50%]', 'top-[73%]', 'top-[75%]');
+        if (currentPaw === 'right') {
+          kobanSpot.classList.add('left-[55%]', 'top-[73%]');
+        } else if (currentPaw === 'both') {
+          kobanSpot.classList.add('left-[50%]', 'top-[75%]');
+        } else {
+          kobanSpot.classList.add('left-[45%]', 'top-[73%]');
+        }
+      }
+    }
 
     function updateSchematicLine() {
       const activeSpot = document.querySelector('.hotspot.active-spot');
@@ -574,19 +583,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         btn.classList.add('bg-[#161412]', 'text-white', 'border-transparent');
 
         currentPaw = btn.getAttribute('data-key') || 'left';
-
-        if (catImage) {
-          catImage.style.transform = currentPaw === 'right' ? 'scaleX(-1)' : 'scaleX(1)';
-        }
-        if (kobanSpot) {
-          if (currentPaw === 'right') {
-            kobanSpot.classList.remove('left-[48%]');
-            kobanSpot.classList.add('left-[53%]');
-          } else {
-            kobanSpot.classList.remove('left-[53%]');
-            kobanSpot.classList.add('left-[48%]');
-          }
-        }
+        updateCatAsset();
 
         const start = performance.now();
         function animateLine(now) {
@@ -613,11 +610,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         btn.classList.add('scale-110');
 
         currentColor = btn.getAttribute('data-key') || 'white';
-        const bgClass = btn.getAttribute('data-bg') || 'bg-white';
-
-        if (catBackdrop) {
-          catBackdrop.className = `${baseBackdropClass} ${bgClass}`;
-        }
+        updateCatAsset();
         renderSentence();
       });
     });
@@ -674,7 +667,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       if (index < 0 || index >= eraNodes.length) return;
       activeEraIndex = index;
 
-      // Actualizar nodos del eje horizontal
       eraNodes.forEach((node, idx) => {
         const yearEl = node.querySelector('.era-year');
         const dotEl = node.querySelector('.era-dot');
@@ -689,7 +681,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           labelEl?.classList.remove('font-medium', 'text-stone-600');
           labelEl?.classList.add('font-semibold', 'text-[#161412]');
         } else if (idx < index) {
-          // Etapas anteriores ya recorridas
           node.classList.remove('active');
           yearEl?.classList.remove('text-[#8E1323]');
           yearEl?.classList.add('text-stone-500');
@@ -698,7 +689,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           labelEl?.classList.remove('font-semibold', 'text-[#161412]');
           labelEl?.classList.add('font-medium', 'text-stone-600');
         } else {
-          // Etapas futuras
           node.classList.remove('active');
           yearEl?.classList.remove('text-[#8E1323]');
           yearEl?.classList.add('text-stone-500');
@@ -709,13 +699,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         }
       });
 
-      // Avanzar línea de progreso horizontal (0%, 22%, 44%, 66%, 88% aprox entre centros de 5 columnas)
       if (timelineProgress) {
         const pct = (index / (eraNodes.length - 1)) * 80;
         timelineProgress.style.width = `${pct}%`;
       }
 
-      // Mostrar ficha correspondiente debajo
       eraPanels.forEach((panel, idx) => {
         if (idx === index) {
           panel.classList.remove('hidden');
@@ -724,7 +712,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         }
       });
 
-      // Actualizar controles inferiores
       if (prevEraBtn) prevEraBtn.disabled = index === 0;
       if (nextEraBtn) nextEraBtn.disabled = index === eraNodes.length - 1;
       if (eraStepIndicator) {
