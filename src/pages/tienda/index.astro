@@ -1,0 +1,803 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Figuras de Maneki-neko — Catálogo Tradicional | Manekineko.es"
+  description="Filtra y ordena nuestra próxima colección de figuras tradicionales de Maneki-neko japonés por postura, color, material, tamaño, precio y fecha de publicación."
+>
+  <!-- Cabecera de sección -->
+  <section class="bg-seigaiha border-b border-[#E5DEC9]">
+    <div class="max-w-6xl mx-auto px-6 py-8 sm:py-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="hanko-stamp px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-white/90 inline-block mb-2.5">
+            図鑑 • CATÁLOGO DE PIEZAS
+          </span>
+          <h1 class="font-serif text-3xl sm:text-4xl text-[#161412]">
+            Figuras Tradicionales
+          </h1>
+          <p class="text-sm text-stone-600 mt-1.5 max-w-xl">
+            Combina postura, esmalte, material y dimensiones para localizar la pieza adecuada en nuestro archivo.
+          </p>
+        </div>
+
+        <a
+          href="/"
+          class="inline-flex items-center gap-1.5 text-xs font-medium text-[#8E1323] hover:text-[#700E1B] transition-colors self-start md:self-auto"
+        >
+          <span aria-hidden="true">←</span> Volver al configurador simbólico
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cuerpo Principal: Barra Lateral + Barra de Ordenación + Estado Próximamente -->
+  <section class="max-w-6xl mx-auto px-6 py-10 sm:py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- BARRA LATERAL DE FILTROS -->
+      <aside class="lg:col-span-4 xl:col-span-3 bg-white border border-[#E5DEC9] rounded-2xl p-5 shadow-xs lg:sticky lg:top-24">
+        <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-[#E5DEC9]">
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#8E1323]" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+            </svg>
+            <h2 class="font-serif text-base font-semibold text-[#161412]">
+              Filtros
+            </h2>
+            <span id="sidebar-filter-count" class="hidden px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-[#8E1323] text-white">
+              0
+            </span>
+          </div>
+
+          <button
+            type="button"
+            id="btn-reset-filters"
+            class="text-[11px] font-medium text-stone-400 hover:text-[#8E1323] transition-colors cursor-pointer hidden"
+          >
+            Limpiar todo
+          </button>
+        </div>
+
+        <div class="divide-y divide-[#E5DEC9]">
+          
+          <!-- 1. POSICIÓN DE LAS PATAS -->
+          <details open class="py-4 first:pt-0 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>Posición de patas</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2" role="group" aria-label="Filtrar por posición de patas">
+              <button
+                type="button"
+                data-filter-paw="left"
+                class="sidebar-paw-btn w-full flex items-center justify-between px-3 py-2 rounded-xl border border-[#E5DEC9] bg-[#FAF6F0]/60 text-left text-xs transition-all hover:border-[#C6922C] cursor-pointer"
+              >
+                <div>
+                  <span class="block font-semibold text-[#161412]">Pata izquierda</span>
+                  <span class="block text-[10px] text-stone-500">Clientes y armonía</span>
+                </div>
+                <span class="paw-indicator w-3.5 h-3.5 rounded-full border border-stone-400 flex items-center justify-center"></span>
+              </button>
+
+              <button
+                type="button"
+                data-filter-paw="right"
+                class="sidebar-paw-btn w-full flex items-center justify-between px-3 py-2 rounded-xl border border-[#E5DEC9] bg-[#FAF6F0]/60 text-left text-xs transition-all hover:border-[#C6922C] cursor-pointer"
+              >
+                <div>
+                  <span class="block font-semibold text-[#161412]">Pata derecha</span>
+                  <span class="block text-[10px] text-stone-500">Dinero y prosperidad</span>
+                </div>
+                <span class="paw-indicator w-3.5 h-3.5 rounded-full border border-stone-400 flex items-center justify-center"></span>
+              </button>
+
+              <button
+                type="button"
+                data-filter-paw="both"
+                class="sidebar-paw-btn w-full flex items-center justify-between px-3 py-2 rounded-xl border border-[#E5DEC9] bg-[#FAF6F0]/60 text-left text-xs transition-all hover:border-[#C6922C] cursor-pointer"
+              >
+                <div>
+                  <span class="block font-semibold text-[#161412]">Ambas patas</span>
+                  <span class="block text-[10px] text-stone-500">Fortuna y protección</span>
+                </div>
+                <span class="paw-indicator w-3.5 h-3.5 rounded-full border border-stone-400 flex items-center justify-center"></span>
+              </button>
+            </div>
+          </details>
+
+          <!-- 2. COLOR DEL ACABADO -->
+          <details open class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>Color</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 grid grid-cols-2 gap-1.5" role="group" aria-label="Filtrar por color">
+              <button type="button" data-filter-color="tricolor" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-gradient-to-tr from-stone-900 via-amber-500 to-white border border-stone-400"></span>
+                <span class="truncate">Tricolor</span>
+              </button>
+
+              <button type="button" data-filter-color="white" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-white border border-stone-400"></span>
+                <span class="truncate">Blanco</span>
+              </button>
+
+              <button type="button" data-filter-color="gold" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-gradient-to-tr from-[#B7811E] to-[#FFF1B8] border border-amber-500"></span>
+                <span class="truncate">Dorado</span>
+              </button>
+
+              <button type="button" data-filter-color="yellow" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-yellow-300 border border-yellow-500"></span>
+                <span class="truncate">Amarillo</span>
+              </button>
+
+              <button type="button" data-filter-color="green" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-emerald-600 border border-emerald-800"></span>
+                <span class="truncate">Verde</span>
+              </button>
+
+              <button type="button" data-filter-color="blue" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-sky-600 border border-sky-800"></span>
+                <span class="truncate">Azul</span>
+              </button>
+
+              <button type="button" data-filter-color="purple" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-purple-700 border border-purple-900"></span>
+                <span class="truncate">Morado</span>
+              </button>
+
+              <button type="button" data-filter-color="pink" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-rose-300 border border-rose-400"></span>
+                <span class="truncate">Rosa</span>
+              </button>
+
+              <button type="button" data-filter-color="red" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-[#8E1323] border border-red-950"></span>
+                <span class="truncate">Rojo</span>
+              </button>
+
+              <button type="button" data-filter-color="black" class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer">
+                <span class="w-3.5 h-3.5 rounded-full shrink-0 bg-[#18181B] border border-black"></span>
+                <span class="truncate">Negro</span>
+              </button>
+            </div>
+          </details>
+
+          <!-- 3. RANGO DE PRECIO -->
+          <details open class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>Precio (€)</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2.5">
+              <div class="grid grid-cols-2 gap-2">
+                <label class="block">
+                  <span class="sr-only">Precio mínimo</span>
+                  <div class="relative">
+                    <input
+                      type="number"
+                      id="input-price-min"
+                      min="0"
+                      step="1"
+                      placeholder="Mín"
+                      class="w-full rounded-lg border border-[#E5DEC9] bg-[#FAF6F0]/50 px-2.5 py-1.5 pr-6 text-xs text-[#161412] placeholder:text-stone-400 focus:border-[#8E1323] focus:bg-white focus:outline-none"
+                    />
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400">€</span>
+                  </div>
+                </label>
+
+                <label class="block">
+                  <span class="sr-only">Precio máximo</span>
+                  <div class="relative">
+                    <input
+                      type="number"
+                      id="input-price-max"
+                      min="0"
+                      step="1"
+                      placeholder="Máx"
+                      class="w-full rounded-lg border border-[#E5DEC9] bg-[#FAF6F0]/50 px-2.5 py-1.5 pr-6 text-xs text-[#161412] placeholder:text-stone-400 focus:border-[#8E1323] focus:bg-white focus:outline-none"
+                    />
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400">€</span>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Tramos rápidos -->
+              <div class="flex flex-wrap gap-1.5">
+                <button type="button" data-price-preset="0-25" class="price-preset-btn px-2 py-1 rounded-md border border-[#E5DEC9] bg-white text-[11px] text-stone-600 hover:border-[#C6922C] transition-colors cursor-pointer">
+                  Hasta 25 €
+                </button>
+                <button type="button" data-price-preset="25-60" class="price-preset-btn px-2 py-1 rounded-md border border-[#E5DEC9] bg-white text-[11px] text-stone-600 hover:border-[#C6922C] transition-colors cursor-pointer">
+                  25 – 60 €
+                </button>
+                <button type="button" data-price-preset="60-120" class="price-preset-btn px-2 py-1 rounded-md border border-[#E5DEC9] bg-white text-[11px] text-stone-600 hover:border-[#C6922C] transition-colors cursor-pointer">
+                  60 – 120 €
+                </button>
+                <button type="button" data-price-preset="120-" class="price-preset-btn px-2 py-1 rounded-md border border-[#E5DEC9] bg-white text-[11px] text-stone-600 hover:border-[#C6922C] transition-colors cursor-pointer">
+                  +120 €
+                </button>
+              </div>
+            </div>
+          </details>
+
+          <!-- 4. MATERIAL DE FABRICACIÓN -->
+          <details open class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>Material</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2">
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="material" value="ceramica" data-label="Cerámica" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Cerámica tradicional (Tokoname / Imado)</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="material" value="porcelana" data-label="Porcelana" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Porcelana esmaltada</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="material" value="resina" data-label="Resina" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Resina / Poliresina</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="material" value="hariko" data-label="Papel maché (Hariko)" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Papel maché artesanal (Hariko)</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="material" value="madera" data-label="Madera" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Madera tallada / Kokeshi</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="material" value="metal" data-label="Metal / Latón" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Metal / Latón fundido</span>
+              </label>
+            </div>
+          </details>
+
+          <!-- 5. TAMAÑO Y ALTURA -->
+          <details open class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>Tamaño</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2">
+              <label class="flex items-center justify-between gap-2 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <span class="flex items-center gap-2.5">
+                  <input type="checkbox" name="tamano" value="mini" data-label="Miniatura (<10 cm)" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                  <span>Miniatura / Amuleto</span>
+                </span>
+                <span class="text-[11px] text-stone-400">&lt; 10 cm</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <span class="flex items-center gap-2.5">
+                  <input type="checkbox" name="tamano" value="pequeno" data-label="Pequeño (10–15 cm)" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                  <span>Pequeño (Escritorio)</span>
+                </span>
+                <span class="text-[11px] text-stone-400">10 – 15 cm</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <span class="flex items-center gap-2.5">
+                  <input type="checkbox" name="tamano" value="mediano" data-label="Mediano (16–25 cm)" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                  <span>Mediano (Hogar)</span>
+                </span>
+                <span class="text-[11px] text-stone-400">16 – 25 cm</span>
+              </label>
+              <label class="flex items-center justify-between gap-2 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <span class="flex items-center gap-2.5">
+                  <input type="checkbox" name="tamano" value="grande" data-label="Grande (>25 cm)" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                  <span>Grande (Comercio)</span>
+                </span>
+                <span class="text-[11px] text-stone-400">&gt; 25 cm</span>
+              </label>
+            </div>
+          </details>
+
+          <!-- 6. MECANISMO Y RASGOS TRADICIONALES -->
+          <details class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>Mecanismo y detalles</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2">
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="extra" value="estatico" data-label="Figura estática" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Figura rígida / estática</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="extra" value="solar" data-label="Pata móvil (Solar / Pila)" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Pata articulada (Solar / Pila)</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="extra" value="koban" data-label="Con moneda Koban" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Con moneda Koban</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="extra" value="japon" data-label="Hecho en Japón" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Fabricado en Japón</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="checkbox" name="extra" value="hucha" data-label="Función hucha" class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Con ranura hucha (Chokin-bako)</span>
+              </label>
+            </div>
+          </details>
+
+          <!-- 7. FECHA DE PUBLICACIÓN -->
+          <details class="py-4 last:pb-0 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>Fecha de publicación</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2" role="radiogroup" aria-label="Filtrar por fecha de publicación">
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="radio" name="fecha" value="all" checked class="text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Cualquier fecha</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="radio" name="fecha" value="7d" class="text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Últimos 7 días</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="radio" name="fecha" value="30d" class="text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Último mes (30 días)</span>
+              </label>
+              <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                <input type="radio" name="fecha" value="90d" class="text-[#8E1323] focus:ring-[#8E1323]" />
+                <span>Últimos 3 meses</span>
+              </label>
+            </div>
+          </details>
+
+        </div>
+      </aside>
+
+      <!-- ZONA PRINCIPAL: BARRA DE ORDENACIÓN + AVISO PRÓXIMAMENTE -->
+      <div class="lg:col-span-8 xl:col-span-9 space-y-5">
+        
+        <!-- Barra superior: Contador, Ordenación y Chips activos -->
+        <div class="bg-white border border-[#E5DEC9] rounded-2xl p-4 shadow-xs space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-medium text-stone-500">
+                Catálogo:
+              </span>
+              <span class="text-xs font-semibold text-[#161412]">
+                0 figuras publicadas de momento
+              </span>
+            </div>
+
+            <!-- Selector de Ordenación -->
+            <div class="flex items-center gap-2 self-start sm:self-auto">
+              <label for="sort-select" class="text-[11px] font-bold uppercase tracking-wider text-stone-400 shrink-0">
+                Ordenar por:
+              </label>
+              <select
+                id="sort-select"
+                class="rounded-xl border border-[#E5DEC9] bg-[#FAF6F0]/70 px-3 py-1.5 text-xs font-medium text-[#161412] focus:border-[#8E1323] focus:bg-white focus:outline-none cursor-pointer"
+              >
+                <option value="recientes">Fecha: más recientes</option>
+                <option value="antiguos">Fecha: más antiguos</option>
+                <option value="precio_asc">Precio: menor a mayor</option>
+                <option value="precio_desc">Precio: mayor a menor</option>
+                <option value="relevancia">Relevancia tradicional</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Etiquetas dinámicas de filtros activos -->
+          <div id="active-chips-bar" class="hidden pt-2.5 border-t border-[#E5DEC9]/80 flex flex-wrap items-center gap-1.5">
+            <!-- Se rellena dinámicamente desde JS -->
+          </div>
+        </div>
+
+        <!-- Bloque de Próximamente (sin ejemplos ficticios) -->
+        <div class="bg-white border border-[#E5DEC9] rounded-2xl p-8 sm:p-14 text-center shadow-xs relative overflow-hidden">
+          <div class="max-w-lg mx-auto flex flex-col items-center">
+            
+            <span class="hanko-stamp px-3 py-1 text-[11px] font-bold tracking-widest uppercase bg-[#FAF6F0] mb-6">
+              準備中 • PRÓXIMAMENTE
+            </span>
+
+            <!-- Vista previa visual vinculada a postura y color -->
+            <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-[#FAF6F0] border border-dashed border-[#C6922C]/70 flex items-center justify-center p-5 mb-6">
+              <img
+                id="store-preview-cat"
+                src="/MN_1_00_line.svg"
+                alt="Vista previa de búsqueda"
+                class="w-24 sm:w-28 h-auto object-contain opacity-90 transition-transform duration-300"
+              />
+            </div>
+
+            <h2 class="font-serif text-2xl sm:text-3xl text-[#161412] mb-3">
+              De momento no hay figuras publicadas
+            </h2>
+
+            <p id="store-empty-description" class="text-sm sm:text-base text-stone-600 leading-relaxed mb-6">
+              Estamos preparando la base de datos y catalogando nuestra primera selección de figuras japonesas. Muy pronto podrás explorar aquí cada pieza con sus medidas, material, precio y enlace directo.
+            </p>
+
+            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#FAF6F0] border border-[#E5DEC9] text-xs text-stone-600">
+              <span class="w-2 h-2 rounded-full bg-[#C6922C] animate-pulse"></span>
+              <span>Archivo en preparación — Nuevas piezas próximamente</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Contrato de consulta listo para conectar con la base de datos / API
+    interface CatalogQuery {
+      pata: string | null;
+      color: string | null;
+      precio_min: string;
+      precio_max: string;
+      material: string[];
+      tamano: string[];
+      extra: string[];
+      fecha: string;
+      orden: string;
+    }
+
+    const pawLabels: Record<string, string> = {
+      left: 'Pata izquierda',
+      right: 'Pata derecha',
+      both: 'Ambas patas',
+    };
+
+    const colorMeta: Record<string, { label: string; file: string }> = {
+      tricolor: { label: 'Tricolor (Mi-ke)', file: '01_tri' },
+      white:    { label: 'Blanco',           file: '02_white' },
+      black:    { label: 'Negro',            file: '03_black' },
+      gold:     { label: 'Dorado',           file: '04_golden' },
+      yellow:   { label: 'Amarillo',         file: '05_yellow' },
+      green:    { label: 'Verde',            file: '06_green' },
+      blue:     { label: 'Azul',             file: '07_blue' },
+      purple:   { label: 'Morado',           file: '08_purple' },
+      pink:     { label: 'Rosa',             file: '09_pink' },
+      red:      { label: 'Rojo',             file: '10_red' },
+    };
+
+    const dateLabels: Record<string, string> = {
+      '7d': 'Últimos 7 días',
+      '30d': 'Último mes',
+      '90d': 'Últimos 3 meses',
+    };
+
+    const state: CatalogQuery = {
+      pata: null,
+      color: null,
+      precio_min: '',
+      precio_max: '',
+      material: [],
+      tamano: [],
+      extra: [],
+      fecha: 'all',
+      orden: 'recientes',
+    };
+
+    // Referencias DOM
+    const pawButtons = document.querySelectorAll<HTMLButtonElement>('.sidebar-paw-btn');
+    const colorButtons = document.querySelectorAll<HTMLButtonElement>('.sidebar-color-btn');
+    const priceMinInput = document.getElementById('input-price-min') as HTMLInputElement | null;
+    const priceMaxInput = document.getElementById('input-price-max') as HTMLInputElement | null;
+    const pricePresetBtns = document.querySelectorAll<HTMLButtonElement>('.price-preset-btn');
+    const checkboxes = document.querySelectorAll<HTMLInputElement>('.filter-checkbox');
+    const dateRadios = document.querySelectorAll<HTMLInputElement>('input[name="fecha"]');
+    const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
+
+    const resetBtn = document.getElementById('btn-reset-filters');
+    const filterCountBadge = document.getElementById('sidebar-filter-count');
+    const chipsBar = document.getElementById('active-chips-bar');
+    const descriptionEl = document.getElementById('store-empty-description');
+    const previewImg = document.getElementById('store-preview-cat') as HTMLImageElement | null;
+
+    function syncURL() {
+      const url = new URL(window.location.href);
+      const params = url.searchParams;
+
+      state.pata ? params.set('pata', state.pata) : params.delete('pata');
+      state.color ? params.set('color', state.color) : params.delete('color');
+      state.precio_min ? params.set('precio_min', state.precio_min) : params.delete('precio_min');
+      state.precio_max ? params.set('precio_max', state.precio_max) : params.delete('precio_max');
+
+      state.material.length ? params.set('material', state.material.join(',')) : params.delete('material');
+      state.tamano.length ? params.set('tamano', state.tamano.join(',')) : params.delete('tamano');
+      state.extra.length ? params.set('extra', state.extra.join(',')) : params.delete('extra');
+
+      state.fecha !== 'all' ? params.set('fecha', state.fecha) : params.delete('fecha');
+      state.orden !== 'recientes' ? params.set('orden', state.orden) : params.delete('orden');
+
+      window.history.replaceState({}, '', url.toString());
+    }
+
+    function buildActiveChips() {
+      if (!chipsBar) return [];
+      const chips: { label: string; onRemove: () => void }[] = [];
+
+      if (state.pata && pawLabels[state.pata]) {
+        chips.push({
+          label: pawLabels[state.pata],
+          onRemove: () => { state.pata = null; render(); },
+        });
+      }
+
+      if (state.color && colorMeta[state.color]) {
+        chips.push({
+          label: `Color: ${colorMeta[state.color].label}`,
+          onRemove: () => { state.color = null; render(); },
+        });
+      }
+
+      if (state.precio_min || state.precio_max) {
+        const minTxt = state.precio_min ? `${state.precio_min} €` : '0 €';
+        const maxTxt = state.precio_max ? `${state.precio_max} €` : '∞';
+        chips.push({
+          label: `Precio: ${minTxt} – ${maxTxt}`,
+          onRemove: () => {
+            state.precio_min = '';
+            state.precio_max = '';
+            if (priceMinInput) priceMinInput.value = '';
+            if (priceMaxInput) priceMaxInput.value = '';
+            render();
+          },
+        });
+      }
+
+      checkboxes.forEach((cb) => {
+        if (cb.checked) {
+          const group = cb.name as 'material' | 'tamano' | 'extra';
+          const val = cb.value;
+          const label = cb.dataset.label || val;
+          chips.push({
+            label,
+            onRemove: () => {
+              cb.checked = false;
+              state[group] = state[group].filter((v) => v !== val);
+              render();
+            },
+          });
+        }
+      });
+
+      if (state.fecha !== 'all' && dateLabels[state.fecha]) {
+        chips.push({
+          label: `Publicado: ${dateLabels[state.fecha]}`,
+          onRemove: () => {
+            state.fecha = 'all';
+            dateRadios.forEach((r) => { r.checked = r.value === 'all'; });
+            render();
+          },
+        });
+      }
+
+      chipsBar.innerHTML = '';
+      if (chips.length === 0) {
+        chipsBar.classList.add('hidden');
+      } else {
+        chipsBar.classList.remove('hidden');
+        chips.forEach((chip) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FAF6F0] border border-[#E5DEC9] text-[11px] font-medium text-[#161412] hover:border-[#8E1323] transition-colors cursor-pointer';
+          btn.innerHTML = `<span>${chip.label}</span><span class="text-stone-400 hover:text-[#8E1323]" aria-hidden="true">×</span>`;
+          btn.addEventListener('click', chip.onRemove);
+          chipsBar.appendChild(btn);
+        });
+      }
+
+      return chips;
+    }
+
+    function render() {
+      // 1. Estilos botones de pata
+      pawButtons.forEach((btn) => {
+        const isActive = (btn.dataset.filterPaw || '') === state.pata;
+        const indicator = btn.querySelector('.paw-indicator');
+
+        btn.classList.toggle('border-[#8E1323]', isActive);
+        btn.classList.toggle('bg-[#FAF6F0]', isActive);
+        btn.classList.toggle('ring-1', isActive);
+        btn.classList.toggle('ring-[#8E1323]', isActive);
+        btn.classList.toggle('border-[#E5DEC9]', !isActive);
+        btn.classList.toggle('bg-[#FAF6F0]/60', !isActive);
+
+        if (indicator) {
+          indicator.innerHTML = isActive ? '<span class="w-2 h-2 rounded-full bg-[#8E1323]"></span>' : '';
+          indicator.classList.toggle('border-[#8E1323]', isActive);
+          indicator.classList.toggle('border-stone-400', !isActive);
+        }
+      });
+
+      // 2. Estilos botones de color
+      colorButtons.forEach((btn) => {
+        const isActive = (btn.dataset.filterColor || '') === state.color;
+
+        btn.classList.toggle('border-[#8E1323]', isActive);
+        btn.classList.toggle('bg-[#FAF6F0]', isActive);
+        btn.classList.toggle('font-semibold', isActive);
+        btn.classList.toggle('text-[#161412]', isActive);
+        btn.classList.toggle('ring-1', isActive);
+        btn.classList.toggle('ring-[#8E1323]', isActive);
+        btn.classList.toggle('border-[#E5DEC9]', !isActive);
+        btn.classList.toggle('bg-white', !isActive);
+      });
+
+      // 3. Estilos presets de precio
+      pricePresetBtns.forEach((btn) => {
+        const [pMin = '', pMax = ''] = (btn.dataset.pricePreset || '').split('-');
+        const isActive = state.precio_min === pMin && state.precio_max === pMax && (pMin !== '' || pMax !== '');
+        btn.classList.toggle('border-[#8E1323]', isActive);
+        btn.classList.toggle('bg-[#FAF6F0]', isActive);
+        btn.classList.toggle('text-[#8E1323]', isActive);
+        btn.classList.toggle('font-semibold', isActive);
+        btn.classList.toggle('border-[#E5DEC9]', !isActive);
+        btn.classList.toggle('bg-white', !isActive);
+        btn.classList.toggle('text-stone-600', !isActive);
+      });
+
+      // 4. Chips y contador
+      const activeChips = buildActiveChips();
+      const count = activeChips.length;
+
+      resetBtn?.classList.toggle('hidden', count === 0);
+      if (filterCountBadge) {
+        filterCountBadge.textContent = String(count);
+        filterCountBadge.classList.toggle('hidden', count === 0);
+      }
+
+      // 5. Mensaje contextual y silueta de referencia
+      if (descriptionEl) {
+        if (count > 0) {
+          const summary = activeChips.map((c) => c.label).join(' · ');
+          descriptionEl.textContent = `Aún no hemos publicado figuras que coincidan con «${summary}». Estamos catalogando las primeras piezas japonesas y aparecerán aquí en cuanto estén disponibles.`;
+        } else {
+          descriptionEl.textContent = 'Estamos preparando la base de datos y catalogando nuestra primera selección de figuras japonesas. Muy pronto podrás explorar aquí cada pieza con sus medidas, material, precio y enlace directo.';
+        }
+      }
+
+      if (previewImg) {
+        const prefix = state.pata === 'both' ? '2' : '1';
+        const fileSuffix = state.color && colorMeta[state.color] ? colorMeta[state.color].file : '00_line';
+        previewImg.src = `/MN_${prefix}_${fileSuffix}.svg`;
+        previewImg.style.transform = state.pata === 'right' ? 'scaleX(-1)' : 'scaleX(1)';
+      }
+
+      syncURL();
+    }
+
+    // Hidratar estado desde la URL al cargar la página
+    function hydrateFromURL() {
+      const params = new URLSearchParams(window.location.search);
+
+      const pata = params.get('pata');
+      if (pata && pawLabels[pata]) state.pata = pata;
+
+      const color = params.get('color');
+      if (color && colorMeta[color]) state.color = color;
+
+      const pMin = params.get('precio_min') || '';
+      const pMax = params.get('precio_max') || '';
+      state.precio_min = pMin;
+      state.precio_max = pMax;
+      if (priceMinInput) priceMinInput.value = pMin;
+      if (priceMaxInput) priceMaxInput.value = pMax;
+
+      (['material', 'tamano', 'extra'] as const).forEach((group) => {
+        const raw = params.get(group);
+        if (raw) {
+          state[group] = raw.split(',').filter(Boolean);
+        }
+      });
+
+      checkboxes.forEach((cb) => {
+        const group = cb.name as 'material' | 'tamano' | 'extra';
+        cb.checked = state[group].includes(cb.value);
+      });
+
+      const fecha = params.get('fecha');
+      if (fecha && dateLabels[fecha]) {
+        state.fecha = fecha;
+        dateRadios.forEach((r) => { r.checked = r.value === fecha; });
+      }
+
+      const orden = params.get('orden');
+      if (orden && sortSelect) {
+        state.orden = orden;
+        sortSelect.value = orden;
+      }
+    }
+
+    // Eventos
+    pawButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.filterPaw || null;
+        state.pata = state.pata === key ? null : key;
+        render();
+      });
+    });
+
+    colorButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.filterColor || null;
+        state.color = state.color === key ? null : key;
+        render();
+      });
+    });
+
+    priceMinInput?.addEventListener('input', () => {
+      state.precio_min = priceMinInput.value.trim();
+      render();
+    });
+
+    priceMaxInput?.addEventListener('input', () => {
+      state.precio_max = priceMaxInput.value.trim();
+      render();
+    });
+
+    pricePresetBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const [pMin = '', pMax = ''] = (btn.dataset.pricePreset || '').split('-');
+        const alreadySelected = state.precio_min === pMin && state.precio_max === pMax;
+
+        state.precio_min = alreadySelected ? '' : pMin;
+        state.precio_max = alreadySelected ? '' : pMax;
+        if (priceMinInput) priceMinInput.value = state.precio_min;
+        if (priceMaxInput) priceMaxInput.value = state.precio_max;
+        render();
+      });
+    });
+
+    checkboxes.forEach((cb) => {
+      cb.addEventListener('change', () => {
+        const group = cb.name as 'material' | 'tamano' | 'extra';
+        if (cb.checked) {
+          if (!state[group].includes(cb.value)) state[group].push(cb.value);
+        } else {
+          state[group] = state[group].filter((v) => v !== cb.value);
+        }
+        render();
+      });
+    });
+
+    dateRadios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) {
+          state.fecha = radio.value;
+          render();
+        }
+      });
+    });
+
+    sortSelect?.addEventListener('change', () => {
+      state.orden = sortSelect.value;
+      syncURL();
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      state.pata = null;
+      state.color = null;
+      state.precio_min = '';
+      state.precio_max = '';
+      state.material = [];
+      state.tamano = [];
+      state.extra = [];
+      state.fecha = 'all';
+
+      if (priceMinInput) priceMinInput.value = '';
+      if (priceMaxInput) priceMaxInput.value = '';
+      checkboxes.forEach((cb) => { cb.checked = false; });
+      dateRadios.forEach((r) => { r.checked = r.value === 'all'; });
+      render();
+    });
+
+    hydrateFromURL();
+    render();
+  </script>
+</BaseLayout>

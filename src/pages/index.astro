@@ -20,16 +20,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               招き猫 • CONFIGURACIÓN
             </span>
             <span id="meta-tags" class="text-[11px] uppercase tracking-[0.16em] text-[#8E1323] font-semibold">
-              Pata Izquierda • Color Blanco
+              Pata Izquierda • Sin color
             </span>
           </div>
 
           <h1 id="dynamic-headline" class="font-serif text-2xl sm:text-3xl lg:text-[1.9rem] leading-[1.2] text-[#161412] mb-3 transition-opacity duration-200">
-            El Maneki-neko <span class="text-stone-600 italic">blanco</span> que alza <span class="underline decoration-[#8E1323]/40 decoration-2 underline-offset-4">la pata izquierda</span> para atraer clientes y armonía
+            El Maneki-neko <span class="text-stone-500 italic">sin color</span> que alza <span class="underline decoration-[#8E1323]/40 decoration-2 underline-offset-4">la pata izquierda</span> para atraer clientes y armonía
           </h1>
 
           <p id="dynamic-meaning" class="text-sm text-stone-700 leading-relaxed max-w-xl mx-auto lg:mx-0 transition-opacity duration-200">
-            Su gesto con la pata izquierda da la bienvenida a visitantes, clientes y vínculos positivos. Al ser blanco como los gatos del templo Gōtokuji, aporta pureza, calma y buena fortuna general al hogar.
+            Su gesto con la pata izquierda da la bienvenida a visitantes, clientes y vínculos positivos. Selecciona un color en la barra inferior para descubrir el significado tradicional de cada acabado.
           </p>
         </div>
 
@@ -44,36 +44,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <circle id="schematic-end-dot" cx="0" cy="0" r="2.5" fill="#8E1323" opacity="0" />
             </svg>
 
-            <!-- Medallón del Gato (Fondo Blanco Fijo y Mayor Tamaño) -->
+            <!-- Medallón del Gato (Fondo Blanco Fijo) -->
             <div class="relative w-64 h-64 sm:w-72 sm:h-72 shrink-0 flex items-center justify-center rounded-full overflow-hidden bg-white border-2 border-[#C6922C]/45 shadow-xl">
               <div class="absolute inset-3 rounded-full border border-dashed border-[#161412]/15 pointer-events-none z-20"></div>
               
               <img
                 id="interactive-cat"
-                src="/MN_1_02_white.svg"
-                alt="Maneki-neko blanco con la pata izquierda levantada"
+                src="/MN_1_00_line.svg"
+                alt="Maneki-neko sin color con la pata izquierda levantada"
                 class="w-44 sm:w-48 h-auto object-contain relative z-10 transition-transform duration-500 ease-in-out"
               />
 
-              <!-- Hotspots calibrados a las proporciones de MN_1 y MN_2 -->
+              <!-- Hotspots situados en los bordes externos para no tapar cara, cascabel ni moneda -->
               <button
                 id="hotspot-koban"
                 data-info="koban"
-                class="hotspot absolute z-20 left-[45%] top-[73%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-[#E2B455]/85 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
+                class="hotspot absolute z-20 left-[53%] top-[73%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#8E1323] border-2 border-white shadow-md ring-4 ring-[#8E1323]/20 animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
                 aria-label="Moneda Koban"
                 title="Moneda Koban"
               ></button>
 
               <button
                 data-info="collar"
-                class="hotspot absolute z-20 left-[50%] top-[53%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-[#8E1323]/80 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
+                class="hotspot absolute z-20 left-[58%] top-[51%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#8E1323] border-2 border-white shadow-md ring-4 ring-[#8E1323]/20 animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
                 aria-label="Collar y Cascabel"
                 title="Collar y Cascabel"
               ></button>
 
               <button
                 data-info="cara"
-                class="hotspot absolute z-20 left-[50%] top-[34%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-4.5 sm:h-4.5 rounded-full bg-stone-700/65 border border-white shadow-sm animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
+                class="hotspot absolute z-20 left-[62%] top-[36%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#8E1323] border-2 border-white shadow-md ring-4 ring-[#8E1323]/20 animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
                 aria-label="Expresión de la cara"
                 title="Expresión y mirada"
               ></button>
@@ -113,12 +113,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <!-- Separador vertical -->
           <div class="hidden md:block h-6 w-px bg-stone-200"></div>
 
-          <!-- Bloque Medio: Colores -->
+          <!-- Bloque Medio: Colores (ninguno activado al inicio) -->
           <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <span class="text-[11px] font-bold uppercase tracking-widest text-stone-400 mr-1">Color:</span>
             
             <button data-type="color" data-key="tricolor" data-ring="ring-amber-700" class="control-color w-6 h-6 rounded-full bg-gradient-to-tr from-stone-900 via-amber-500 to-white border border-stone-400 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Tricolor Mi-ke" title="Tricolor (Mi-ke)"></button>
-            <button data-type="color" data-key="white" data-ring="ring-stone-800" class="control-color w-6 h-6 rounded-full bg-white border-2 border-stone-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-stone-800 scale-110 cursor-pointer" aria-label="Blanco" title="Blanco"></button>
+            <button data-type="color" data-key="white" data-ring="ring-stone-800" class="control-color w-6 h-6 rounded-full bg-white border border-stone-400 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Blanco" title="Blanco"></button>
             <button data-type="color" data-key="gold" data-ring="ring-amber-600" class="control-color w-6 h-6 rounded-full bg-gradient-to-tr from-[#B7811E] to-[#FFF1B8] border border-amber-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Dorado" title="Dorado"></button>
             <button data-type="color" data-key="yellow" data-ring="ring-yellow-500" class="control-color w-6 h-6 rounded-full bg-yellow-300 border border-yellow-500 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Amarillo" title="Amarillo"></button>
             <button data-type="color" data-key="green" data-ring="ring-emerald-600" class="control-color w-6 h-6 rounded-full bg-emerald-600 border border-emerald-800 shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer" aria-label="Verde" title="Verde"></button>
@@ -132,7 +132,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         <!-- Botón de Acción Principal -->
         <a 
-          href="/tienda/?color=white&pata=left" 
+          href="/tienda/?pata=left" 
           id="btn-search-figure"
           class="shrink-0 w-full lg:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#8E1323] to-[#700E1B] text-white font-medium text-sm tracking-wide shadow-md hover:shadow-lg transition-all group"
         >
@@ -449,6 +449,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     };
 
     const colorConfig = {
+      line:     { file: "00_line",   tag: "Sin color",      adj: "sin color",        accent: "text-stone-500",   sentence: "Selecciona un color en la barra inferior para descubrir el significado tradicional de cada acabado." },
       tricolor: { file: "01_tri",    tag: "Tricolor Mi-ke", adj: "tricolor (Mi-ke)", accent: "text-amber-700",   sentence: "Combinado con el pelaje tricolor original de Japón, se convierte en el talismán más completo de suerte suprema y equilibrio." },
       white:    { file: "02_white",  tag: "Color Blanco",   adj: "blanco",           accent: "text-stone-600",   sentence: "Al ser blanco como los gatos del templo Gōtokuji, aporta pureza, calma y buena fortuna general al hogar." },
       black:    { file: "03_black",  tag: "Color Negro",    adj: "negro",            accent: "text-stone-800",   sentence: "El pelaje negro funciona como un poderoso escudo frente a las malas energías, envidias e infortunios." },
@@ -489,7 +490,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const searchBtn = document.getElementById('btn-search-figure');
 
     let currentPaw = 'left';
-    let currentColor = 'white';
+    let currentColor = 'line';
 
     function updateCatAsset() {
       const p = pawConfig[currentPaw];
@@ -502,13 +503,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       catImage.style.transform = currentPaw === 'right' ? 'scaleX(-1)' : 'scaleX(1)';
 
       if (kobanSpot) {
-        kobanSpot.classList.remove('left-[45%]', 'left-[55%]', 'left-[50%]', 'top-[73%]', 'top-[75%]');
+        kobanSpot.classList.remove('left-[53%]', 'left-[58%]', 'left-[56%]', 'top-[73%]', 'top-[75%]');
         if (currentPaw === 'right') {
-          kobanSpot.classList.add('left-[55%]', 'top-[73%]');
+          kobanSpot.classList.add('left-[58%]', 'top-[73%]');
         } else if (currentPaw === 'both') {
-          kobanSpot.classList.add('left-[50%]', 'top-[75%]');
+          kobanSpot.classList.add('left-[56%]', 'top-[75%]');
         } else {
-          kobanSpot.classList.add('left-[45%]', 'top-[73%]');
+          kobanSpot.classList.add('left-[53%]', 'top-[73%]');
         }
       }
     }
@@ -568,7 +569,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         meaningEl.style.opacity = '1';
         
         if (searchBtn) {
-          searchBtn.setAttribute('href', `/tienda/?color=${currentColor}&pata=${currentPaw}`);
+          const query = currentColor === 'line'
+            ? `?pata=${currentPaw}`
+            : `?color=${currentColor}&pata=${currentPaw}`;
+          searchBtn.setAttribute('href', `/tienda/${query}`);
         }
       }, 150);
     }
@@ -597,6 +601,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     colorBtns.forEach(btn => {
       btn.addEventListener('click', () => {
+        const clickedColor = btn.getAttribute('data-key') || 'line';
+        const isDeselecting = clickedColor === currentColor;
+
         colorBtns.forEach(b => {
           const r = b.getAttribute('data-ring');
           if (r) b.classList.remove(r);
@@ -604,12 +611,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           b.classList.add('ring-transparent');
         });
 
-        const activeRing = btn.getAttribute('data-ring');
-        btn.classList.remove('ring-transparent');
-        if (activeRing) btn.classList.add(activeRing);
-        btn.classList.add('scale-110');
+        if (isDeselecting) {
+          currentColor = 'line';
+        } else {
+          const activeRing = btn.getAttribute('data-ring');
+          btn.classList.remove('ring-transparent');
+          if (activeRing) btn.classList.add(activeRing);
+          btn.classList.add('scale-110');
+          currentColor = clickedColor;
+        }
 
-        currentColor = btn.getAttribute('data-key') || 'white';
         updateCatAsset();
         renderSentence();
       });
@@ -621,11 +632,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       if (!info) return;
 
       hotspots.forEach(s => {
-        s.classList.remove('ring-2', 'ring-[#8E1323]', 'scale-125', 'active-spot');
-        s.classList.add('animate-pulse');
+        s.classList.remove('scale-125', 'ring-[#8E1323]/45', 'active-spot');
+        s.classList.add('ring-[#8E1323]/20', 'animate-pulse');
       });
-      spot.classList.remove('animate-pulse');
-      spot.classList.add('ring-2', 'ring-[#8E1323]', 'scale-125', 'active-spot');
+      spot.classList.remove('animate-pulse', 'ring-[#8E1323]/20');
+      spot.classList.add('scale-125', 'ring-[#8E1323]/45', 'active-spot');
 
       if (anatomyPanel && anatomyTag && anatomyName && anatomyText) {
         anatomyPanel.classList.remove('opacity-45', 'border-stone-300/80');
