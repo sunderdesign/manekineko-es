@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('cultura');
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} | Manekineko.es`} description={post.data.description}>
+  <article class="max-w-3xl mx-auto px-6 py-16">
+    <header class="mb-10 border-b border-stone-200 pb-8">
+      <div class="text-xs uppercase tracking-widest text-[#B91C1C] mb-3">
+        {post.data.category} • {post.data.readTime}
+      </div>
+      <h1 class="font-serif text-3xl sm:text-4xl leading-tight mb-4">{post.data.title}</h1>
+      <p class="text-stone-600 text-lg">{post.data.description}</p>
+    </header>
+
+    <div class="prose prose-stone max-w-none prose-headings:font-serif prose-a:text-[#B91C1C]">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

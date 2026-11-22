@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('cultura')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Revista Cultural | Manekineko.es">
+  <section class="max-w-4xl mx-auto px-6 py-16">
+    <p class="text-xs uppercase tracking-[0.25em] text-[#B91C1C] mb-3">Archivo Editorial</p>
+    <h1 class="font-serif text-3xl sm:text-4xl mb-4">Historia y Simbolismo</h1>
+    <p class="text-stone-600 mb-12">Guías documentadas sobre folclore japonés, Feng Shui y tradición cerámica.</p>
+
+    <div class="space-y-8">
+      {posts.map((post) => (
+        <article class="border-b border-stone-200 pb-8">
+          <div class="text-xs text-stone-500 mb-2">
+            <span class="text-[#B91C1C] uppercase tracking-wider">{post.data.category}</span> • {post.data.readTime} de lectura
+          </div>
+          <h2 class="font-serif text-2xl mb-2 hover:text-[#B91C1C] transition-colors">
+            <a href={`/cultura/${post.id}/`}>{post.data.title}</a>
+          </h2>
+          <p class="text-stone-600 text-sm leading-relaxed">{post.data.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

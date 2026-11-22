@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@layer base {
+  body {
+    background-color: #FAF8F5;
+    color: #1A1A1A;
+    font-feature-settings: "kern" 1;
+  }
+}
