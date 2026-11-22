@@ -12,4 +12,25 @@ const cultura = defineCollection({
   }),
 });
 
-export const collections = { cultura };
+const leyendas = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/leyendas' }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    era: z.string(),
+    location: z.string(),
+    summary: z.string(),
+    coverImage: z.string(),
+    coverAlt: z.string(),
+    readingTime: z.string(),
+    order: z.number(),
+    isOriginal: z.boolean().default(false),
+    featuredFigure: z.object({
+      name: z.string(),
+      meaning: z.string(),
+      shopUrl: z.string(),
+    }),
+  }),
+});
+
+export const collections = { cultura, leyendas };

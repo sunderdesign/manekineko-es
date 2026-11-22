@@ -1,5 +1,15 @@
 ---
 import '../styles/global.css';
+import {
+  languages,
+  defaultLang,
+  ui,
+  getLangFromUrl,
+  useTranslations,
+  useTranslatedPath,
+  getSwitchLangUrl,
+  type Lang,
+} from '../i18n/ui';
 
 interface Props {
   title: string;
@@ -11,11 +21,53 @@ const {
   description = 'Universo cultural del Maneki-neko: configurador interactivo de patas y colores, historia japonesa, leyenda del templo Gōtokuji y figuras tradicionales.',
 } = Astro.props;
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const homeHref = translatePath('/');
+const evolucionHref = translatePath('/#tradicion');
+const leyendasHref = translatePath('/leyendas/');
+const figurasHref = translatePath('/tienda/');
+
+const normalizedPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const normalizedHome = homeHref.replace(/\/$/, '') || '/';
+
+const isHome = normalizedPath === normalizedHome;
+const isLeyendas = normalizedPath.startsWith(leyendasHref.replace(/\/$/, ''));
+const isTienda = normalizedPath.startsWith(figurasHref.replace(/\/$/, ''));
+
+const baseNavClass = 'px-3.5 py-2 rounded-full transition-colors';
+const activeNavClass = `${baseNavClass} bg-[#8E1323] text-white hover:bg-[#700E1B] shadow-xs`;
+const inactiveNavClass = `${baseNavClass} text-stone-800 hover:text-[#8E1323]`;
+
+const flagSvgs: Record<Lang, string> = {
+  es: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="24" height="18" fill="#AA151B"/><rect y="4.5" width="24" height="9" fill="#F1BF00"/><circle cx="7.5" cy="9" r="1.5" fill="#AA151B"/></svg>`,
+  en: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="24" height="18" fill="#012169"/><path d="M0,0 L24,18 M24,0 L0,18" stroke="#FFFFFF" stroke-width="3.2"/><path d="M0,0 L24,18 M24,0 L0,18" stroke="#C8102E" stroke-width="1.6"/><path d="M12,0 V18 M0,9 H24" stroke="#FFFFFF" stroke-width="5"/><path d="M12,0 V18 M0,9 H24" stroke="#C8102E" stroke-width="3"/></svg>`,
+  fr: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="8" height="18" fill="#002395"/><rect x="8" width="8" height="18" fill="#FFFFFF"/><rect x="16" width="8" height="18" fill="#ED2939"/></svg>`,
+  de: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="24" height="6" fill="#000000"/><rect y="6" width="24" height="6" fill="#DD0000"/><rect y="12" width="24" height="6" fill="#FFCE00"/></svg>`,
+  it: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="8" height="18" fill="#009246"/><rect x="8" width="8" height="18" fill="#FFFFFF"/><rect x="16" width="8" height="18" fill="#CE2B37"/></svg>`,
+  pt: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="9.5" height="18" fill="#006600"/><rect x="9.5" width="14.5" height="18" fill="#FF0000"/><circle cx="9.5" cy="9" r="3.2" fill="#FFCC00"/></svg>`,
+  ja: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="24" height="18" fill="#FFFFFF"/><circle cx="12" cy="9" r="4.5" fill="#BC002D"/></svg>`,
+  zh: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="24" height="18" fill="#DE2910"/><polygon points="5,2.5 5.8,4.8 8.2,4.8 6.2,6.2 7,8.5 5,7.1 3,8.5 3.8,6.2 1.8,4.8 4.2,4.8" fill="#FFDE00"/><circle cx="10.2" cy="3" r="0.8" fill="#FFDE00"/><circle cx="11.8" cy="4.8" r="0.8" fill="#FFDE00"/><circle cx="11.8" cy="7.2" r="0.8" fill="#FFDE00"/><circle cx="10.2" cy="9" r="0.8" fill="#FFDE00"/></svg>`,
+  ru: `<svg viewBox="0 0 24 18" class="w-full h-full block" aria-hidden="true"><rect width="24" height="6" fill="#FFFFFF"/><rect y="6" width="24" height="6" fill="#0039A6"/><rect y="12" width="24" height="6" fill="#D52B1E"/></svg>`,
+};
+
+const langSwitchOptions = (Object.keys(languages) as Lang[]).map((code) => ({
+  code,
+  acronym: code.toUpperCase(),
+  label: languages[code],
+  flagSvg: flagSvgs[code],
+  href: getSwitchLangUrl(Astro.url, code),
+  bannerText: ui[code]['banner.text'],
+  bannerCta: ui[code]['banner.cta'],
+}));
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang} class="scroll-smooth scroll-pt-36 md:scroll-pt-28">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,18 +75,52 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
+    {langSwitchOptions.map((opt) => (
+      <link rel="alternate" hreflang={opt.code} href={new URL(opt.href, Astro.site)} />
+    ))}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={new URL(getSwitchLangUrl(Astro.url, defaultLang), Astro.site)}
+    />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
   </head>
   <body class="min-h-screen flex flex-col text-[#161412] antialiased selection:bg-[#8E1323] selection:text-white">
+    <!-- Aviso inteligente de idioma del navegador (oculto por defecto) -->
+    <div
+      id="lang-suggest-banner"
+      class="hidden bg-[#161412] text-[#FAF6F0] text-xs py-2.5 px-4 border-b border-[#C6922C]/40"
+    >
+      <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+        <p id="lang-suggest-text" class="text-stone-200"></p>
+        <div class="flex items-center gap-3">
+          <a
+            id="lang-suggest-link"
+            href="/"
+            class="px-3 py-1 rounded-full bg-[#8E1323] hover:bg-[#700E1B] text-white font-semibold transition-colors"
+          >
+          </a>
+          <button
+            id="lang-suggest-close"
+            type="button"
+            aria-label="Cerrar aviso de idioma"
+            class="text-stone-400 hover:text-white px-1.5 py-0.5 cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Franja superior decorativa estilo Torii / Koban -->
     <div class="h-1.5 w-full bg-gradient-to-r from-[#161412] via-[#8E1323] to-[#C6922C]"></div>
 
     <header class="border-b border-[#E5DEC9] bg-[#FAF6F0]/95 sticky top-0 z-40 backdrop-blur-md">
       <div class="max-w-6xl mx-auto px-5 sm:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
-        <a href="/" class="flex items-center gap-2.5 group" aria-label="Manekineko.es - Inicio">
+        <a href={homeHref} class="flex items-center gap-2.5 group" aria-label="Manekineko.es - Inicio">
           <img
             src="/logo_img_gato.svg"
             alt="Manekineko"
@@ -47,16 +133,93 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           />
         </a>
 
-        <nav class="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-sm font-medium tracking-wide text-stone-800">
-          <a href="/" class="hover:text-[#8E1323] transition-colors">El Amuleto</a>
-          <a href="/#tradicion" class="hover:text-[#8E1323] transition-colors">Tradición y Leyenda</a>
-          <a
-            href="/tienda/"
-            class="px-4 py-2 rounded-full bg-[#8E1323] text-white hover:bg-[#700E1B] transition-colors shadow-xs"
+        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <nav
+            id="main-nav"
+            data-home-path={normalizedHome}
+            class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-sm font-medium tracking-wide"
           >
-            Figuras
-          </a>
-        </nav>
+            <a
+              href={homeHref}
+              data-nav="amuleto"
+              class={isHome ? activeNavClass : inactiveNavClass}
+            >
+              {t('nav.amuleto')}
+            </a>
+            <a
+              href={evolucionHref}
+              data-nav="evolucion"
+              class={inactiveNavClass}
+            >
+              {t('nav.evolucion')}
+            </a>
+            <a
+              href={leyendasHref}
+              data-nav="leyendas"
+              class={isLeyendas ? activeNavClass : inactiveNavClass}
+            >
+              {t('nav.leyendas')}
+            </a>
+            <a
+              href={figurasHref}
+              data-nav="figuras"
+              class={isTienda ? activeNavClass : inactiveNavClass}
+            >
+              {t('nav.figuras')}
+            </a>
+          </nav>
+
+          <!-- Selector compacto: Bandera + Acrónimo (ES, EN, etc.) -->
+          <div id="lang-dropdown-wrapper" class="relative">
+            <button
+              id="lang-dropdown-btn"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-label={`Idioma actual: ${lang.toUpperCase()}`}
+              class="inline-flex items-center gap-1.5 bg-white/90 hover:bg-white border border-[#E5DEC9] hover:border-[#C6922C] rounded-full px-3 py-1.5 text-xs font-bold tracking-wider text-stone-800 cursor-pointer transition-colors shadow-2xs"
+            >
+              <span
+                class="w-4 h-3 rounded-[2px] overflow-hidden shrink-0 border border-black/15 inline-flex"
+                set:html={flagSvgs[lang]}
+              />
+              <span>{lang.toUpperCase()}</span>
+              <span class="text-[10px] text-stone-500 ml-0.5">▾</span>
+            </button>
+
+            <ul
+              id="lang-dropdown-menu"
+              role="listbox"
+              class="hidden absolute right-0 mt-2 w-24 bg-white border border-[#E5DEC9] rounded-xl shadow-lg py-1 z-50"
+            >
+              {langSwitchOptions.map((opt) => {
+                const isCurrent = opt.code === lang;
+                return (
+                  <li role="option" aria-selected={isCurrent}>
+                    <a
+                      href={opt.href}
+                      data-lang-option
+                      class={`flex items-center justify-between px-3 py-1.5 text-xs font-bold tracking-wider transition-colors ${
+                        isCurrent
+                          ? 'bg-[#FAF6F0] text-[#8E1323]'
+                          : 'text-stone-700 hover:bg-[#FAF6F0] hover:text-[#8E1323]'
+                      }`}
+                    >
+                      <span class="inline-flex items-center gap-2">
+                        <span
+                          class="w-4 h-3 rounded-[2px] overflow-hidden shrink-0 border border-black/15 inline-flex"
+                          set:html={opt.flagSvg}
+                        />
+                        <span>{opt.acronym}</span>
+                      </span>
+                      {isCurrent && <span class="w-1.5 h-1.5 rounded-full bg-[#8E1323]" />}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -74,31 +237,161 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             <span class="font-serif text-lg tracking-wider text-white">MANEKINEKO.ES</span>
           </div>
           <p class="text-xs leading-relaxed text-stone-400">
-            Archivo cultural, simbólico y artesanal dedicado al gato de la fortuna japonés desde sus orígenes hasta nuestros días.
+            {t('footer.desc')}
           </p>
         </div>
 
         <div>
-          <h3 class="text-xs uppercase tracking-widest text-[#E2B455] font-semibold mb-4">Explorar</h3>
+          <h3 class="text-xs uppercase tracking-widest text-[#E2B455] font-semibold mb-4">{t('footer.explore')}</h3>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="/" class="hover:text-white transition-colors">El Amuleto</a></li>
-            <li><a href="/#tradicion" class="hover:text-white transition-colors">Tradición y Leyenda</a></li>
-            <li><a href="/tienda/" class="hover:text-white transition-colors">Figuras</a></li>
+            <li><a href={homeHref} class="hover:text-white transition-colors">{t('nav.amuleto')}</a></li>
+            <li><a href={evolucionHref} class="hover:text-white transition-colors">{t('nav.evolucion')}</a></li>
+            <li><a href={leyendasHref} class="hover:text-white transition-colors">{t('nav.leyendas')}</a></li>
+            <li><a href={figurasHref} class="hover:text-white transition-colors">{t('nav.figuras')}</a></li>
           </ul>
         </div>
 
         <div class="flex flex-col justify-between">
           <div>
-            <h3 class="text-xs uppercase tracking-widest text-[#E2B455] font-semibold mb-4">Tradición Nipona</h3>
+            <h3 class="text-xs uppercase tracking-widest text-[#E2B455] font-semibold mb-4">{t('footer.traditionTitle')}</h3>
             <p class="text-xs leading-relaxed text-stone-400">
-              «Maneku» (招く) significa invitar a pasar; «Neko» (猫) significa gato. Un símbolo de hospitalidad, prosperidad y protección.
+              {t('footer.traditionText')}
             </p>
           </div>
           <p class="text-[11px] text-stone-500 mt-6">
-            © {new Date().getFullYear()} Manekineko.es — Algunos enlaces de la sección Figuras participan en programas de afiliación.
+            © {new Date().getFullYear()} Manekineko.es — {t('footer.affiliate')}
           </p>
         </div>
       </div>
     </footer>
+
+    <script
+      id="i18n-runtime-data"
+      type="application/json"
+      set:html={JSON.stringify({ currentLang: lang, options: langSwitchOptions })}
+    />
+
+    <script>
+      // 1. Desplegable compacto de idioma (Bandera + Acrónimo)
+      const langWrapper = document.getElementById('lang-dropdown-wrapper');
+      const langBtn = document.getElementById('lang-dropdown-btn');
+      const langMenu = document.getElementById('lang-dropdown-menu');
+
+      langBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = !langMenu?.classList.contains('hidden');
+        if (isOpen) {
+          langMenu?.classList.add('hidden');
+          langBtn.setAttribute('aria-expanded', 'false');
+        } else {
+          langMenu?.classList.remove('hidden');
+          langBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      document.querySelectorAll('[data-lang-option]').forEach((link) => {
+        link.addEventListener('click', () => {
+          localStorage.setItem('manekineko_lang_dismissed', '1');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (langWrapper && !langWrapper.contains(e.target as Node)) {
+          langMenu?.classList.add('hidden');
+          langBtn?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          langMenu?.classList.add('hidden');
+          langBtn?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // 2. Detección inteligente del idioma del navegador
+      const runtimeEl = document.getElementById('i18n-runtime-data');
+      if (runtimeEl?.textContent) {
+        try {
+          const { currentLang, options } = JSON.parse(runtimeEl.textContent) as {
+            currentLang: string;
+            options: Array<{ code: string; href: string; bannerText: string; bannerCta: string }>;
+          };
+
+          const dismissed = localStorage.getItem('manekineko_lang_dismissed');
+          if (!dismissed) {
+            const rawBrowserLang = (navigator.languages?.[0] || navigator.language || '').toLowerCase();
+            const shortBrowserLang = rawBrowserLang.split('-')[0];
+            const match = options.find((o) => o.code === shortBrowserLang && o.code !== currentLang);
+
+            if (match) {
+              const banner = document.getElementById('lang-suggest-banner');
+              const bannerText = document.getElementById('lang-suggest-text');
+              const bannerLink = document.getElementById('lang-suggest-link') as HTMLAnchorElement | null;
+              const bannerClose = document.getElementById('lang-suggest-close');
+
+              if (banner && bannerText && bannerLink) {
+                bannerText.textContent = match.bannerText;
+                bannerLink.textContent = match.bannerCta;
+                bannerLink.href = match.href;
+                banner.classList.remove('hidden');
+
+                bannerLink.addEventListener('click', () => {
+                  localStorage.setItem('manekineko_lang_dismissed', '1');
+                });
+
+                bannerClose?.addEventListener('click', () => {
+                  localStorage.setItem('manekineko_lang_dismissed', '1');
+                  banner.classList.add('hidden');
+                });
+              }
+            }
+          }
+        } catch {
+          // Ignorar errores de parseo
+        }
+      }
+
+      // 3. Resaltado dinámico entre "El Amuleto" y "Evolución" en la portada
+      const activeClasses = ['bg-[#8E1323]', 'text-white', 'hover:bg-[#700E1B]', 'shadow-xs'];
+      const inactiveClasses = ['text-stone-800', 'hover:text-[#8E1323]'];
+      const mainNav = document.getElementById('main-nav');
+      const homePath = mainNav?.getAttribute('data-home-path') || '/';
+      const currentCleanPath = window.location.pathname.replace(/\/$/, '') || '/';
+
+      function setHomeActiveNav(target: 'amuleto' | 'evolucion') {
+        if (currentCleanPath !== homePath) return;
+        const navLinks = document.querySelectorAll('#main-nav a[data-nav]');
+        navLinks.forEach((link) => {
+          const key = link.getAttribute('data-nav');
+          if (key === target) {
+            link.classList.remove(...inactiveClasses);
+            link.classList.add(...activeClasses);
+          } else {
+            link.classList.remove(...activeClasses);
+            link.classList.add(...inactiveClasses);
+          }
+        });
+      }
+
+      if (currentCleanPath === homePath) {
+        const tradicionSection = document.getElementById('tradicion');
+
+        const syncScrollNav = () => {
+          if (!tradicionSection) return;
+          const rect = tradicionSection.getBoundingClientRect();
+          setHomeActiveNav(rect.top <= 200 ? 'evolucion' : 'amuleto');
+        };
+
+        if (window.location.hash === '#tradicion') {
+          setHomeActiveNav('evolucion');
+        } else {
+          syncScrollNav();
+        }
+
+        window.addEventListener('hashchange', syncScrollNav);
+        window.addEventListener('scroll', syncScrollNav, { passive: true });
+      }
+    </script>
   </body>
 </html>
