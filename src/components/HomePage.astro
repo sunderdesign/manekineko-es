@@ -77,7 +77,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
 
         <!-- Columna Derecha: Medallón + Esquema -->
         <div class="lg:col-span-7 flex flex-col items-center">
-          <div id="schematic-stage" class="relative w-full flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-5 sm:gap-8">
+          <div id="schematic-stage" class="relative w-full flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-5 sm:gap-7">
             <svg id="schematic-svg" class="hidden sm:block absolute inset-0 w-full h-full pointer-events-none z-30" aria-hidden="true">
               <path id="schematic-line-halo" d="" fill="none" stroke="#FAF6F0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
               <path id="schematic-line" d="" fill="none" stroke="#8E1323" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" opacity="0" />
@@ -117,16 +117,19 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
               ></button>
             </div>
 
-            <div id="anatomy-panel" class="w-full sm:w-52 shrink-0 border-l border-stone-300/80 pl-3.5 py-1 text-center sm:text-left relative z-20 opacity-45 transition-all duration-300">
-              <div id="anatomy-tag" class="text-[10px] font-semibold uppercase tracking-[0.18em] text-stone-500 mb-1">
+            <div
+              id="anatomy-panel"
+              class="w-full sm:w-56 shrink-0 bg-white/95 backdrop-blur-xs border border-[#E5DEC9] border-l-4 border-l-[#8E1323] rounded-xl px-4 py-3 shadow-sm text-center sm:text-left relative z-20 opacity-100 transition-all duration-300"
+            >
+              <div id="anatomy-tag" class="text-[11px] font-bold uppercase tracking-[0.15em] text-[#8E1323] mb-1">
                 {tr.anatomyDefaultTag}
               </div>
 
-              <h2 id="anatomy-name" class="font-serif text-sm sm:text-base font-medium text-stone-600 mb-1">
+              <h2 id="anatomy-name" class="font-serif text-lg font-bold text-[#161412] leading-tight mb-1">
                 {tr.anatomyDefaultName}
               </h2>
 
-              <p id="anatomy-text" class="text-xs text-stone-500 leading-relaxed">
+              <p id="anatomy-text" class="text-sm font-medium text-stone-800 leading-snug">
                 {tr.anatomyDefaultText}
               </p>
             </div>
@@ -444,8 +447,8 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
         const x1 = spotRect.left + spotRect.width / 2 - stageRect.left;
         const y1 = spotRect.top + spotRect.height / 2 - stageRect.top;
         const x2 = panelRect.left - stageRect.left;
-        const y2 = panelRect.top + 14 - stageRect.top;
-        const elbowX = x2 - 18;
+        const y2 = panelRect.top + 18 - stageRect.top;
+        const elbowX = x2 - 16;
         const pathData = `M ${x1.toFixed(1)} ${y1.toFixed(1)} L ${elbowX.toFixed(1)} ${y2.toFixed(1)} L ${x2.toFixed(1)} ${y2.toFixed(1)}`;
 
         schematicLine.setAttribute('d', pathData);
@@ -549,15 +552,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
         spot.classList.add('scale-125', 'ring-[#8E1323]/45', 'active-spot');
 
         if (anatomyPanel && anatomyTag && anatomyName && anatomyText) {
-          anatomyPanel.classList.remove('opacity-45', 'border-stone-300/80');
-          anatomyPanel.classList.add('opacity-100', 'border-[#8E1323]');
-          anatomyTag.classList.remove('text-stone-500');
-          anatomyTag.classList.add('text-[#8E1323]');
-          anatomyName.classList.remove('text-stone-600');
-          anatomyName.classList.add('text-[#161412]');
-          anatomyText.classList.remove('text-stone-500');
-          anatomyText.classList.add('text-stone-700');
-
+          anatomyPanel.classList.add('shadow-md', 'bg-white');
           anatomyTag.textContent = info.tag;
           anatomyName.textContent = info.name;
           anatomyText.textContent = info.text;
