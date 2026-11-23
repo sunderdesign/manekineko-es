@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { languages, defaultLang, useTranslations, useTranslatedPath, type Lang } from '../../../i18n/ui';
+import { homeTranslations } from '../../../i18n/home';
+
+export function getStaticPaths() {
+  return (Object.keys(languages) as Lang[])
+    .filter((l) => l !== defaultLang)
+    .map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+const tr = homeTranslations[lang];
+const translatePath = useTranslatedPath(lang);
+---
+
+<BaseLayout title={`${t('nav.figuras')} | Manekineko.es`} description={tr.seoDescription}>
+  <section class="bg-seigaiha border-b border-[#E5DEC9] py-14 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div>
+        <span class="hanko-stamp px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-white">
+          図鑑 • {t('nav.figuras')}
+        </span>
+        <h1 class="font-serif text-3xl sm:text-5xl text-[#161412] mt-3">
+          {t('nav.figuras')}
+        </h1>
+      </div>
+      <a href={translatePath('/')} class="text-sm font-medium text-[#8E1323] hover:underline">
+        ← {t('nav.amuleto')}
+      </a>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 py-20 text-center">
+    <div class="max-w-lg mx-auto bg-white border border-[#E5DEC9] rounded-2xl p-10 shadow-xs">
+      <span class="hanko-stamp px-3 py-1 text-xs font-bold tracking-widest uppercase">
+        準備中 • COMING SOON
+      </span>
+      <p class="font-serif text-xl text-[#161412] mt-5 mb-2">
+        {t('nav.figuras')}
+      </p>
+      <p class="text-sm text-stone-600 mb-6">
+        {tr.seoDescription}
+      </p>
+      <a
+        href={translatePath('/')}
+        class="inline-flex items-center px-5 py-2.5 rounded-xl bg-[#8E1323] hover:bg-[#700E1B] text-white text-sm font-semibold transition-colors"
+      >
+        {t('nav.amuleto')}
+      </a>
+    </div>
+  </section>
+</BaseLayout>
