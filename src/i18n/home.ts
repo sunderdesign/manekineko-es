@@ -84,7 +84,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   es: {
     seoTitle: 'Manekineko.es — Cultura, Simbolismo y Tradición del Gato de la Fortuna',
     seoDescription: 'Configura y descubre el significado tradicional del Maneki-neko japonés: combina pata levantada, color del pelaje y recorre su historia cronológica.',
-    configBadge: '招き猫 • CONFIGURACIÓN',
+    configBadge: '招き猫 • EL AMULETO',
     headlineTemplate: 'El Maneki-neko {color} que alza {paw} para {goal}',
     paws: {
       left: { tag: 'Pata Izquierda', phrase: 'la pata izquierda', goal: 'atraer clientes y armonía', sentence: 'Su gesto con la pata izquierda da la bienvenida a visitantes, clientes y vínculos positivos.', btn: 'Izquierda' },
@@ -108,8 +108,8 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     anatomyDefaultName: 'Explora la figura',
     anatomyDefaultText: 'Pulsa un punto rojo del gato.',
     anatomy: {
-      koban: { tag: '小判 • DETALLE', name: 'Moneda Koban', text: 'Moneda «Senman Ryō»: símbolo de riqueza infinita.' },
-      collar: { tag: '首輪と鈴 • DETALLE', name: 'Collar y Cascabel', text: 'Seda roja con cascabel que protege el hogar.' },
+      koban: { tag: '小判 • DETALLE', name: 'Moneda Koban', text: 'Moneda «Senman Ryō»: riqueza infinita.' },
+      collar: { tag: '首輪と鈴 • DETALLE', name: 'Collar y Cascabel', text: 'Seda roja y cascabel que protegen el hogar.' },
       cara: { tag: '表情 • DETALLE', name: 'Expresión y Mirada', text: 'Ojos sonrientes de hospitalidad («Omotenashi»).' },
     },
     pawLabel: 'Pata:',
@@ -203,7 +203,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   en: {
     seoTitle: 'Manekineko.es — Culture, Symbolism & Tradition of the Lucky Cat',
     seoDescription: 'Configure and discover the traditional meaning of the Japanese Maneki-neko: combine raised paws, coat colors and explore its chronological history.',
-    configBadge: '招き猫 • CONFIGURATOR',
+    configBadge: '招き猫 • THE AMULET',
     headlineTemplate: 'The {color} Maneki-neko raising {paw} to {goal}',
     paws: {
       left: { tag: 'Left Paw', phrase: 'its left paw', goal: 'attract customers & harmony', sentence: 'Its raised left paw welcomes visitors, customers and positive relationships.', btn: 'Left' },
@@ -227,9 +227,9 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     anatomyDefaultName: 'Explore the figurine',
     anatomyDefaultText: 'Tap a red dot on the cat.',
     anatomy: {
-      koban: { tag: '小判 • DETAIL', name: 'Koban Gold Coin', text: '“Senman Ryō” coin: symbol of boundless wealth.' },
-      collar: { tag: '首輪と鈴 • DETAIL', name: 'Collar & Bell', text: 'Red silk collar and bell for home protection.' },
-      cara: { tag: '表情 • DETAIL', name: 'Expression & Gaze', text: 'Smiling eyes of warm “Omotenashi” hospitality.' },
+      koban: { tag: '小判 • DETAIL', name: 'Koban Gold Coin', text: '“Senman Ryō” coin: boundless wealth.' },
+      collar: { tag: '首輪と鈴 • DETAIL', name: 'Collar & Bell', text: 'Red silk and bell for home protection.' },
+      cara: { tag: '表情 • DETAIL', name: 'Expression & Gaze', text: 'Smiling eyes of warm “Omotenashi”.' },
     },
     pawLabel: 'Paw:',
     colorLabel: 'Color:',
@@ -322,7 +322,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   fr: {
     seoTitle: 'Manekineko.es — Culture, Symbolisme et Tradition du Chat Porte-Bonheur',
     seoDescription: 'Configurez et découvrez la signification traditionnelle du Maneki-neko japonais : patte levée, couleur du pelage et histoire chronologique.',
-    configBadge: '招き猫 • CONFIGURATEUR',
+    configBadge: "招き猫 • L'AMULETTE",
     headlineTemplate: 'Le Maneki-neko {color} qui lève {paw} pour {goal}',
     paws: {
       left: { tag: 'Patte Gauche', phrase: 'la patte gauche', goal: 'attirer les clients et l’harmonie', sentence: 'Son geste de la patte gauche souhaite la bienvenue aux visiteurs, clients et relations positives.', btn: 'Gauche' },
@@ -346,8 +346,8 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     anatomyDefaultName: 'Explorez la figurine',
     anatomyDefaultText: 'Touchez un point rouge du chat.',
     anatomy: {
-      koban: { tag: '小判 • DÉTAIL', name: 'Pièce d’or Koban', text: 'Pièce « Senman Ryō » : symbole de richesse infinie.' },
-      collar: { tag: '首輪と鈴 • DÉTAIL', name: 'Collier et Grelot', text: 'Collier rouge et grelot pour protéger la maison.' },
+      koban: { tag: '小判 • DÉTAIL', name: 'Pièce d’or Koban', text: 'Pièce « Senman Ryō » : richesse infinie.' },
+      collar: { tag: '首輪と鈴 • DÉTAIL', name: 'Collier et Grelot', text: 'Soie rouge et grelot pour protéger la maison.' },
       cara: { tag: '表情 • DÉTAIL', name: 'Expression et Regard', text: 'Yeux souriants d’hospitalité (« Omotenashi »).' },
     },
     pawLabel: 'Patte :',
@@ -441,7 +441,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   de: {
     seoTitle: 'Manekineko.es — Kultur, Symbolik & Tradition der japanischen Winkekatze',
     seoDescription: 'Konfigurieren und entdecken Sie die traditionelle Bedeutung der japanischen Maneki-neko: erhobene Pfote, Fellfarbe und chronologische Geschichte.',
-    configBadge: '招き猫 • KONFIGURATOR',
+    configBadge: '招き猫 • DAS AMULETT',
     headlineTemplate: 'Die {color} Maneki-neko, die {paw} hebt, um {goal}',
     paws: {
       left: { tag: 'Linke Pfote', phrase: 'die linke Pfote', goal: 'Kunden und Harmonie anzuziehen', sentence: 'Ihre erhobene linke Pfote heißt Besucher, Kunden und positive Begegnungen willkommen.', btn: 'Links' },
@@ -465,9 +465,9 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     anatomyDefaultName: 'Figur erkunden',
     anatomyDefaultText: 'Tippen Sie auf einen roten Punkt.',
     anatomy: {
-      koban: { tag: '小判 • DETAIL', name: 'Koban-Goldmünze', text: '„Senman Ryō“-Münze: Symbol unendlichen Reichtums.' },
-      collar: { tag: '首輪と鈴 • DETAIL', name: 'Halsband & Glöckchen', text: 'Rotes Seidenhalsband mit Glöckchen schützt das Haus.' },
-      cara: { tag: '表情 • DETAIL', name: 'Ausdruck & Blick', text: 'Lächelnde Augen herzlicher Gastfreundschaft („Omotenashi“).' },
+      koban: { tag: '小判 • DETAIL', name: 'Koban-Goldmünze', text: '„Senman Ryō“-Münze: unendlicher Reichtum.' },
+      collar: { tag: '首輪と鈴 • DETAIL', name: 'Halsband & Glöckchen', text: 'Rote Seide und Glöckchen schützen das Haus.' },
+      cara: { tag: '表情 • DETAIL', name: 'Ausdruck & Blick', text: 'Lächelnde Augen herzlicher Gastfreundschaft.' },
     },
     pawLabel: 'Pfote:',
     colorLabel: 'Farbe:',
@@ -560,7 +560,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   it: {
     seoTitle: 'Manekineko.es — Cultura, Simbolismo e Tradizione del Gatto della Fortuna',
     seoDescription: 'Configura e scopri il significato tradizionale del Maneki-neko giapponese: zampa alzata, colore del mantello e storia cronologica.',
-    configBadge: '招き猫 • CONFIGURATORE',
+    configBadge: "招き猫 • L'AMULETO",
     headlineTemplate: 'Il Maneki-neko {color} che alza {paw} per {goal}',
     paws: {
       left: { tag: 'Zampa Sinistra', phrase: 'la zampa sinistra', goal: 'attirare clienti e armonia', sentence: 'Il gesto con la zampa sinistra dà il benvenuto a visitatori, clienti e legami positivi.', btn: 'Sinistra' },
@@ -584,8 +584,8 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     anatomyDefaultName: 'Esplora la statuina',
     anatomyDefaultText: 'Tocca un punto rosso del gatto.',
     anatomy: {
-      koban: { tag: '小判 • DETTAGLIO', name: 'Moneta d’oro Koban', text: 'Moneta «Senman Ryō»: simbolo di ricchezza infinita.' },
-      collar: { tag: '首輪と鈴 • DETTAGLIO', name: 'Collare e Campanellino', text: 'Collare rosso e campanellino per proteggere la casa.' },
+      koban: { tag: '小判 • DETTAGLIO', name: 'Moneta d’oro Koban', text: 'Moneta «Senman Ryō»: ricchezza infinita.' },
+      collar: { tag: '首輪と鈴 • DETTAGLIO', name: 'Collare e Campanellino', text: 'Seta rossa e campanellino proteggono la casa.' },
       cara: { tag: '表情 • DETTAGLIO', name: 'Espressione e Sguardo', text: 'Occhi sorridenti di ospitalità («Omotenashi»).' },
     },
     pawLabel: 'Zampa:',
@@ -679,7 +679,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   pt: {
     seoTitle: 'Manekineko.es — Cultura, Simbolismo e Tradição do Gato da Sorte',
     seoDescription: 'Configure e descubra o significado tradicional do Maneki-neko japonês: pata levantada, cor da pelagem e história cronológica.',
-    configBadge: '招き猫 • CONFIGURADOR',
+    configBadge: '招き猫 • O AMULETO',
     headlineTemplate: 'O Maneki-neko {color} que ergue {paw} para {goal}',
     paws: {
       left: { tag: 'Pata Esquerda', phrase: 'a pata esquerda', goal: 'atrair clientes e harmonia', sentence: 'Seu gesto com a pata esquerda dá as boas-vindas a visitantes, clientes e vínculos positivos.', btn: 'Esquerda' },
@@ -703,8 +703,8 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     anatomyDefaultName: 'Explore a figura',
     anatomyDefaultText: 'Toque num ponto vermelho do gato.',
     anatomy: {
-      koban: { tag: '小判 • DETALHE', name: 'Moeda Koban', text: 'Moeda «Senman Ryō»: símbolo de riqueza infinita.' },
-      collar: { tag: '首輪と鈴 • DETALHE', name: 'Coleira e Guizo', text: 'Coleira vermelha com guizo para proteger o lar.' },
+      koban: { tag: '小判 • DETALHE', name: 'Moeda Koban', text: 'Moeda «Senman Ryō»: riqueza infinita.' },
+      collar: { tag: '首輪と鈴 • DETALHE', name: 'Coleira e Guizo', text: 'Seda vermelha e guizo protegem o lar.' },
       cara: { tag: '表情 • DETALHE', name: 'Expressão e Olhar', text: 'Olhos sorridentes de hospitalidade («Omotenashi»).' },
     },
     pawLabel: 'Pata:',
@@ -798,7 +798,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   ja: {
     seoTitle: 'Manekineko.es — 招き猫の文化・象徴・伝統と歴史',
     seoDescription: '日本の縁起物「招き猫」の手の上げ方や毛色の意味をインタラクティブに体験し、江戸時代から現代までの歴史と伝説を辿ります。',
-    configBadge: '招き猫 • シミュレーター',
+    configBadge: '招き猫 • 招き猫とは',
     headlineTemplate: '{paw}を掲げる{color}招き猫 — {goal}',
     paws: {
       left: { tag: '左手上げ', phrase: '左手', goal: '千客万来と良縁を招く', sentence: '左手を上げた招き猫は、お客様や良縁、人との温かい繋がりを招き入れます。', btn: '左手' },
@@ -917,7 +917,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   zh: {
     seoTitle: 'Manekineko.es — 日本招财猫文化、象征寓意与历史演变',
     seoDescription: '在线体验日本传统招财猫的举手方向与毛色寓意，探索从江户时代到现代的招财猫历史与经典传说。',
-    configBadge: '招き猫 • 寓意定制',
+    configBadge: '招き猫 • 招财猫寓意',
     headlineTemplate: '举起{paw}的{color}招财猫，寓意{goal}',
     paws: {
       left: { tag: '举左手', phrase: '左手', goal: '招来客源与人际和谐', sentence: '举起左手寓意广纳四方来客、结交良缘与人际和睦，适合店铺与待客空间。', btn: '左手' },
@@ -1036,7 +1036,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
   ru: {
     seoTitle: 'Manekineko.es — Культура, символизм и традиции японского кота удачи',
     seoDescription: 'Настройте и узнайте традиционное значение японского Манэки-нэко: поднятая лапа, цвет окраса и хронологическая история.',
-    configBadge: '招き猫 • КОНФИГУРАТОР',
+    configBadge: '招き猫 • ТАЛИСМАН',
     headlineTemplate: '{color} Манэки-нэко, поднявший {paw}, чтобы {goal}',
     paws: {
       left: { tag: 'Левая лапа', phrase: 'левую лапу', goal: 'привлекать клиентов и гармонию', sentence: 'Поднятая левая лапа приветствует гостей, покупателей и добрые отношения.', btn: 'Левая' },
@@ -1061,7 +1061,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     anatomyDefaultText: 'Нажмите на красную точку кота.',
     anatomy: {
       koban: { tag: '小判 • ДЕТАЛЬ', name: 'Монета Кобан', text: 'Монета «Сэмман Рё» — символ богатства.' },
-      collar: { tag: '首輪と鈴 • ДЕТАЛЬ', name: 'Ошейник и бубенчик', text: 'Красный шёлк с бубенчиком для защиты дома.' },
+      collar: { tag: '首輪と鈴 • ДЕТАЛЬ', name: 'Ошейник и бубенчик', text: 'Красный шёлк с бубенчиком защищает дом.' },
       cara: { tag: '表情 • ДЕТАЛЬ', name: 'Выражение мордочки', text: 'Улыбка гостеприимства («Омотэнаси»).' },
     },
     pawLabel: 'Лапа:',
