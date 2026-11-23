@@ -1,31 +1,26 @@
 ---
 import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { languages, defaultLang, useTranslatedPath, type Lang } from '../../../i18n/ui';
-import { homeTranslations } from '../../../i18n/home';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { homeTranslations } from '../../i18n/home';
 
 export async function getStaticPaths() {
   const leyendas = await getCollection('leyendas');
-  const langs = (Object.keys(languages) as Lang[]).filter((l) => l !== defaultLang);
-  return langs.flatMap((lang) =>
-    leyendas.map((entry) => ({
-      params: { lang, slug: entry.id },
-      props: { entry, lang },
-    }))
-  );
+  return leyendas.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
 }
 
-const { entry, lang } = Astro.props as { entry: any; lang: Lang };
+const { entry } = Astro.props;
 const { Content } = await render(entry);
-const tr = homeTranslations[lang];
-const translatePath = useTranslatedPath(lang);
+const tr = homeTranslations.es;
 const { title, subtitle, era, location, coverImage, coverAlt, readingTime, isOriginal, featuredFigure } = entry.data;
 ---
 
 <BaseLayout title={`${title} | Manekineko.es`} description={subtitle}>
   <article class="max-w-3xl mx-auto px-6 py-10 sm:py-16">
     <nav class="mb-8">
-      <a href={translatePath('/leyendas/')} class="text-sm font-medium text-[#8E1323] hover:underline">
+      <a href="/leyendas/" class="text-sm font-medium text-[#8E1323] hover:underline">
         ← {tr.legendsViewAll}
       </a>
     </nav>
@@ -58,7 +53,7 @@ const { title, subtitle, era, location, coverImage, coverAlt, readingTime, isOri
       </div>
 
       <a
-        href={translatePath(featuredFigure.shopUrl)}
+        href={featuredFigure.shopUrl}
         class="shrink-0 px-5 py-3 rounded-xl bg-[#8E1323] hover:bg-[#700E1B] text-white text-sm font-semibold transition-colors"
       >
         {tr.searchBtn}
