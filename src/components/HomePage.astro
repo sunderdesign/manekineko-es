@@ -131,7 +131,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
                 {tr.anatomyDefaultName}
               </h2>
 
-              <p id="anatomy-text" class="text-sm font-medium text-[#161412] leading-snug">
+              <p id="anatomy-text" class="text-xs font-medium text-[#161412] leading-relaxed">
                 {tr.anatomyDefaultText}
               </p>
             </div>
@@ -553,7 +553,11 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
         spot.classList.remove('animate-pulse', 'ring-[#8E1323]/20');
         spot.classList.add('scale-125', 'ring-[#8E1323]/45', 'active-spot');
 
-        if(anatomyPanel&&anatomyTag&&anatomyName&&anatomyText){anatomyTag.textContent=info.tag;anatomyName.textContent=info.name;anatomyText.textContent=info.text;}
+        if (anatomyPanel && anatomyTag && anatomyName && anatomyText) {
+          anatomyTag.textContent = info.tag;
+          anatomyName.textContent = info.name;
+          anatomyText.textContent = info.text;
+        }
         updateSchematicLine();
       }
 
