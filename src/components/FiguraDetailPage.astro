@@ -210,9 +210,12 @@ const schematicSvg = `/MN_${paw === 'both' ? '2' : '1'}_${colorFileMap[color] ||
           <h3 class="font-serif text-base font-bold text-[#161412] mb-1.5">
             {tt.placementTitle}
           </h3>
-          <p class="text-sm text-stone-700 leading-relaxed">
+          <p class="text-sm text-stone-700 leading-relaxed mb-2.5">
             {placementAdvice}
           </p>
+          <a href={translatePath('/feng-shui/')} class="inline-flex items-center gap-1 text-xs font-bold text-[#8E1323] hover:underline">
+            <span>{lang === 'es' ? 'Ver guía completa de Kasō y Feng Shui →' : 'Kasō & Feng Shui →'}</span>
+          </a>
         </div>
       </article>
 

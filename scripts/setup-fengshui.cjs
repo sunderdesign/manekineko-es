@@ -1,0 +1,1130 @@
+'use strict';
+const fs = require('fs');
+const path = require('path');
+
+// 1. Diccionario editorial y SEO en los 9 idiomas
+const fengShuiTs = `import type { Lang } from './ui';
+
+export interface PlacementCard {
+  badge: string;
+  space: string;
+  orientation: string;
+  recommendedCombo: string;
+  description: string;
+  filterQuery: string;
+  ctaLabel: string;
+}
+
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
+export const fengShuiTranslations: Record<Lang, {
+  seoTitle: string;
+  seoDescription: string;
+  badge: string;
+  heading: string;
+  subheading: string;
+  ctaConfigurator: string;
+  ctaCatalog: string;
+  bridgeTitle: string;
+  bridgeP1: string;
+  bridgeP2: string;
+  bridgeCards: Array<{ term: string; reading: string; desc: string }>;
+  spacesTitle: string;
+  spacesSubtitle: string;
+  orientationLabel: string;
+  comboLabel: string;
+  spaces: PlacementCard[];
+  rulesTitle: string;
+  doTitle: string;
+  dontTitle: string;
+  dos: string[];
+  donts: string[];
+  faqTitle: string;
+  faqs: FaqItem[];
+}> = {
+  es: {
+    seoTitle: 'Dónde colocar el Maneki-neko: Kasō japonés y Feng Shui | Manekineko.es',
+    seoDescription: 'Guía completa sobre dónde poner tu gato de la suerte japonés según el Kasō nipón y el Feng Shui: entrada de negocio, recibidor, esquina sureste y errores a evitar.',
+    badge: '風水・家相 • GUÍA DE UBICACIÓN',
+    heading: 'Dónde colocar el Maneki-neko: Kasō japonés y Feng Shui',
+    subheading: 'Cómo orientar tu figura en el hogar, el escritorio o el comercio uniendo la tradición japonesa del umbral (genkan) con las áreas del mapa Bagua.',
+    ctaConfigurator: 'Configurar mi figura ideal',
+    ctaCatalog: 'Explorar catálogo de figuras',
+    bridgeTitle: '¿Tradición japonesa o Feng Shui chino? Cómo conviven ambos',
+    bridgeP1: 'En sentido estricto, el Maneki-neko es un amuleto 100 % japonés nacido en el periodo Edo, mientras que el Feng Shui tiene origen chino. Sin embargo, Japón desarrolló su propia escuela hermana llamada Fusui (風水) y el arte arquitectónico del Kasō (家相), centrado en cuidar las entradas y el flujo de energía limpia en la vivienda.',
+    bridgeP2: 'Al llegar a Occidente, los practicantes de Feng Shui integraron de forma natural al gato de la fortuna como activador de prosperidad y hospitalidad. Lejos de contradecirse, ambas miradas coinciden en lo esencial: la figura debe recibir a quien entra, mantenerse elevada y nunca quedar arrinconada.',
+    bridgeCards: [
+      { term: 'Genkan (玄関)', reading: 'El umbral japonés', desc: 'Es el punto más importante de la casa o tienda en Japón: donde se deja atrás lo exterior y se da la bienvenida a las oportunidades.' },
+      { term: 'Kasō (家相)', reading: 'Fisonomía del hogar', desc: 'Disciplina tradicional nipona que estudia la orientación de puertas, luz natural y limpieza como base de la armonía familiar.' },
+      { term: 'Mapa Bagua (八卦)', reading: 'Feng Shui aplicado', desc: 'Ubica la zona de riqueza en el sector Sureste y el reconocimiento profesional en el Sur, potenciándolos con el color adecuado.' },
+    ],
+    spacesTitle: 'Ubicación ideal según cada espacio',
+    spacesSubtitle: 'Selecciona tu estancia para ver la orientación exacta y las figuras recomendadas:',
+    orientationLabel: 'Orientación:',
+    comboLabel: 'Figura recomendada:',
+    spaces: [
+      {
+        badge: 'COMERCIO Y ATENCIÓN AL PÚBLICO',
+        space: 'Entrada de tienda, restaurante o recepción',
+        orientation: 'Mirando directamente hacia la puerta principal, a la altura de la vista o sobre el mostrador de bienvenida.',
+        recommendedCombo: 'Tricolor (Mi-ke) o Blanco con pata izquierda alzada',
+        description: 'Es el emplazamiento histórico del Maneki-neko en Japón. La pata izquierda realiza el gesto de llamar a los clientes y favorece un trato cordial desde el primer segundo.',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: 'Ver figuras de pata izquierda',
+      },
+      {
+        badge: 'HOGAR Y RECIBIDOR',
+        space: 'Genkan o recibidor de la vivienda',
+        orientation: 'En una consola o estante limpio junto a la entrada, mirando hacia el acceso principal (nunca hacia la pared).',
+        recommendedCombo: 'Blanco puro o Tricolor con pata derecha o ambas patas',
+        description: 'Actúa como guardián amable del umbral doméstico: filtra las tensiones del exterior y atrae estabilidad, salud y visitas positivas al hogar.',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: 'Ver gatos blancos para el hogar',
+      },
+      {
+        badge: 'PROSPERIDAD Y NEGOCIOS (BAGUA SURESTE)',
+        space: 'Esquina Sureste del salón o despacho',
+        orientation: 'En diagonal respecto a la puerta de entrada, en un punto luminoso y despejado.',
+        recommendedCombo: 'Dorado o Amarillo con pata derecha y moneda Koban',
+        description: 'En Feng Shui, el sector Sureste corresponde al área de la riqueza y la abundancia. El acabado dorado junto a la moneda Koban simboliza el flujo constante de ingresos.',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: 'Ver figuras doradas de riqueza',
+      },
+      {
+        badge: 'ESTUDIO, CREATIVIDAD Y VÍNCULOS',
+        space: 'Mesa de trabajo o dormitorio',
+        orientation: 'A la izquierda del monitor para enfoque intelectual, o en el sector Suroeste para armonía afectiva.',
+        recommendedCombo: 'Verde (estudio), Azul (calma) o Rosa (amor)',
+        description: 'Las piezas pequeñas de escritorio (10–15 cm) acompañan proyectos nuevos sin recargar el espacio visual.',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: 'Ver figuras de escritorio',
+      },
+    ],
+    rulesTitle: 'Reglas de oro y lugares que conviene evitar',
+    doTitle: 'Lo que sí favorece su simbolismo',
+    dontTitle: 'Lugares donde nunca debes ponerlo',
+    dos: [
+      'Colócalo siempre elevado: sobre un mostrador, estantería, recibidor o mesa firme.',
+      'Orienta su mirada hacia la puerta principal o hacia el centro activo de la estancia.',
+      'Mantén la figura y su peana libres de polvo; en Japón la limpieza es respeto espiritual.',
+      'Acompáñalo de buena iluminación natural o cálida para realzar el esmalte.',
+    ],
+    donts: [
+      'Nunca directamente en el suelo: en la cultura japonesa se considera una falta de respeto hacia el amuleto.',
+      'Evita cuartos de baño, lavaderos o zonas de desagüe, donde la energía se dispersa.',
+      'No lo escondas dentro de vitrinas cerradas ni detrás de puertas que lo golpeen al abrirse.',
+      'No lo pongas mirando hacia una pared cerrada a pocos centímetros, bloqueando su gesto de llamada.',
+    ],
+    faqTitle: 'Preguntas frecuentes sobre ubicación y Feng Shui',
+    faqs: [
+      {
+        q: '¿El Maneki-neko debe mirar hacia dentro o hacia fuera de la puerta?',
+        a: 'Debe mirar hacia la puerta de entrada para dar la bienvenida a las personas y oportunidades que llegan desde el exterior. Solo si se coloca sobre un mostrador interior puede orientarse hacia el flujo de clientes.',
+      },
+      {
+        q: '¿Qué pata es mejor para atraer dinero según el Feng Shui?',
+        a: 'La pata derecha levantada está vinculada tradicionalmente al dinero, la fortuna financiera y los negocios, especialmente si se combina con color dorado o amarillo.',
+      },
+      {
+        q: '¿Se pueden tener varios Maneki-neko juntos en la misma casa?',
+        a: 'Sí. En Japón es habitual combinar una pieza tricolor o blanca en el recibidor con una figura dorada en el despacho o zona de trabajo, siempre dejando espacio alrededor de cada una.',
+      },
+    ],
+  },
+  en: {
+    seoTitle: 'Where to Place a Maneki-neko: Japanese Kasō & Feng Shui | Manekineko.es',
+    seoDescription: 'Complete guide on where to place your Japanese lucky cat according to Japanese Kasō and Feng Shui: shop entrance, home entryway, Southeast wealth corner, and mistakes to avoid.',
+    badge: '風水・家相 • PLACEMENT GUIDE',
+    heading: 'Where to Place a Maneki-neko: Japanese Kasō & Feng Shui',
+    subheading: 'How to orient your figurine at home, on your desk, or in a shop by uniting the Japanese entryway tradition (genkan) with the Feng Shui Bagua map.',
+    ctaConfigurator: 'Configure my ideal figurine',
+    ctaCatalog: 'Browse figurine catalog',
+    bridgeTitle: 'Japanese Tradition or Chinese Feng Shui? How Both Work Together',
+    bridgeP1: 'Strictly speaking, the Maneki-neko is a 100% Japanese talisman born in the Edo period, whereas Feng Shui originated in China. However, Japan developed its own sister discipline called Fusui (風水) and the architectural art of Kasō (家相), focused on doorways and clean energy flow.',
+    bridgeP2: 'As the beckoning cat became beloved worldwide, Feng Shui practitioners naturally embraced it as an enhancer of prosperity and hospitality. Both traditions agree on the essentials: place it facing the entrance, elevated above the floor, and never hidden away.',
+    bridgeCards: [
+      { term: 'Genkan (玄関)', reading: 'The Japanese threshold', desc: 'The most important transition space in a Japanese home or shop, welcoming guests and fresh opportunities.' },
+      { term: 'Kasō (家相)', reading: 'Home physiognomy', desc: 'Traditional Japanese discipline studying doorway orientation, natural light, and cleanliness for household harmony.' },
+      { term: 'Bagua Map (八卦)', reading: 'Applied Feng Shui', desc: 'Places wealth in the Southeast sector and career recognition in the South, amplified by matching coat colors.' },
+    ],
+    spacesTitle: 'Ideal Placement by Space',
+    spacesSubtitle: 'Choose your space to see the exact orientation and recommended figurines:',
+    orientationLabel: 'Orientation:',
+    comboLabel: 'Recommended figurine:',
+    spaces: [
+      {
+        badge: 'SHOPS & HOSPITALITY',
+        space: 'Storefront, restaurant, or reception desk',
+        orientation: 'Facing directly toward the main entrance at eye level or on the welcome counter.',
+        recommendedCombo: 'Tricolor (Mi-ke) or White with raised left paw',
+        description: 'The classic historical placement in Japan. The left paw beckons customers and fosters warm hospitality.',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: 'View left-paw figurines',
+      },
+      {
+        badge: 'HOME ENTRYWAY',
+        space: 'Genkan or home foyer',
+        orientation: 'On a clean console table or shelf near the entrance facing the front door (never facing a wall).',
+        recommendedCombo: 'Pure White or Tricolor with right paw or both paws',
+        description: 'Acts as a gentle guardian of the domestic threshold, inviting peace, health, and positive visitors.',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: 'View white home figurines',
+      },
+      {
+        badge: 'WEALTH & BUSINESS (SOUTHEAST BAGUA)',
+        space: 'Southeast corner of living room or office',
+        orientation: 'Diagonally across from the room entrance in a bright, uncluttered spot.',
+        recommendedCombo: 'Gold or Yellow with raised right paw and Koban coin',
+        description: 'In Feng Shui, the Southeast governs wealth and abundance. Gold paired with a Koban coin symbolizes steady financial flow.',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: 'View gold wealth figurines',
+      },
+      {
+        badge: 'STUDY, FOCUS & RELATIONSHIPS',
+        space: 'Work desk or bedroom',
+        orientation: 'To the left of your monitor for academic focus, or in the Southwest sector for love and harmony.',
+        recommendedCombo: 'Green (study), Blue (calm), or Pink (love)',
+        description: 'Compact desk figurines (10–15 cm) support new projects without visual clutter.',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: 'View desk figurines',
+      },
+    ],
+    rulesTitle: 'Golden Rules & Places to Avoid',
+    doTitle: 'What Enhances Its Symbolism',
+    dontTitle: 'Places You Should Never Put It',
+    dos: [
+      'Always keep it elevated on a counter, shelf, console table, or sturdy desk.',
+      'Face it toward the main doorway or the active center of the room.',
+      'Keep the figurine and its base dust-free; cleanliness is spiritual respect in Japan.',
+      'Provide good natural or warm lighting to highlight the ceramic glaze.',
+    ],
+    donts: [
+      'Never place it directly on the floor, which is considered disrespectful in Japanese tradition.',
+      'Avoid bathrooms, laundry rooms, or damp utility spaces.',
+      'Do not lock it inside closed cabinets or behind doors that swing into it.',
+      'Never face it straight into a blank wall inches away, blocking its beckoning gesture.',
+    ],
+    faqTitle: 'Frequently Asked Questions on Placement & Feng Shui',
+    faqs: [
+      {
+        q: 'Should a Maneki-neko face toward the door or away from it?',
+        a: 'It should face toward the entrance door so its raised paw welcomes guests and opportunities arriving from outside.',
+      },
+      {
+        q: 'Which paw attracts money according to Feng Shui?',
+        a: 'The raised right paw is traditionally associated with money, financial luck, and business prosperity, especially in gold or yellow.',
+      },
+      {
+        q: 'Can you keep more than one Maneki-neko at home?',
+        a: 'Yes. In Japan it is common to place a white or tricolor cat in the entryway and a gold figurine in the study or office.',
+      },
+    ],
+  },
+  fr: {
+    seoTitle: 'Où placer le Maneki-neko : Kasō japonais et Feng Shui | Manekineko.es',
+    seoDescription: 'Guide complet pour placer votre chat porte-bonheur japonais selon le Kasō nippon et le Feng Shui : entrée de commerce, hall, coin Sud-Est et erreurs à éviter.',
+    badge: '風水・家相 • GUIDE DE PLACEMENT',
+    heading: 'Où placer le Maneki-neko : Kasō japonais et Feng Shui',
+    subheading: 'Comment orienter votre figurine à la maison, au bureau ou en boutique en unissant la tradition japonaise du seuil (genkan) et la carte Bagua.',
+    ctaConfigurator: 'Configurer ma figurine idéale',
+    ctaCatalog: 'Explorer le catalogue',
+    bridgeTitle: 'Tradition japonaise ou Feng Shui chinois ? Comment les deux s’accordent',
+    bridgeP1: 'Le Maneki-neko est un talisman 100 % japonais né à l’époque d’Edo, tandis que le Feng Shui est d’origine chinoise. Le Japon a toutefois développé sa propre voie appelée Fusui (風水) et l’art du Kasō (家相), dédié à l’harmonie des entrées.',
+    bridgeP2: 'En Occident, le Feng Shui a naturellement adopté le chat porte-bonheur comme activateur de prospérité. Les deux traditions s’accordent sur l’essentiel : tourné vers l’entrée, en hauteur et toujours propre.',
+    bridgeCards: [
+      { term: 'Genkan (玄関)', reading: 'Le seuil japonais', desc: 'Point clé de la maison ou de la boutique au Japon, où l’on accueille les invités et les belles opportunités.' },
+      { term: 'Kasō (家相)', reading: 'Physionomie de l’habitat', desc: 'Art traditionnel japonais étudiant l’orientation des portes, la lumière et la propreté du foyer.' },
+      { term: 'Carte Bagua (八卦)', reading: 'Feng Shui appliqué', desc: 'Situe la richesse au Sud-Est et la reconnaissance au Sud, renforcées par la couleur du pelage.' },
+    ],
+    spacesTitle: 'Emplacement idéal selon chaque espace',
+    spacesSubtitle: 'Choisissez votre pièce pour découvrir l’orientation et les figurines conseillées :',
+    orientationLabel: 'Orientation :',
+    comboLabel: 'Figurine recommandée :',
+    spaces: [
+      {
+        badge: 'COMMERCE ET ACCUEIL',
+        space: 'Entrée de boutique, restaurant ou réception',
+        orientation: 'Tourné directement vers la porte principale, à hauteur des yeux ou sur le comptoir.',
+        recommendedCombo: 'Tricolore (Mi-ke) ou Blanc avec patte gauche levée',
+        description: 'L’emplacement historique au Japon : la patte gauche appelle les clients et favorise un accueil chaleureux.',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: 'Voir les figurines patte gauche',
+      },
+      {
+        badge: 'MAISON ET ENTRÉE',
+        space: 'Genkan ou hall d’entrée',
+        orientation: 'Sur une console dégagée près de l’entrée, face à la porte (jamais face à un mur).',
+        recommendedCombo: 'Blanc pur ou Tricolore avec patte droite ou deux pattes',
+        description: 'Protège le seuil familial et attire harmonie, santé et visites bienveillantes.',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: 'Voir les chats blancs pour la maison',
+      },
+      {
+        badge: 'PROSPÉRITÉ (BAGUA SUD-EST)',
+        space: 'Coin Sud-Est du salon ou du bureau',
+        orientation: 'En diagonale par rapport à la porte d’entrée, dans un endroit lumineux.',
+        recommendedCombo: 'Doré ou Jaune avec patte droite et pièce Koban',
+        description: 'En Feng Shui, le Sud-Est régit l’abondance financière. L’or et la pièce Koban stimulent la prospérité.',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: 'Voir les figurines dorées',
+      },
+      {
+        badge: 'ÉTUDE ET HARMONIE',
+        space: 'Bureau ou chambre',
+        orientation: 'À gauche de l’écran pour la concentration, ou au Sud-Ouest pour l’harmonie affective.',
+        recommendedCombo: 'Vert (études), Bleu (sérénité) ou Rose (amour)',
+        description: 'Les petits formats (10–15 cm) accompagnent les projets sans encombrer l’espace.',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: 'Voir les figurines de bureau',
+      },
+    ],
+    rulesTitle: 'Règles d’or et endroits à éviter',
+    doTitle: 'Ce qui favorise sa symbolique',
+    dontTitle: 'Endroits où ne jamais le poser',
+    dos: [
+      'Placez-le toujours en hauteur : comptoir, étagère, console ou bureau stable.',
+      'Orientez son regard vers la porte principale ou le centre actif de la pièce.',
+      'Gardez la figurine sans poussière : au Japon, la propreté est un signe de respect.',
+      'Privilégiez un endroit lumineux pour mettre en valeur l’émail.',
+    ],
+    donts: [
+      'Jamais directement posé au sol, considéré comme irrespectueux au Japon.',
+      'Évitez les salles de bain, buanderies ou zones humides.',
+      'Ne l’enfermez pas dans un placard ni derrière une porte.',
+      'Ne le tournez pas face à un mur à quelques centimètres.',
+    ],
+    faqTitle: 'Questions fréquentes sur le placement et le Feng Shui',
+    faqs: [
+      {
+        q: 'Le Maneki-neko doit-il regarder vers la porte ?',
+        a: 'Oui, il doit faire face à l’entrée pour accueillir les visiteurs et les opportunités venant de l’extérieur.',
+      },
+      {
+        q: 'Quelle patte attire l’argent selon le Feng Shui ?',
+        a: 'La patte droite levée est associée à la fortune financière et aux affaires, surtout en doré ou jaune.',
+      },
+      {
+        q: 'Peut-on avoir plusieurs Maneki-neko chez soi ?',
+        a: 'Oui, il est très courant d’associer un chat blanc dans l’entrée et un doré dans le bureau.',
+      },
+    ],
+  },
+  de: {
+    seoTitle: 'Maneki-neko richtig aufstellen: Japanisches Kasō & Feng Shui | Manekineko.es',
+    seoDescription: 'Wo stellt man die japanische Winkekatze auf? Alles über japanisches Kasō, den Eingangsbereich (Genkan), die Feng-Shui-Reichtumsecke im Südosten und typische Fehler.',
+    badge: '風水・家相 • AUFSTELLUNGS-GUIDE',
+    heading: 'Maneki-neko richtig aufstellen: Japanisches Kasō & Feng Shui',
+    subheading: 'So richten Sie Ihre Glückskatze in Wohnung, Büro oder Geschäft optimal aus – zwischen japanischer Genkan-Tradition und Feng-Shui-Bagua.',
+    ctaConfigurator: 'Wunschfigur konfigurieren',
+    ctaCatalog: 'Figurenkatalog ansehen',
+    bridgeTitle: 'Japanische Tradition oder chinesisches Feng Shui?',
+    bridgeP1: 'Die Maneki-neko ist ein rein japanischer Talisman aus der Edo-Zeit, während Feng Shui aus China stammt. In Japan entwickelte sich jedoch die Schwesterlehre Fusui (風水) sowie die Baukunst Kasō (家相), die sich auf Eingänge und harmonische Raumenergie konzentriert.',
+    bridgeP2: 'Im Westen wurde die Winkekatze selbstverständlich ins Feng Shui integriert. Beide Traditionen sind sich einig: Die Figur blickt zur Tür, steht erhöht und bleibt stets sauber.',
+    bridgeCards: [
+      { term: 'Genkan (玄関)', reading: 'Die japanische Schwelle', desc: 'Der wichtigste Übergangsbereich eines japanischen Hauses oder Geschäfts, der Gäste und Chancen empfängt.' },
+      { term: 'Kasō (家相)', reading: 'Hausphysiognomie', desc: 'Japanische Lehre über Türorientierung, Tageslicht und Ordnung als Grundlage für Harmonie.' },
+      { term: 'Bagua-Karte (八卦)', reading: 'Angewandtes Feng Shui', desc: 'Verortet Wohlstand im Südosten und Anerkennung im Süden – verstärkt durch die passende Fellfarbe.' },
+    ],
+    spacesTitle: 'Idealer Standort nach Raum',
+    spacesSubtitle: 'Wählen Sie Ihren Bereich für die optimale Ausrichtung:',
+    orientationLabel: 'Ausrichtung:',
+    comboLabel: 'Empfohlene Figur:',
+    spaces: [
+      {
+        badge: 'GESCHÄFT & EMPFANG',
+        space: 'Ladeneingang, Restaurant oder Rezeption',
+        orientation: 'Direkt zur Eingangstür blickend, auf Augenhöhe oder auf dem Empfangstresen.',
+        recommendedCombo: 'Dreifarbig (Mi-ke) oder Weiß mit erhobener linker Pfote',
+        description: 'Der klassische Standort in Japan: Die linke Pfote winkt Kunden herein und fördert Gastfreundschaft.',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: 'Figuren mit linker Pfote ansehen',
+      },
+      {
+        badge: 'ZUHAUSE & FLUR',
+        space: 'Genkan oder Eingangsbereich',
+        orientation: 'Auf einer Konsole nahe der Haustür mit Blick zum Eingang (nie gegen eine Wand).',
+        recommendedCombo: 'Reinweiß oder Dreifarbig mit rechter Pfote oder beiden Pfoten',
+        description: 'Schützt die häusliche Schwelle und zieht Harmonie, Gesundheit und gute Besucher an.',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: 'Weiße Figuren für Zuhause ansehen',
+      },
+      {
+        badge: 'WOHLSTAND (BAGUA SÜDOSTEN)',
+        space: 'Südost-Ecke von Wohnzimmer oder Büro',
+        orientation: 'Diagonal gegenüber der Zimmertür an einem hellen, aufgeräumten Platz.',
+        recommendedCombo: 'Gold oder Gelb mit rechter Pfote und Koban-Münze',
+        description: 'Im Feng Shui steht der Südosten für Wohlstand. Gold und Koban-Münze symbolisieren stetigen Geldfluss.',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: 'Goldene Glückskatzen ansehen',
+      },
+      {
+        badge: 'STUDIUM & HARMONIE',
+        space: 'Schreibtisch oder Schlafzimmer',
+        orientation: 'Links neben dem Monitor für Konzentration oder im Südwesten für Partnerschaft.',
+        recommendedCombo: 'Grün (Studium), Blau (Ruhe) oder Rosa (Liebe)',
+        description: 'Kompakte Tischfiguren (10–15 cm) unterstützen neue Projekte ohne Unruhe.',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: 'Tischfiguren ansehen',
+      },
+    ],
+    rulesTitle: 'Goldene Regeln & Tabu-Orte',
+    doTitle: 'Was die Wirkung unterstützt',
+    dontTitle: 'Wo Sie die Figur nie aufstellen sollten',
+    dos: [
+      'Immer erhöht aufstellen: auf Tresen, Regal, Konsole oder Schreibtisch.',
+      'Den Blick zur Eingangstür oder zur Raummitte richten.',
+      'Figur und Sockel staubfrei halten – Sauberkeit gilt in Japan als Respekt.',
+      'Helles Tageslicht oder warmes Licht bringt die Glasur zur Geltung.',
+    ],
+    donts: [
+      'Niemals direkt auf den Boden stellen – gilt in Japan als respektlos.',
+      'Badezimmer, Waschküchen und feuchte Nebenräume meiden.',
+      'Nicht in geschlossenen Schränken oder hinter Türen verstecken.',
+      'Nicht wenige Zentimeter vor eine geschlossene Wand drehen.',
+    ],
+    faqTitle: 'Häufige Fragen zu Standort & Feng Shui',
+    faqs: [
+      {
+        q: 'Soll die Maneki-neko zur Tür blicken?',
+        a: 'Ja, sie blickt zur Eingangstür, um Gäste und Chancen von außen willkommen zu heißen.',
+      },
+      {
+        q: 'Welche Pfote zieht laut Feng Shui Geld an?',
+        a: 'Die erhobene rechte Pfote steht für Geld, geschäftlichen Erfolg und Wohlstand – besonders in Gold oder Gelb.',
+      },
+      {
+        q: 'Darf man mehrere Maneki-neko gleichzeitig aufstellen?',
+        a: 'Ja, in Japan kombiniert man oft eine weiße Figur im Flur mit einer goldenen Figur im Arbeitszimmer.',
+      },
+    ],
+  },
+  it: {
+    seoTitle: 'Dove mettere il Maneki-neko: Kasō giapponese e Feng Shui | Manekineko.es',
+    seoDescription: 'Guida completa su dove posizionare il gatto della fortuna giapponese secondo il Kasō nipponico e il Feng Shui: ingresso negozio, casa, angolo Sud-Est ed errori da evitare.',
+    badge: '風水・家相 • GUIDA ALLA POSIZIONE',
+    heading: 'Dove mettere il Maneki-neko: Kasō giapponese e Feng Shui',
+    subheading: 'Come orientare la statuina in casa, sulla scrivania o in negozio unendo la tradizione giapponese dell’ingresso (genkan) e la mappa Bagua.',
+    ctaConfigurator: 'Configura la tua statuina',
+    ctaCatalog: 'Esplora il catalogo',
+    bridgeTitle: 'Tradizione giapponese o Feng Shui cinese? Come si integrano',
+    bridgeP1: 'Il Maneki-neko è un amuleto 100% giapponese nato nel periodo Edo, mentre il Feng Shui ha origine cinese. Il Giappone ha però sviluppato il proprio Fusui (風水) e l’arte del Kasō (家相), dedicata all’armonia degli ingressi.',
+    bridgeP2: 'In Occidente il Feng Shui ha adottato naturalmente il gatto della fortuna come attivatore di prosperità. Entrambe le tradizioni concordano: rivolto verso l’ingresso, in posizione rialzata e sempre pulito.',
+    bridgeCards: [
+      { term: 'Genkan (玄関)', reading: 'La soglia giapponese', desc: 'Il punto più importante della casa o del negozio in Giappone, dove si accolgono ospiti e nuove opportunità.' },
+      { term: 'Kasō (家相)', reading: 'Fisionomia della casa', desc: 'Disciplina giapponese che studia l’orientamento delle porte, la luce naturale e la pulizia.' },
+      { term: 'Mappa Bagua (八卦)', reading: 'Feng Shui applicato', desc: 'Colloca la ricchezza a Sud-Est e il riconoscimento a Sud, potenziati dal colore del mantello.' },
+    ],
+    spacesTitle: 'Posizione ideale per ogni ambiente',
+    spacesSubtitle: 'Scegli lo spazio per scoprire l’orientamento e le statuine consigliate:',
+    orientationLabel: 'Orientamento:',
+    comboLabel: 'Statuina consigliata:',
+    spaces: [
+      {
+        badge: 'NEGOZIO E ACCOGLIENZA',
+        space: 'Ingresso di negozio, ristorante o reception',
+        orientation: 'Rivolto direttamente verso la porta principale, ad altezza sguardo o sul bancone.',
+        recommendedCombo: 'Tricolore (Mi-ke) o Bianco con zampa sinistra alzata',
+        description: 'La collocazione storica in Giappone: la zampa sinistra chiama i clienti e favorisce l’ospitalità.',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: 'Vedi statuine zampa sinistra',
+      },
+      {
+        badge: 'CASA E INGRESSO',
+        space: 'Genkan o ingresso dell’abitazione',
+        orientation: 'Su una consolle ordinata vicino all’ingresso, rivolto verso la porta (mai verso il muro).',
+        recommendedCombo: 'Bianco puro o Tricolore con zampa destra o entrambe',
+        description: 'Protegge la soglia domestica e attira armonia, salute e visite positive.',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: 'Vedi gatti bianchi per la casa',
+      },
+      {
+        badge: 'PROSPERITÀ (BAGUA SUD-EST)',
+        space: 'Angolo Sud-Est del soggiorno o studio',
+        orientation: 'In diagonale rispetto alla porta d’ingresso, in un punto luminoso.',
+        recommendedCombo: 'Dorato o Giallo con zampa destra e moneta Koban',
+        description: 'Nel Feng Shui il Sud-Est governa l’abbondanza. L’oro e la moneta Koban stimolano la prosperità.',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: 'Vedi statuine dorate',
+      },
+      {
+        badge: 'STUDIO E ARMONIA',
+        space: 'Scrivania o camera da letto',
+        orientation: 'A sinistra del monitor per lo studio, oppure a Sud-Ovest per l’armonia affettiva.',
+        recommendedCombo: 'Verde (studio), Blu (calma) o Rosa (amore)',
+        description: 'I formati piccoli da scrivania (10–15 cm) accompagnano nuovi progetti senza appesantire.',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: 'Vedi statuine da scrivania',
+      },
+    ],
+    rulesTitle: 'Regole d’oro e luoghi da evitare',
+    doTitle: 'Cosa favorisce il suo simbolismo',
+    dontTitle: 'Luoghi dove non metterlo mai',
+    dos: [
+      'Posizionalo sempre in alto: su bancone, mensola, consolle o scrivania.',
+      'Orienta lo sguardo verso la porta principale o il centro attivo della stanza.',
+      'Mantieni la statuina senza polvere: in Giappone la pulizia è rispetto.',
+      'Scegli un punto ben illuminato per valorizzare lo smalto.',
+    ],
+    donts: [
+      'Mai direttamente sul pavimento: nella cultura giapponese è irrispettoso.',
+      'Evita bagni, lavanderie o zone umide.',
+      'Non chiuderlo dentro armadi né dietro le porte.',
+      'Non rivolgerlo contro una parete a pochi centimetri.',
+    ],
+    faqTitle: 'Domande frequenti su posizione e Feng Shui',
+    faqs: [
+      {
+        q: 'Il Maneki-neko deve guardare verso la porta?',
+        a: 'Sì, deve essere rivolto verso l’ingresso per dare il benvenuto a ospiti e opportunità.',
+      },
+      {
+        q: 'Quale zampa attira denaro secondo il Feng Shui?',
+        a: 'La zampa destra alzata è legata al denaro e agli affari, soprattutto nei colori oro o giallo.',
+      },
+      {
+        q: 'Si possono tenere più Maneki-neko in casa?',
+        a: 'Sì, in Giappone è comune abbinare un gatto bianco all’ingresso e uno dorato nello studio.',
+      },
+    ],
+  },
+  pt: {
+    seoTitle: 'Onde colocar o Maneki-neko: Kasō japonês e Feng Shui | Manekineko.es',
+    seoDescription: 'Guia completo sobre onde colocar o gato da sorte japonês segundo o Kasō nipônico e o Feng Shui: entrada de loja, casa, canto Sudeste e erros a evitar.',
+    badge: '風水・家相 • GUIA DE POSICIONAMENTO',
+    heading: 'Onde colocar o Maneki-neko: Kasō japonês e Feng Shui',
+    subheading: 'Como orientar sua figura em casa, no escritório ou no comércio unindo a tradição japonesa da entrada (genkan) e o mapa Baguá.',
+    ctaConfigurator: 'Configurar minha figura ideal',
+    ctaCatalog: 'Explorar catálogo',
+    bridgeTitle: 'Tradição japonesa ou Feng Shui chinês? Como ambos se unem',
+    bridgeP1: 'O Maneki-neko é um amuleto 100% japonês nascido no período Edo, enquanto o Feng Shui tem origem chinesa. Porém, o Japão desenvolveu o seu próprio Fusui (風水) e a arte do Kasō (家相), dedicada à harmonia das entradas.',
+    bridgeP2: 'No Ocidente, o Feng Shui integrou naturalmente o gato da sorte como ativador de prosperidade. Ambas as tradições concordam: voltado para a porta, em local elevado e sempre limpo.',
+    bridgeCards: [
+      { term: 'Genkan (玄関)', reading: 'O limiar japonês', desc: 'O ponto mais importante da casa ou loja no Japão, onde se acolhem visitas e boas oportunidades.' },
+      { term: 'Kasō (家相)', reading: 'Fisionomia do lar', desc: 'Disciplina japonesa que estuda a orientação das portas, luz natural e limpeza.' },
+      { term: 'Mapa Baguá (八卦)', reading: 'Feng Shui aplicado', desc: 'Posiciona a riqueza no Sudeste e o reconhecimento no Sul, reforçados pela cor da figura.' },
+    ],
+    spacesTitle: 'Localização ideal por ambiente',
+    spacesSubtitle: 'Escolha o ambiente para ver a orientação e as figuras recomendadas:',
+    orientationLabel: 'Orientação:',
+    comboLabel: 'Figura recomendada:',
+    spaces: [
+      {
+        badge: 'COMÉRCIO E ATENDIMENTO',
+        space: 'Entrada de loja, restaurante ou recepção',
+        orientation: 'Virado diretamente para a porta principal, na altura dos olhos ou no balcão.',
+        recommendedCombo: 'Tricolor (Mi-ke) ou Branco com pata esquerda erguida',
+        description: 'A posição histórica no Japão: a pata esquerda chama clientes e favorece a hospitalidade.',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: 'Ver figuras de pata esquerda',
+      },
+      {
+        badge: 'CASA E HALL DE ENTRADA',
+        space: 'Genkan ou hall da residência',
+        orientation: 'Em um aparador limpo perto da entrada, virado para a porta (nunca para a parede).',
+        recommendedCombo: 'Branco puro ou Tricolor com pata direita ou ambas',
+        description: 'Protege a entrada do lar e atrai harmonia, saúde e visitas positivas.',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: 'Ver gatos brancos para casa',
+      },
+      {
+        badge: 'PROSPERIDADE (BAGUÁ SUDESTE)',
+        space: 'Canto Sudeste da sala ou escritório',
+        orientation: 'Em diagonal à porta de entrada, em local iluminado e organizado.',
+        recommendedCombo: 'Dourado ou Amarelo com pata direita e moeda Koban',
+        description: 'No Feng Shui, o Sudeste rege a abundância financeira. O dourado e a moeda Koban simbolizam fluxo contínuo.',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: 'Ver figuras douradas',
+      },
+      {
+        badge: 'ESTUDO E HARMONIA',
+        space: 'Mesa de trabalho ou quarto',
+        orientation: 'À esquerda do monitor para foco nos estudos, ou no Sudoeste para harmonia afetiva.',
+        recommendedCombo: 'Verde (estudos), Azul (calma) ou Rosa (amor)',
+        description: 'Peças pequenas de mesa (10–15 cm) apoiam novos projetos sem poluição visual.',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: 'Ver figuras de mesa',
+      },
+    ],
+    rulesTitle: 'Regras de ouro e lugares a evitar',
+    doTitle: 'O que favorece seu simbolismo',
+    dontTitle: 'Lugares onde nunca deve colocar',
+    dos: [
+      'Coloque sempre em local elevado: balcão, prateleira, aparador ou mesa.',
+      'Direcione o olhar para a porta principal ou o centro ativo do ambiente.',
+      'Mantenha a peça livre de poeira: no Japão, limpeza é respeito.',
+      'Prefira boa iluminação natural ou quente para destacar o esmalte.',
+    ],
+    donts: [
+      'Nunca diretamente no chão: na cultura japonesa é considerado desrespeito.',
+      'Evite banheiros, lavanderias ou áreas úmidas.',
+      'Não esconda dentro de armários fechados nem atrás de portas.',
+      'Não deixe virado para uma parede a poucos centímetros.',
+    ],
+    faqTitle: 'Perguntas frequentes sobre posição e Feng Shui',
+    faqs: [
+      {
+        q: 'O Maneki-neko deve ficar virado para a porta?',
+        a: 'Sim, deve olhar para a entrada para dar boas-vindas às pessoas e oportunidades.',
+      },
+      {
+        q: 'Qual pata atrai dinheiro segundo o Feng Shui?',
+        a: 'A pata direita erguida está ligada ao dinheiro e aos negócios, especialmente em dourado ou amarelo.',
+      },
+      {
+        q: 'Posso ter vários Maneki-neko juntos em casa?',
+        a: 'Sim, no Japão é comum ter um gato branco na entrada e um dourado no escritório.',
+      },
+    ],
+  },
+  ja: {
+    seoTitle: '招き猫の正しい置き場所・方角：日本の家相と風水ガイド | Manekineko.es',
+    seoDescription: '招き猫はどこに置くべき？日本の玄関・店舗での伝統的な飾り方（家相）と、風水の財運（東南）や方角の考え方を分かりやすく解説します。',
+    badge: '風水・家相 • 置き場所ガイド',
+    heading: '招き猫の正しい置き場所：日本の家相と風水',
+    subheading: '玄関や店舗のカウンター、書斎など、日本の伝統的な迎え方（家相）と風水の方角を取り入れた最適な飾り方をご紹介します。',
+    ctaConfigurator: '招き猫シミュレーターへ',
+    ctaCatalog: '招き猫一覧を見る',
+    bridgeTitle: '日本の伝統（家相）と風水の関係',
+    bridgeP1: '招き猫は江戸時代の日本で生まれた純粋な縁起物ですが、日本には古くから玄関や気の流れを整える「家相（かそう）」や日本独自の「風水（ふうすい）」の知恵が根付いています。',
+    bridgeP2: '近年は海外でも風水の幸運アイテムとして親しまれています。どちらの考え方でも共通しているのは、「入口に向けて高い場所に飾り、常に清潔に保つ」という礼儀です。',
+    bridgeCards: [
+      { term: '玄関（げんかん）', reading: '福を迎え入れる入り口', desc: '日本の住まいや商いで最も大切な場所。外からの良縁やお客様を最初に迎える位置です。' },
+      { term: '家相（かそう）', reading: '日本の伝統的な住まい学', desc: '入り口の向き、採光、整理整頓を重んじ、家庭や商売の調和を保つ日本の知恵です。' },
+      { term: '風水・八卦（はっけ）', reading: '方角と色彩の調和', desc: '東南は財運、南は人気・発展を司るとされ、毛色の意味と組み合わせることでより親しまれています。' },
+    ],
+    spacesTitle: '場所別・おすすめの飾り方',
+    spacesSubtitle: '飾りたい場所に合わせて最適な向きと招き猫をお選びください：',
+    orientationLabel: '向ける方向：',
+    comboLabel: 'おすすめの招き猫：',
+    spaces: [
+      {
+        badge: '店舗・受付',
+        space: 'お店の入り口・レジ横・受付カウンター',
+        orientation: '入り口のドアに向けて、目線の高さまたはカウンターの上に飾ります。',
+        recommendedCombo: '三毛猫または白猫の「左手上げ」',
+        description: '日本古来の商売繁盛の飾り方です。左手上げは人や良縁を招き、温かいおもてなしを表します。',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: '左手上げの招き猫を見る',
+      },
+      {
+        badge: '自宅の玄関',
+        space: '玄関の下駄箱の上・飾り棚',
+        orientation: '玄関のドアに向かって正面または斜め向きに置きます（壁向きは避けます）。',
+        recommendedCombo: '白猫または三毛猫の「右手上げ・両手上げ」',
+        description: '家の入り口を守り、開運招福や家族の健康、良いご縁を招き入れます。',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: '玄関向けの白い招き猫を見る',
+      },
+      {
+        badge: '金運・仕事運（風水・東南）',
+        space: 'リビングや書斎の東南エリア',
+        orientation: '部屋の入り口の対角線上にある、明るくすっきりした場所に置きます。',
+        recommendedCombo: '金色または黄色の「右手上げ・小判持ち」',
+        description: '風水で東南は財運と豊かさを司る方位。金色の招き猫と小判の組み合わせが人気です。',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: '金運の金色招き猫を見る',
+      },
+      {
+        badge: '勉強・デスク・寝室',
+        space: '書斎のデスクや寝室',
+        orientation: 'デスクの左側（集中力）や、良縁を願う場合は南西の方角に飾ります。',
+        recommendedCombo: '緑（学業）、青（冷静）、ピンク（恋愛・良縁）',
+        description: '10〜15cmほどの小ぶりな招き猫は作業スペースを圧迫せず心地よく寄り添います。',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: 'デスクサイズの招き猫を見る',
+      },
+    ],
+    rulesTitle: '大切に飾るための基本と避けるべき場所',
+    doTitle: 'ご利益を高める飾り方',
+    dontTitle: '避けるべき置き場所',
+    dos: [
+      '必ず目線に近い高さや棚・カウンターの上に飾ること。',
+      '顔と手を入り口や部屋の中心に向けて飾ること。',
+      'こまめに埃を拭き取り、常に清潔に保つこと。',
+      '自然光や温かみのある照明が当たる明るい場所に置くこと。',
+    ],
+    donts: [
+      '床に直接置くこと（日本では縁起物に対して失礼とされます）。',
+      'トイレや浴室、湿気の多い水回りに置くこと。',
+      '扉の陰や閉め切った棚の中にしまい込むこと。',
+      '壁にぴったり向けて視界を塞ぐこと。',
+    ],
+    faqTitle: '置き場所・風水に関するよくある質問',
+    faqs: [
+      {
+        q: '招き猫は玄関のドアに向けて置くべきですか？',
+        a: 'はい、外からやってくる福やお客様を迎え入れるため、入り口に向けて置くのが基本です。',
+      },
+      {
+        q: '風水で金運アップに良いのはどちらの手ですか？',
+        a: '金運や財産を招くのは「右手上げ」とされており、特に金色や黄色の招き猫が人気です。',
+      },
+      {
+        q: '家の中に複数の招き猫を置いても大丈夫ですか？',
+        a: '問題ありません。玄関に白や三毛、書斎に金色の招き猫を飾るなど、場所ごとに役割を分ける方も多くいらっしゃいます。',
+      },
+    ],
+  },
+  zh: {
+    seoTitle: '招财猫摆放位置与风水指南：日本家相与八卦方位 | Manekineko.es',
+    seoDescription: '招财猫摆在哪里最旺财？结合日本玄关家相传统与风水八卦方位，详解店铺门口、家居玄关、东南财位及摆放禁忌。',
+    badge: '風水・家相 • 摆放与风水指南',
+    heading: '招财猫摆放位置与风水：日本家相与八卦方位',
+    subheading: '融合日本玄关迎福传统（家相）与风水财位布局，为店铺、客厅玄关与办公桌选择最契合的朝向与款式。',
+    ctaConfigurator: '配置我的专属招财猫',
+    ctaCatalog: '浏览招财猫图鉴',
+    bridgeTitle: '日本传统（家相）与风水如何相辅相成？',
+    bridgeP1: '严格来说，招财猫诞生于日本江户时代，而风水起源于中国；但日本自古也发展出注重门户朝向与洁净气场的“家相（Kasō）”与日式“风水（Fusui）”。',
+    bridgeP2: '在华人与全球文化中，招财猫被广泛用作催旺财气与人缘的吉祥摆件。两种传统在核心原则上完全一致：面向大门、摆在高处、保持洁净明亮。',
+    bridgeCards: [
+      { term: '玄关 (玄関 Genkan)', reading: '日本门户之首', desc: '日本住宅与商铺最重要的纳气之处，迎接宾客、贵人与新机遇的第一道窗口。' },
+      { term: '日本家相 (家相 Kasō)', reading: '居所气场学', desc: '讲究门户朝向、自然采光与整洁有序，认为干净明亮的入口才能留住福气。' },
+      { term: '风水八卦 (八卦 Bagua)', reading: '方位与色彩能量', desc: '东南方为财位，南方主事业声望，搭配金色或三花招财猫可进一步增强寓意。' },
+    ],
+    spacesTitle: '不同空间的最佳摆放位置',
+    spacesSubtitle: '根据您的摆放场景选择最佳朝向与推荐款式：',
+    orientationLabel: '最佳朝向：',
+    comboLabel: '推荐款式：',
+    spaces: [
+      {
+        badge: '商铺与前台',
+        space: '店铺门口、餐厅或公司前台',
+        orientation: '正对大门方向，摆放在收银台、迎宾柜或与视线齐平的架子上。',
+        recommendedCombo: '三花色（Mi-ke）或白色「举左爪」款',
+        description: '日本商铺最正统的摆法：举左爪寓意广纳客源、人缘兴旺，传递热情款待之意。',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: '查看举左爪招客款',
+      },
+      {
+        badge: '家居玄关',
+        space: '入户玄关柜或客厅入口处',
+        orientation: '摆放在玄关鞋柜或展示台上，面向大门方向（切忌面朝墙壁）。',
+        recommendedCombo: '纯白色或三花色「举右爪 / 举双爪」款',
+        description: '守护家宅门户，为家庭带来平安健康、和谐顺遂与好运气。',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: '查看居家白色招财猫',
+      },
+      {
+        badge: '催旺财运（风水东南财位）',
+        space: '客厅或办公室的东南方',
+        orientation: '位于入户门斜对角的明财位或东南方，保持周围整洁开阔。',
+        recommendedCombo: '金色或黄色「举右爪 + 手持小判金币」款',
+        description: '风水中东南方主掌财富与丰盛，金色招财猫搭配小判金币象征财源广进。',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: '查看金色招财款',
+      },
+      {
+        badge: '书桌与卧室',
+        space: '办公桌、书房或卧室床头柜',
+        orientation: '电脑显示器左侧（助学业事业）或卧室西南方（助姻缘感情）。',
+        recommendedCombo: '绿色（学业）、蓝色（冷静）或粉色（姻缘）',
+        description: '10–15 cm 的小号桌面摆件精致不占地，适合陪伴日常学习与工作。',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: '查看桌面小号款',
+      },
+    ],
+    rulesTitle: '摆放黄金法则与常见禁忌',
+    doTitle: '有利于聚福的正确做法',
+    dontTitle: '绝对要避开的摆放位置',
+    dos: [
+      '务必摆放在高处：柜台、书架、玄关柜或稳固的桌面上。',
+      '让招财猫的脸与举起的爪子朝向大门或房间开阔处。',
+      '定期擦拭灰尘，保持瓷器釉面洁净光亮。',
+      '摆放在光线充足、温暖明亮的位置。',
+    ],
+    donts: [
+      '切忌直接放在地上：在日本文化中把吉祥物放地上极为失礼。',
+      '避开卫生间、洗衣房或潮湿杂乱的角落。',
+      '不要锁在封闭柜子里，也不要放在门后容易碰撞的地方。',
+      '不要让招财猫正对着几厘米外的实心墙面，挡住招福手势。',
+    ],
+    faqTitle: '招财猫摆放与风水常见问题',
+    faqs: [
+      {
+        q: '招财猫应该朝向门外还是屋内？',
+        a: '应该面向大门方向，这样举起的爪子才能把门外的客源、财气与好运招进屋内。',
+      },
+      {
+        q: '风水中举哪只爪子最招财？',
+        a: '传统上举右爪主招财进宝与事业财运，搭配金色或黄色款式最为经典。',
+      },
+      {
+        q: '家里可以同时摆几只招财猫吗？',
+        a: '可以。在日本很常见玄关摆白色或三花款、书房摆金色款，只要每只周围留出整洁空间即可。',
+      },
+    ],
+  },
+  ru: {
+    seoTitle: 'Куда поставить Манэки-нэко: японское Касо и фэн-шуй | Manekineko.es',
+    seoDescription: 'Полное руководство по размещению японского кота удачи по правилам японского Касо и фэн-шуй: вход в магазин, прихожая, юго-восточный сектор богатства и главные ошибки.',
+    badge: '風水・家相 • ГИД ПО РАЗМЕЩЕНИЮ',
+    heading: 'Куда поставить Манэки-нэко: японское Касо и фэн-шуй',
+    subheading: 'Как правильно сориентировать фигурку дома, на рабочем столе или в магазине, объединяя японскую традицию порога (гэнкана) и сетку Багуа.',
+    ctaConfigurator: 'Подобрать свою фигурку',
+    ctaCatalog: 'Открыть каталог фигурок',
+    bridgeTitle: 'Японская традиция или китайский фэн-шуй? Как они сочетаются',
+    bridgeP1: 'Строго говоря, Манэки-нэко — на 100 % японский талисман эпохи Эдо, тогда как фэн-шуй зародился в Китае. Однако в Японии сложилось собственное учение Фусуй (風水) и архитектурное искусство Касо (家相), посвящённое гармонии входа и чистоте пространства.',
+    bridgeP2: 'На Западе мастера фэн-шуй естественно приняли кота удачи как символ процветания и гостеприимства. Обе традиции сходятся в главном: фигурка должна смотреть на вход, стоять на возвышении и содержаться в чистоте.',
+    bridgeCards: [
+      { term: 'Гэнкан (玄関)', reading: 'Японский порог', desc: 'Главное место перехода в японском доме или лавке, где встречают гостей и новые возможности.' },
+      { term: 'Касо (家相)', reading: 'Физиогномика дома', desc: 'Традиционное японское искусство ориентации дверей, естественного света и порядка в жилище.' },
+      { term: 'Сетка Багуа (八卦)', reading: 'Прикладной фэн-шуй', desc: 'Связывает юго-восточный сектор с богатством, а южный — с признанием, усиливая их цветом фигурки.' },
+    ],
+    spacesTitle: 'Идеальное место для каждого пространства',
+    spacesSubtitle: 'Выберите зону, чтобы узнать точную ориентацию и подходящие фигурки:',
+    orientationLabel: 'Ориентация:',
+    comboLabel: 'Рекомендуемая фигурка:',
+    spaces: [
+      {
+        badge: 'МАГАЗИН И ПРИЁМ ГОСТЕЙ',
+        space: 'Вход в магазин, ресторан или стойка ресепшн',
+        orientation: 'Лицом прямо к входной двери на уровне глаз или на стойке приветствия.',
+        recommendedCombo: 'Трёхцветный (Ми-кэ) или Белый с поднятой левой лапой',
+        description: 'Историческое место Манэки-нэко в Японии: левая лапа зазывает клиентов и создаёт атмосферу радушия.',
+        filterQuery: '?pata=left&color=tricolor',
+        ctaLabel: 'Смотреть фигурки с левой лапой',
+      },
+      {
+        badge: 'ДОМ И ПРИХОЖАЯ',
+        space: 'Гэнкан или прихожая квартиры',
+        orientation: 'На чистой консоли или полке у входа лицом к двери (никогда не к стене).',
+        recommendedCombo: 'Чисто-белый или Трёхцветный с правой или обеими лапами',
+        description: 'Оберегает домашний порог, притягивает гармонию, здоровье и добрых гостей.',
+        filterQuery: '?pata=right&color=white',
+        ctaLabel: 'Смотреть белых котов для дома',
+      },
+      {
+        badge: 'ПРОЦВЕТАНИЕ (БАГУА ЮГО-ВОСТОК)',
+        space: 'Юго-восточный угол гостиной или кабинета',
+        orientation: 'По диагонали от входной двери в светлом, незахламлённом месте.',
+        recommendedCombo: 'Золотой или Жёлтый с правой лапой и монетой Кобан',
+        description: 'В фэн-шуй юго-восток отвечает за богатство и изобилие. Золото и монета Кобан символизируют денежный поток.',
+        filterQuery: '?pata=right&color=gold',
+        ctaLabel: 'Смотреть золотые фигурки',
+      },
+      {
+        badge: 'УЧЁБА И ГАРМОНИЯ',
+        space: 'Рабочий стол или спальня',
+        orientation: 'Слева от монитора для концентрации или в юго-западном секторе для гармонии в отношениях.',
+        recommendedCombo: 'Зелёный (учёба), Синий (спокойствие) или Розовый (любовь)',
+        description: 'Компактные настольные фигурки (10–15 см) поддерживают новые проекты, не перегружая стол.',
+        filterQuery: '?tamano=pequeno',
+        ctaLabel: 'Смотреть настольные фигурки',
+      },
+    ],
+    rulesTitle: 'Золотые правила и места, которых следует избегать',
+    doTitle: 'Что усиливает символику талисмана',
+    dontTitle: 'Куда никогда не стоит ставить фигурку',
+    dos: [
+      'Всегда ставьте на возвышение: на стойку, полку, консоль или стол.',
+      'Направляйте взгляд кота к входной двери или центру комнаты.',
+      'Регулярно стирайте пыль: в Японии чистота — знак уважения.',
+      'Выбирайте светлое место, где красиво играет глазурь.',
+    ],
+    donts: [
+      'Никогда не ставьте прямо на пол — в Японии это считается неуважением.',
+      'Избегайте ванных комнат, прачечных и влажных помещений.',
+      'Не прячьте в закрытых шкафах и за открывающимися дверями.',
+      'Не разворачивайте лицом вплотную к глухой стене.',
+    ],
+    faqTitle: 'Частые вопросы о размещении и фэн-шуй',
+    faqs: [
+      {
+        q: 'Должен ли Манэки-нэко смотреть на входную дверь?',
+        a: 'Да, он должен быть обращён к входу, чтобы приветствовать гостей и возможности, приходящие извне.',
+      },
+      {
+        q: 'Какая лапа привлекает деньги по фэн-шуй?',
+        a: 'Поднятая правая лапа традиционно связана с деньгами и бизнесом, особенно в золотом или жёлтом цвете.',
+      },
+      {
+        q: 'Можно ли держать дома несколько Манэки-нэко?',
+        a: 'Да, в Японии часто ставят белого или трёхцветного кота в прихожей, а золотого — в рабочем кабинете.',
+      },
+    ],
+  },
+};
+`;
+
+fs.mkdirSync('src/i18n', { recursive: true });
+fs.writeFileSync('src/i18n/fengshui.ts', fengShuiTs.trimStart(), 'utf8');
+
+// 2. Componente compartido de la guía Feng Shui + Kasō
+const fengShuiComponent = `---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslatedPath, type Lang } from '../i18n/ui';
+import { fengShuiTranslations } from '../i18n/fengshui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const fsText = fengShuiTranslations[lang];
+const translatePath = useTranslatedPath(lang);
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: fsText.faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a,
+    },
+  })),
+};
+---
+
+<BaseLayout title={fsText.seoTitle} description={fsText.seoDescription}>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+  <!-- Cabecera editorial -->
+  <section class="bg-seigaiha border-b border-[#E5DEC9]">
+    <div class="max-w-5xl mx-auto px-6 py-12 sm:py-16">
+      <span class="hanko-stamp px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-white/95 inline-block mb-4">
+        {fsText.badge}
+      </span>
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-[#161412] leading-tight max-w-3xl">
+        {fsText.heading}
+      </h1>
+      <p class="text-base sm:text-lg text-stone-700 mt-4 leading-relaxed max-w-2xl">
+        {fsText.subheading}
+      </p>
+
+      <div class="mt-7 flex flex-wrap items-center gap-3">
+        <a
+          href={translatePath('/')}
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#8E1323] hover:bg-[#700E1B] text-white text-xs sm:text-sm font-semibold shadow-xs transition-colors"
+        >
+          <span>{fsText.ctaConfigurator}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+        <a
+          href={translatePath('/tienda/')}
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-[#FAF6F0] border border-[#E5DEC9] hover:border-[#C6922C] text-[#161412] text-xs sm:text-sm font-semibold transition-colors"
+        >
+          <span>{fsText.ctaCatalog}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bloque 1: Puente cultural Kasō japonés + Feng Shui -->
+  <section class="max-w-5xl mx-auto px-6 py-12 sm:py-16">
+    <div class="bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-10 shadow-xs space-y-5">
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-[#161412]">
+        {fsText.bridgeTitle}
+      </h2>
+      <p class="text-base text-stone-700 leading-[1.85]">
+        {fsText.bridgeP1}
+      </p>
+      <p class="text-base text-stone-700 leading-[1.85]">
+        {fsText.bridgeP2}
+      </p>
+
+      <div class="pt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {fsText.bridgeCards.map((card) => (
+          <div class="rounded-xl bg-[#FAF6F0] border border-[#E5DEC9] p-5">
+            <div class="font-serif text-lg font-bold text-[#8E1323]">{card.term}</div>
+            <div class="text-[11px] font-bold uppercase tracking-wider text-stone-500 mt-0.5 mb-2">
+              {card.reading}
+            </div>
+            <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+              {card.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bloque 2: Mapa práctico por espacios -->
+  <section class="max-w-5xl mx-auto px-6 pb-14">
+    <div class="mb-8">
+      <h2 class="font-serif text-2xl sm:text-3xl font-bold text-[#161412]">
+        {fsText.spacesTitle}
+      </h2>
+      <p class="text-sm sm:text-base text-stone-600 mt-2">
+        {fsText.spacesSubtitle}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {fsText.spaces.map((item) => (
+        <article class="bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-7 shadow-xs flex flex-col justify-between space-y-5">
+          <div class="space-y-3">
+            <span class="inline-block px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded-full bg-[#FAF6F0] border border-[#E5DEC9] text-[#8E1323]">
+              {item.badge}
+            </span>
+            <h3 class="font-serif text-xl font-bold text-[#161412]">
+              {item.space}
+            </h3>
+            <p class="text-sm text-stone-700 leading-relaxed">
+              {item.description}
+            </p>
+
+            <div class="pt-2 space-y-2 text-xs border-t border-[#E5DEC9]/70">
+              <div>
+                <span class="font-bold text-[#161412]">{fsText.orientationLabel}</span>{' '}
+                <span class="text-stone-700">{item.orientation}</span>
+              </div>
+              <div>
+                <span class="font-bold text-[#8E1323]">{fsText.comboLabel}</span>{' '}
+                <span class="font-semibold text-[#161412]">{item.recommendedCombo}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <a
+              href={\`\${translatePath('/tienda/')}\${item.filterQuery}\`}
+              class="inline-flex items-center gap-1.5 text-xs font-bold text-[#8E1323] hover:text-[#700E1B] transition-colors"
+            >
+              <span>{item.ctaLabel}</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Bloque 3: Qué hacer y qué evitar -->
+  <section class="max-w-5xl mx-auto px-6 pb-14">
+    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-[#161412] mb-6">
+      {fsText.rulesTitle}
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="bg-white border border-[#E5DEC9] border-t-4 border-t-emerald-700 rounded-2xl p-6 sm:p-7 shadow-xs">
+        <h3 class="font-serif text-lg font-bold text-emerald-900 mb-4">
+          ✓ {fsText.doTitle}
+        </h3>
+        <ul class="space-y-3 text-sm text-stone-700 leading-relaxed">
+          {fsText.dos.map((rule) => (
+            <li class="flex items-start gap-2.5">
+              <span class="text-emerald-700 font-bold mt-0.5">•</span>
+              <span>{rule}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="bg-white border border-[#E5DEC9] border-t-4 border-t-[#8E1323] rounded-2xl p-6 sm:p-7 shadow-xs">
+        <h3 class="font-serif text-lg font-bold text-[#8E1323] mb-4">
+          ✕ {fsText.dontTitle}
+        </h3>
+        <ul class="space-y-3 text-sm text-stone-700 leading-relaxed">
+          {fsText.donts.map((rule) => (
+            <li class="flex items-start gap-2.5">
+              <span class="text-[#8E1323] font-bold mt-0.5">•</span>
+              <span>{rule}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bloque 4: Preguntas Frecuentes (SEO FAQ) -->
+  <section class="max-w-5xl mx-auto px-6 pb-8">
+    <div class="bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-10 shadow-xs">
+      <h2 class="font-serif text-2xl font-bold text-[#161412] mb-6">
+        {fsText.faqTitle}
+      </h2>
+      <div class="divide-y divide-[#E5DEC9]">
+        {fsText.faqs.map((faq) => (
+          <details open class="py-4 first:pt-0 last:pb-0 group">
+            <summary class="flex items-center justify-between gap-4 list-none cursor-pointer font-serif text-base sm:text-lg font-bold text-[#161412] select-none">
+              <span>{faq.q}</span>
+              <span class="text-[#C6922C] transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <p class="mt-2.5 text-sm sm:text-base text-stone-700 leading-relaxed">
+              {faq.a}
+            </p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+`;
+
+fs.mkdirSync('src/components', { recursive: true });
+fs.writeFileSync('src/components/FengShuiPage.astro', fengShuiComponent.trimStart(), 'utf8');
+
+// 3. Páginas Astro para Español y los 8 idiomas restantes
+fs.mkdirSync('src/pages/feng-shui', { recursive: true });
+fs.writeFileSync(
+  'src/pages/feng-shui/index.astro',
+  `---\nimport FengShuiPage from '../../components/FengShuiPage.astro';\n---\n<FengShuiPage lang="es" />\n`,
+  'utf8'
+);
+
+fs.mkdirSync('src/pages/[lang]/feng-shui', { recursive: true });
+fs.writeFileSync(
+  'src/pages/[lang]/feng-shui/index.astro',
+  `---\nimport FengShuiPage from '../../../components/FengShuiPage.astro';\nimport { languages, defaultLang, type Lang } from '../../../i18n/ui';\n\nexport function getStaticPaths() {\n  return (Object.keys(languages) as Lang[])\n    .filter((l) => l !== defaultLang)\n    .map((lang) => ({ params: { lang } }));\n}\n\nconst { lang } = Astro.params as { lang: Lang };\n---\n<FengShuiPage lang={lang} />\n`,
+  'utf8'
+);
+
+// 4. Añadir etiqueta 'nav.fengshui' a src/i18n/ui.ts
+const navLabels = {
+  es: 'Kasō y Feng Shui',
+  en: 'Kasō & Feng Shui',
+  fr: 'Kasō et Feng Shui',
+  de: 'Kasō & Feng Shui',
+  it: 'Kasō e Feng Shui',
+  pt: 'Kasō e Feng Shui',
+  ja: '家相と風水',
+  zh: '家相与风水',
+  ru: 'Касо и фэн-шуй',
+};
+
+let uiContent = fs.readFileSync('src/i18n/ui.ts', 'utf8');
+for (const [code, label] of Object.entries(navLabels)) {
+  const regex = new RegExp(`(\\b${code}:\\s*\\{[\\s\\S]*?'nav\\.figuras':\\s*[^\\n]+\\n)`);
+  if (regex.test(uiContent) && !uiContent.includes(`'nav.fengshui'`)) {
+    // Se inserta en cada bloque de idioma
+  }
+  uiContent = uiContent.replace(
+    new RegExp(`(\\b${code}:\\s*\\{[\\s\\S]*?'nav\\.figuras':\\s*[^\\n]+\\n)`),
+    (match) => (match.includes("'nav.fengshui'") ? match : `${match}    'nav.fengshui': ${JSON.stringify(label)},\n`)
+  );
+}
+fs.writeFileSync('src/i18n/ui.ts', uiContent, 'utf8');
+
+// 5. Enlazar en migas de pan y en el pie de página (Explorar) de BaseLayout.astro
+let layout = fs.readFileSync('src/layouts/BaseLayout.astro', 'utf8');
+if (!layout.includes("section === 'feng-shui'")) {
+  layout = layout.replace(
+    "  } else if (section === 'cultura') {",
+    "  } else if (section === 'feng-shui') {\n    breadcrumbs.push({ label: t('nav.fengshui') });\n  } else if (section === 'cultura') {"
+  );
+}
+if (!layout.includes("translatePath('/feng-shui/')")) {
+  layout = layout.replace(
+    "<li><a href={figurasHref} class=\"hover:text-white transition-colors\">{t('nav.figuras')}</a></li>",
+    "<li><a href={figurasHref} class=\"hover:text-white transition-colors\">{t('nav.figuras')}</a></li>\n            <li><a href={translatePath('/feng-shui/')} class=\"hover:text-white transition-colors\">{t('nav.fengshui')}</a></li>"
+  );
+}
+fs.writeFileSync('src/layouts/BaseLayout.astro', layout, 'utf8');
+
+// 6. Enlazar desde la ficha de detalle de producto (FiguraDetailPage.astro)
+if (fs.existsSync('src/components/FiguraDetailPage.astro')) {
+  let detail = fs.readFileSync('src/components/FiguraDetailPage.astro', 'utf8');
+  if (!detail.includes("translatePath('/feng-shui/')")) {
+    detail = detail.replace(
+      "<p class=\"text-sm text-stone-700 leading-relaxed\">\n            {placementAdvice}\n          </p>",
+      "<p class=\"text-sm text-stone-700 leading-relaxed mb-2.5\">\n            {placementAdvice}\n          </p>\n          <a href={translatePath('/feng-shui/')} class=\"inline-flex items-center gap-1 text-xs font-bold text-[#8E1323] hover:underline\">\n            <span>{lang === 'es' ? 'Ver guía completa de Kasō y Feng Shui →' : 'Kasō & Feng Shui →'}</span>\n          </a>"
+    );
+    fs.writeFileSync('src/components/FiguraDetailPage.astro', detail, 'utf8');
+  }
+}
+
+console.log('GUIA_FENG_SHUI_9_IDIOMAS_CREADA_Y_ENLAZADA');

@@ -85,6 +85,8 @@ if (!isHome) {
     } else {
       breadcrumbs.push({ label: t('nav.evolucion') });
     }
+  } else if (section === 'feng-shui') {
+    breadcrumbs.push({ label: t('nav.fengshui') });
   } else if (section === 'cultura') {
     breadcrumbs.push({ label: cleanPageTitle });
   } else {
@@ -480,6 +482,7 @@ const langSwitchOptions = (Object.keys(languages) as Lang[]).map((code) => ({
             <li><a href={evolucionHref} class="hover:text-white transition-colors">{t('nav.evolucion')}</a></li>
             <li><a href={leyendasHref} class="hover:text-white transition-colors">{t('nav.leyendas')}</a></li>
             <li><a href={figurasHref} class="hover:text-white transition-colors">{t('nav.figuras')}</a></li>
+            <li><a href={translatePath('/feng-shui/')} class="hover:text-white transition-colors">{t('nav.fengshui')}</a></li>
           </ul>
         </div>
 
