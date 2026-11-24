@@ -1,32 +1,79 @@
 ---
-title: "La cortesana Usugumo y el templo Ekō-in"
-subtitle: "La historia más intensa del antiguo Yoshiwara: un relato de devoción malinterpretada y sacrificio silencioso frente al peligro oculto."
-era: "Siglo XVIII · Período Edo"
-location: "Yoshiwara y Ryōgoku, Tokio"
-summary: "Un samurái creyó que el inseparable gato de la cortesana Usugumo la había embrujado, sin saber que el animal estaba vigilando a una serpiente oculta en las vigas."
+title: "La anciana de Imado y el sueño de Sensō-ji"
+subtitle: "Obligada por la miseria a despedirse de su amado gato en 1852, una humilde mujer de Asakusa recibió en sueños el secreto de arcilla que sacó a ambos de la pobreza."
+era: "Año 1852 • Periodo Edo"
+location: "Imado y Asakusa, Tokio"
 coverImage: "/images/leyenda-usugumo.jpeg"
-coverAlt: "Ilustración estilo ukiyo-e de un gato negro protector con ojos dorados bajo un alero tradicional japonés"
-readingTime: "4 min de lectura"
-order: 3
+coverAlt: "La anciana de Imado vendiendo gatos de arcilla frente al templo Sensō-ji"
+readingTime: "7 min de lectura"
 isOriginal: false
+order: 3
+summary: "La célebre leyenda de 1852 que explica cómo los humildes gatos de arcilla de Imado conquistaron las puertas del templo Sensō-ji y se convirtieron en el amuleto popular de Edo."
+chapters:
+  - act: "Acto I • La despedida"
+    title: "Un invierno sin arroz junto al río Sumida"
+    summary: "La pobreza obliga a una anciana bondadosa de Imado a separarse con dolor de su inseparable gato."
+  - act: "Acto II • La revelación"
+    title: "El mensaje del gato entre sueños"
+    summary: "Esa misma noche, el felino se le aparece en sueños con una promesa de prosperidad en arcilla."
+  - act: "Acto III • El oficio"
+    title: "Modelando fortuna con barro de Imado"
+    summary: "Al amanecer, la mujer moldea y pinta a mano pequeñas figuras de gatos con la pata alzada."
+  - act: "Acto IV • El milagro"
+    title: "Multitudes ante las puertas de Sensō-ji"
+    summary: "Sus gatos de barro se agotan cada día en Asakusa y nacen los primeros talismanes comerciales de Edo."
 featuredFigure:
-  name: "Maneki-neko Negro · Ambas patas alzadas"
-  meaning: "Talismán de protección frente a las malas energías, los peligros ocultos y la envidia."
-  shopUrl: "/tienda/?color=negro&postura=ambas"
+  name: "Maneki-neko Amarillo de la Estabilidad"
+  meaning: "Inspirado en el milagro cotidiano de la anciana de Imado, favorece el sustento, el ahorro y la prosperidad del hogar."
+  shopUrl: "/tienda/?color=yellow&pata=left"
 ---
 
-En el vibrante distrito de **Yoshiwara**, el barrio de las artes y el entretenimiento del antiguo Edo, vivía una cortesana de alto rango llamada **Usugumo**, célebre tanto por su destreza con el *shamisen* como por su inseparable gato negro, **Tama**. El felino no se apartaba jamás de su kimono, acompañándola incluso cuando se retiraba a sus aposentos privados.
+Corría el año **1852** (*quinto año de la era Kaei*), en las postrimerías del periodo Edo. A orillas del río Sumida, muy cerca de los antiguos hornos de alfarería de **Imado** y del bullicioso recinto sagrado del **templo Sensō-ji** en Asakusa, vivía en una pequeña cabaña de madera una anciana viuda conocida en todo el vecindario por su carácter apacible y su corazón generoso.
 
-Su devoción era tan inusual que entre los habituales del barrio empezó a circular el rumor de que el animal era en realidad un espíritu cambiante (*bakeneko*) que había hechizado a la joven.
+Durante años, su única compañía había sido un pequeño gato blanco con manchas tricolores y cola corta al que había criado desde que era apenas un cachorro. Aunque los tiempos eran difíciles, la mujer siempre encontraba la manera de compartir con él unas migas de pescado seco o un poco de arroz tibio al caer la tarde.
 
-### El instante en el umbral
+## 1. Un invierno sin arroz junto al río Sumida
 
-Una noche, el propietario de la casa de té, alarmado por las habladurías y convencido de que la vida de Usugumo corría peligro, esperó oculto con su espada desenvainada. Cuando Usugumo se dirigió hacia el corredor interior y el gato comenzó a tirar desesperadamente del borde de su túnica para impedirle avanzar, el hombre interpretó aquel gesto como un ataque.
+Sin embargo, tras una sucesión de malas cosechas y una brusca subida en el precio del grano en Edo, la anciana cayó enferma y agotó hasta su última moneda de cobre. Llegó un anochecer en que el arcón de madera donde guardaba el arroz quedó completamente vacío y el brasero apenas conservaba unas cenizas frías.
 
-De un solo tajo limpio, cercenó la cabeza del animal. Pero en lugar de caer al suelo, la cabeza del gato salió impulsada hacia lo alto del techo y clavó sus colmillos directamente en la garganta de una **enorme serpiente venenosa** que aguardaba escondida entre las vigas, lista para lanzarse sobre Usugumo.
+Con el corazón encogido, comprendió que si su gato permanecía bajo aquel techo acabaría muriendo de hambre junto a ella.
 
-### El monumento al gato fiel
+![La anciana de Imado acariciando con tristeza a su gato junto al arcón de arroz vacío](/images/leyenda-anciana-1-pobreza.jpeg)
 
-Cuando ambos cuerpos cayeron sobre la tarima de madera, la verdad quedó al descubierto: el gato no había intentado dañar a su dueña, sino advertirla de una amenaza mortal que nadie más había percibido.
+Acariciando suavemente su lomo por última vez, le habló con la voz quebrada por las lágrimas:
 
-Desolada por el sacrificio de su compañero, Usugumo mandó trasladar sus restos al templo **Ekō-in**, en Ryōgoku, donde encargó un funeral budista completo y erigió una lápida conmemorativa. Un admirador de la corte talló para ella una figura de madera de sándalo con la imagen de su gato para consolarla. Aquella talla se convirtió en el símbolo por excelencia de la **protección frente al mal invisible**, origen de la veneración hacia los Maneki-neko de color negro.
+> «Perdóname, pequeño compañero. Ya no me queda ni un grano de arroz que ofrecerte. Ve hacia las calles cercanas al templo, donde los mercaderes y peregrinos siempre dejan caer algo de comida, y busca un hogar donde puedas vivir sin pasar hambre.»
+
+Con enorme pesar, abrió la puerta corredera y lo dejó marcharse hacia la penumbra del camino, regresando luego a su tatami gastado entre sollozos silenciosos.
+
+## 2. El mensaje del gato entre sueños
+
+Aquella misma noche, mientras la luz plateada de la luna se filtraba a través del papel translúcido de las puertas *shōji*, la anciana cayó rendida por el cansancio y la tristeza. En medio de la quietud nocturna, tuvo un sueño tan vívido que parecía real.
+
+Su querido gato apareció sentado junto a su almohada de madera, iluminado por un resplandor cálido y sereno. Alzó su pata derecha en un gesto amable y le habló con claridad:
+
+> «No llores más por mí, querida abuela. Toma un poco de arcilla de los hornos de Imado, moldea mi imagen sentada con la pata levantada y píntala con cariño. Si llevas esas figuras a las puertas del templo Sensō-ji, la buena fortuna llamará pronto a tu puerta.»
+
+![El gato apareciéndose en sueños a la anciana dormida para mostrarle su figura de arcilla](/images/leyenda-anciana-2-sueno.jpeg)
+
+Al despertar con las primeras luces del alba, la anciana sintió una extraña serenidad en el pecho. Recordaba cada detalle de la postura, la sonrisa arqueada de los ojos y el pequeño babero rojo que había visto en el sueño.
+
+## 3. Modelando fortuna con barro de Imado
+
+Sin perder un instante, se acercó a los talleres vecinos de **Imado-yaki**, donde los alfareros le regalaron de buena gana varios bloques de arcilla sobrante y un poco de pigmento mineral rojo, negro y dorado.
+
+Sentada en el umbral de madera de su cabaña bajo el sol de la mañana, la mujer comenzó a modelar con sus propias manos pequeñas estatuillas de gatos sentados, con una pata erguida junto a la oreja en gesto de invitación y una expresión bondadosa que parecía sonreír a quien los miraba.
+
+![La anciana modelando y pintando a mano figuras de gatos de arcilla en su terraza de Imado](/images/leyenda-anciana-3-arcilla.jpeg)
+
+Tras cocer las piezas en el horno comunal del barrio, trazó con un fino pincel de bambú los bigotes, el cascabel dorado y los rasgos del pelaje que tan bien conocía.
+
+## 4. Multitudes ante las puertas de Sensō-ji
+
+A la mañana siguiente, la anciana extendió una estera de paja junto al camino de acceso del **templo Sensō-ji**, en Asakusa, y colocó sobre un pequeño mostrador de madera su primera docena de gatos de arcilla.
+
+La gracia natural de aquellas figuras cautivó al instante a los peregrinos, artesanos y dueños de casas de té que pasaban por allí. Antes del mediodía se habían vendido todas, y al día siguiente una pequeña multitud aguardaba ya desde temprano para conseguir su propio gato de la suerte.
+
+![La anciana vendiendo sus gatos de arcilla frente al templo Sensō-ji rodeada de vecinos de Edo](/images/leyenda-anciana-4-sensoji.jpeg)
+
+Gracias a aquel humilde oficio, la anciana no solo salió para siempre de la miseria y pudo volver a cuidar de su fiel gato, sino que dio origen a la fiebre popular por los **gatos de arcilla de Imado**, inmortalizada ese mismo año de 1852 en los grabados *ukiyo-e* del maestro Utagawa Hiroshige y convertida para siempre en una de las leyendas fundacionales del Maneki-neko.
