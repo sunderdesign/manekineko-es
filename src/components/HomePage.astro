@@ -243,10 +243,20 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
               {era.p2}
             </p>
 
-            <div class="bg-[#FAF6F0] border-l-2 border-[#C6922C] p-4 rounded-r-lg">
+            <div class="bg-[#FAF6F0] border-l-2 border-[#C6922C] p-4 rounded-r-lg mb-6">
               <p class="text-xs text-stone-600 leading-relaxed">
                 <strong class="text-[#161412]">{era.noteLabel}</strong> {era.noteText}
               </p>
+            </div>
+
+            <div class="pt-2 border-t border-[#E5DEC9]">
+              <a
+                href={translatePath(`/historia/${era.slug}/`)}
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#8E1323] hover:text-[#700E1B] transition-colors group"
+              >
+                <span>{tr.timelineReadMore}</span>
+                <span aria-hidden="true" class="group-hover:translate-x-1 transition-transform">→</span>
+              </a>
             </div>
           </div>
 

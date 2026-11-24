@@ -16,6 +16,7 @@ export type ColorKey =
 export type AnatomyKey = 'koban' | 'collar' | 'cara';
 
 export interface EraContent {
+  slug: string;
   year: string;
   nodeTitle: string;
   nodeSubtitle: string;
@@ -47,6 +48,7 @@ export interface HomeTranslation {
   timelineBadge: string;
   timelineTitle: string;
   timelineSubtitle: string;
+  timelineReadMore: string;
   eras: EraContent[];
   prevEra: string;
   nextEra: string;
@@ -118,8 +120,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • TRADICIÓN Y LEYENDA',
     timelineTitle: 'De los talismanes rústicos al gato imperial',
     timelineSubtitle: 'Pulsa sobre cada etapa cronológica para desplegar su historia, sus leyendas y la evolución de su estética en Japón.',
+    timelineReadMore: 'Leer historia de esta época',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: 'Siglo XVI',
         nodeTitle: 'Antes del Gato',
         nodeSubtitle: 'Talismanes Pre-Edo',
@@ -134,6 +138,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Piedras Dōsojin y talismanes tradicionales Pre-Edo',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: 'Año 1615',
         nodeTitle: 'Templo Gōtokuji',
         nodeSubtitle: 'La leyenda de Tama',
@@ -148,6 +153,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Gato blanco Tama frente al templo Gōtokuji',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: 'Siglo XVIII',
         nodeTitle: 'Cerámica Imado',
         nodeSubtitle: 'Usugumo y el Edo popular',
@@ -162,6 +168,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Figura de cerámica Imado del período Edo',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: 'Era Meiji',
         nodeSubtitle: 'El relevo comercial',
@@ -176,12 +183,13 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Comercio tradicional japonés en la Era Meiji',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: 'Siglo XX – Hoy',
         nodeTitle: 'Tokoname y Mundo',
         nodeSubtitle: 'Icono universal',
         stamp: '常滑 • ETAPA V',
         eraMeta: 'Siglo XX – Actualidad • Tokoname y Mundo',
-        title: 'El estilo Tokoname y la expansion internacional',
+        title: 'El estilo Tokoname y la expansión internacional',
         p1: 'A mediados del siglo XX, los talleres alfareros de Tokoname (prefectura de Aichi) crearon el molde que hoy reconoce todo el planeta: proporciones redondeadas, cabeza grande, ojos expresivos en sonrisa y colores vibrantes (dorado, negro, rojo o rosa) adaptados a cada deseo.',
         p2: 'Desde los barrios comerciales de Japón se extendió a restaurantes y hogares de toda Asia y Occidente, evolucionando también hacia versiones solares con pata articulada y piezas de diseño contemporáneo sin perder su esencia original de bienvenida y buena fortuna.',
         noteLabel: 'Capital del Maneki-neko:',
@@ -237,8 +245,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • TRADITION & LEGEND',
     timelineTitle: 'From rustic talismans to the imperial cat',
     timelineSubtitle: 'Select each chronological stage to explore its history, legends and artistic evolution in Japan.',
+    timelineReadMore: 'Read history of this era',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: '16th Century',
         nodeTitle: 'Before the Cat',
         nodeSubtitle: 'Pre-Edo Talismans',
@@ -253,6 +263,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Dōsojin stones and traditional Pre-Edo talismans',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: 'Year 1615',
         nodeTitle: 'Gōtokuji Temple',
         nodeSubtitle: 'The Legend of Tama',
@@ -267,6 +278,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'White cat Tama in front of Gōtokuji Temple',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: '18th Century',
         nodeTitle: 'Imado Ceramics',
         nodeSubtitle: 'Usugumo & Popular Edo',
@@ -281,6 +293,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Edo-period Imado ceramic figurine',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: 'Meiji Era',
         nodeSubtitle: 'Commercial Shift',
@@ -295,6 +308,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Traditional Japanese storefront during the Meiji Era',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: '20th C. – Today',
         nodeTitle: 'Tokoname & World',
         nodeSubtitle: 'Universal Icon',
@@ -356,8 +370,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • TRADITION ET LÉGENDE',
     timelineTitle: 'Des talismans rustiques au chat impérial',
     timelineSubtitle: 'Cliquez sur chaque étape chronologique pour explorer son histoire, ses légendes et son évolution au Japon.',
+    timelineReadMore: 'Lire l\'histoire de cette époque',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: 'XVIe siècle',
         nodeTitle: 'Avant le Chat',
         nodeSubtitle: 'Talismans Pré-Edo',
@@ -372,6 +388,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Pierres Dōsojin et talismans traditionnels Pré-Edo',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: 'Année 1615',
         nodeTitle: 'Temple Gōtokuji',
         nodeSubtitle: 'La légende de Tama',
@@ -386,6 +403,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Chat blanc Tama devant le temple Gōtokuji',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: 'XVIIIe siècle',
         nodeTitle: 'Céramique Imado',
         nodeSubtitle: 'Usugumo et l’Edo populaire',
@@ -400,6 +418,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Figurine en céramique Imado de l’époque d’Edo',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: 'Ère Meiji',
         nodeSubtitle: 'Le relais commercial',
@@ -414,6 +433,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Commerce traditionnel japonais à l’ère Meiji',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: 'XXe s. – Aujourd’hui',
         nodeTitle: 'Tokoname et Monde',
         nodeSubtitle: 'Icône universelle',
@@ -475,8 +495,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • TRADITION & LEGENDE',
     timelineTitle: 'Von rustikalen Talismanen zur kaiserlichen Katze',
     timelineSubtitle: 'Klicken Sie auf jede Epoche, um ihre Geschichte, Legenden und künstlerische Entwicklung in Japan zu entdecken.',
+    timelineReadMore: 'Geschichte dieser Epoche lesen',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: '16. Jahrhundert',
         nodeTitle: 'Vor der Katze',
         nodeSubtitle: 'Prä-Edo-Talismane',
@@ -491,6 +513,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Dōsojin-Steine und traditionelle Prä-Edo-Talismane',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: 'Jahr 1615',
         nodeTitle: 'Gōtokuji-Tempel',
         nodeSubtitle: 'Die Legende von Tama',
@@ -505,6 +528,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Weiße Katze Tama vor dem Gōtokuji-Tempel',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: '18. Jahrhundert',
         nodeTitle: 'Imado-Keramik',
         nodeSubtitle: 'Usugumo & Edo-Kultur',
@@ -519,6 +543,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Imado-Keramikfigur aus der Edo-Zeit',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: 'Meiji-Zeit',
         nodeSubtitle: 'Kommerzieller Wandel',
@@ -533,6 +558,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Traditionelles japanisches Geschäft in der Meiji-Zeit',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: '20. Jh. – Heute',
         nodeTitle: 'Tokoname & Welt',
         nodeSubtitle: 'Universelle Ikone',
@@ -594,8 +620,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • TRADIZIONE E LEGGENDA',
     timelineTitle: 'Dai talismani rustici al gatto imperiale',
     timelineSubtitle: 'Clicca su ogni epoca cronologica per scoprire la sua storia, le leggende e l’evoluzione estetica in Giappone.',
+    timelineReadMore: 'Leggi la storia di quest\'epoca',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: 'XVI secolo',
         nodeTitle: 'Prima del Gatto',
         nodeSubtitle: 'Talismani Pre-Edo',
@@ -610,6 +638,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Pietre Dōsojin e talismani tradizionali Pre-Edo',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: 'Anno 1615',
         nodeTitle: 'Tempio Gōtokuji',
         nodeSubtitle: 'La leggenda di Tama',
@@ -624,6 +653,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Gatto bianco Tama davanti al tempio Gōtokuji',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: 'XVIII secolo',
         nodeTitle: 'Ceramica Imado',
         nodeSubtitle: 'Usugumo e l’Edo popolare',
@@ -638,6 +668,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Statuina in ceramica Imado del periodo Edo',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: 'Era Meiji',
         nodeSubtitle: 'La svolta commerciale',
@@ -652,6 +683,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Negozio tradizionale giapponese nell’Era Meiji',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: 'XX sec. – Oggi',
         nodeTitle: 'Tokoname e Mondo',
         nodeSubtitle: 'Icona universale',
@@ -713,8 +745,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • TRADIÇÃO E LENDA',
     timelineTitle: 'Dos talismãs rústicos ao gato imperial',
     timelineSubtitle: 'Clique em cada etapa cronológica para descobrir sua história, lendas e evolução estética no Japão.',
+    timelineReadMore: 'Ler a história desta época',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: 'Século XVI',
         nodeTitle: 'Antes do Gato',
         nodeSubtitle: 'Talismãs Pré-Edo',
@@ -729,6 +763,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Pedras Dōsojin e talismãs tradicionais Pré-Edo',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: 'Ano 1615',
         nodeTitle: 'Templo Gōtokuji',
         nodeSubtitle: 'A lenda de Tama',
@@ -743,6 +778,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Gato branco Tama em frente ao templo Gōtokuji',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: 'Século XVIII',
         nodeTitle: 'Cerâmica Imado',
         nodeSubtitle: 'Usugumo e o Edo popular',
@@ -757,6 +793,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Figura de cerâmica Imado do período Edo',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: 'Era Meiji',
         nodeSubtitle: 'A virada comercial',
@@ -771,6 +808,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Comércio tradicional japonês na Era Meiji',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: 'Século XX – Hoje',
         nodeTitle: 'Tokoname e Mundo',
         nodeSubtitle: 'Ícone universal',
@@ -832,8 +870,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • 伝統と変遷',
     timelineTitle: '素朴な民間信仰から世界の縁起物へ',
     timelineSubtitle: '各時代をクリックすると、招き猫誕生の背景や伝説、意匠の移り変わりをご覧いただけます。',
+    timelineReadMore: 'この時代の歴史を読む',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: '16世紀',
         nodeTitle: '招き猫以前',
         nodeSubtitle: '江戸以前の縁起物',
@@ -848,6 +888,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: '道祖神と江戸以前の伝統的な縁起物',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: '1615年',
         nodeTitle: '豪徳寺',
         nodeSubtitle: '白猫「たま」の伝説',
@@ -862,6 +903,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: '豪徳寺の白猫たまのイラスト',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: '18世紀',
         nodeTitle: '今戸焼',
         nodeSubtitle: '薄雲太夫と江戸庶民',
@@ -876,6 +918,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: '江戸時代の今戸焼招き猫',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: '明治時代',
         nodeSubtitle: '商売繁盛の主役へ',
@@ -890,6 +933,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: '明治時代の日本の伝統的な商店',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: '20世紀 – 現在',
         nodeTitle: '常滑焼と世界',
         nodeSubtitle: '世界的なアイコンへ',
@@ -951,8 +995,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • 传统与演变',
     timelineTitle: '从乡土护符到世界吉祥物',
     timelineSubtitle: '点击下方各个历史阶段，了解招财猫的起源传说与造型演变历程。',
+    timelineReadMore: '阅读该时代的历史',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: '16世纪',
         nodeTitle: '招财猫之前',
         nodeSubtitle: '江户前期的护符',
@@ -967,11 +1013,12 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: '道祖神与江户前期传统祈福护符',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: '1615年',
         nodeTitle: '豪德寺',
         nodeSubtitle: '白猫“小玉”的传说',
         stamp: '江戸 • 第二阶段',
-        eraMeta: '1615年 • 江户时代初期',
+        eraMeta: '1615年 • 江戸时代初期',
         title: '白猫“小玉”与东京豪德寺传说',
         p1: '在东京世田谷，藩主井伊直孝猎归途中遇雷雨在树下躲避，看见清贫古刹豪德寺的白猫“小玉”举爪向他招手示意入寺。',
         p2: '直孝刚迈向寺院，一道闪电便劈中了那棵大树。为感恩救命之恩，直孝出资重修了整座寺院。',
@@ -981,6 +1028,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: '豪德寺前的白猫小玉插画',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: '18世纪',
         nodeTitle: '今户烧陶瓷',
         nodeSubtitle: '薄云太夫与江户民俗',
@@ -995,6 +1043,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: '江户时代今户烧陶瓷招财猫',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: '明治时代',
         nodeSubtitle: '商业吉祥物的转型',
@@ -1009,6 +1058,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: '明治时代日本传统商铺',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: '20世纪 – 至今',
         nodeTitle: '常滑烧与世界',
         nodeSubtitle: '全球文化符号',
@@ -1070,8 +1120,10 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
     timelineBadge: '歴史 • ТРАДИЦИИ И ЛЕГЕНДЫ',
     timelineTitle: 'От деревенских оберегов к императорскому коту',
     timelineSubtitle: 'Нажмите на каждую эпоху, чтобы узнать её историю, легенды и эволюцию образа в Японии.',
+    timelineReadMore: 'Читать историю этой эпохи',
     eras: [
       {
+        slug: 'antes-del-gato-dosojin',
         year: 'XVI век',
         nodeTitle: 'До появления кота',
         nodeSubtitle: 'Талисманы до Эдо',
@@ -1086,6 +1138,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Камни Досодзин и традиционные талисманы эпохи до Эдо',
       },
       {
+        slug: 'templo-gotokuji-tama',
         year: '1615 год',
         nodeTitle: 'Храм Готоку-дзи',
         nodeSubtitle: 'Легенда о коте Тама',
@@ -1100,6 +1153,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Белый кот Тама перед храмом Готоку-дзи',
       },
       {
+        slug: 'ceramica-imado-usugumo',
         year: 'XVIII век',
         nodeTitle: 'Керамика Имадо',
         nodeSubtitle: 'Усугумо и народный Эдо',
@@ -1114,6 +1168,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Керамическая фигурка Имадо периода Эдо',
       },
       {
+        slug: 'era-meiji-revolucion-comercial',
         year: '1868 – 1912',
         nodeTitle: 'Эпоха Мэйдзи',
         nodeSubtitle: 'Коммерческий расцвет',
@@ -1128,6 +1183,7 @@ export const homeTranslations: Record<Lang, HomeTranslation> = {
         imageAlt: 'Традиционная японская лавка в эпоху Мэйдзи',
       },
       {
+        slug: 'tokoname-icono-mundial',
         year: 'XX в. – Наши дни',
         nodeTitle: 'Токонамэ и мир',
         nodeSubtitle: 'Всемирный символ',

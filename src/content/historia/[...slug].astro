@@ -1,0 +1,64 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { homeTranslations } from '../../i18n/home';
+
+export async function getStaticPaths() {
+  const historias = await getCollection('historia');
+  return historias.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const tr = homeTranslations.es;
+const { title, subtitle, era, period, location, coverImage, coverAlt, readingTime, featuredFigure } = entry.data;
+---
+
+<BaseLayout title={`${title} | Manekineko.es`} description={subtitle}>
+  <article class="max-w-3xl mx-auto px-6 py-10 sm:py-16">
+    <nav class="mb-8">
+      <a href="/#tradicion" class="text-sm font-medium text-[#8E1323] hover:underline">
+        ← {tr.timelineTitle}
+      </a>
+    </nav>
+
+    <header class="mb-10">
+      <div class="flex flex-wrap items-center gap-3 text-xs font-medium text-[#8E1323] mb-4">
+        <span class="px-3 py-1 rounded-full bg-white border border-[#E5DEC9]">
+          {era}
+        </span>
+        <span class="text-stone-500">{period}</span>
+        <span class="text-stone-500">• {location}</span>
+        <span class="text-stone-500">• {readingTime}</span>
+      </div>
+
+      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-[#161412] leading-tight mb-4">{title}</h1>
+      <p class="text-lg sm:text-xl text-stone-600 leading-relaxed">{subtitle}</p>
+    </header>
+
+    <figure class="mb-12 rounded-2xl overflow-hidden border border-[#E5DEC9] bg-white shadow-xs">
+      <img src={coverImage} alt={coverAlt} class="w-full aspect-[3/2] object-cover" />
+    </figure>
+
+    <div class="prose prose-lg max-w-none text-[#161412] prose-headings:font-serif prose-headings:text-[#161412] prose-blockquote:border-l-[#8E1323] prose-blockquote:bg-white prose-blockquote:py-2 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-strong:text-[#8E1323] prose-img:rounded-2xl prose-img:border prose-img:border-[#E5DEC9]">
+      <Content />
+    </div>
+
+    <aside class="mt-14 p-6 sm:p-8 rounded-2xl bg-white border border-[#E5DEC9] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div>
+        <h2 class="font-serif text-xl font-bold text-[#161412] mb-1">{featuredFigure.name}</h2>
+        <p class="text-sm text-stone-600 max-w-lg">{featuredFigure.meaning}</p>
+      </div>
+
+      <a
+        href={featuredFigure.shopUrl}
+        class="shrink-0 px-5 py-3 rounded-xl bg-[#8E1323] hover:bg-[#700E1B] text-white text-sm font-semibold transition-colors"
+      >
+        {tr.searchBtn}
+      </a>
+    </aside>
+  </article>
+</BaseLayout>
