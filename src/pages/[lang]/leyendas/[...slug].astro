@@ -5,31 +5,49 @@ import { languages, defaultLang, useTranslatedPath, type Lang } from '../../../i
 import { homeTranslations } from '../../../i18n/home';
 
 export async function getStaticPaths() {
-  const leyendas = (await getCollection('leyendas')).sort(
-    (a, b) => a.data.order - b.data.order
-  );
+  const allLeyendas = await getCollection('leyendas');
+  const baseLeyendas = allLeyendas
+    .filter((e) => !e.id.includes('/'))
+    .sort((a, b) => a.data.order - b.data.order);
   const langs = (Object.keys(languages) as Lang[]).filter((l) => l !== defaultLang);
-  return langs.flatMap((lang) =>
-    leyendas.map((entry) => ({
-      params: { lang, slug: entry.id },
-      props: { entry, lang, leyendas },
-    }))
-  );
+
+  return langs.flatMap((lang) => {
+    const localizedList = baseLeyendas.map((base) => {
+      const entry = allLeyendas.find((e) => e.id === `${lang}/${base.id}`) || base;
+      return { baseSlug: base.id, entry };
+    });
+
+    return localizedList.map((item) => ({
+      params: { lang, slug: item.baseSlug },
+      props: {
+        entry: item.entry,
+        baseSlug: item.baseSlug,
+        lang,
+        leyendas: localizedList,
+      },
+    }));
+  });
 }
 
-const { entry, lang, leyendas } = Astro.props as { entry: any; lang: Lang; leyendas: any[] };
+const { entry, baseSlug, lang, leyendas } = Astro.props as {
+  entry: any;
+  baseSlug: string;
+  lang: Lang;
+  leyendas: Array<{ baseSlug: string; entry: any }>;
+};
 const { Content } = await render(entry);
 const tr = homeTranslations[lang];
 const translatePath = useTranslatedPath(lang);
 const { title, subtitle, era, location, coverImage, coverAlt, readingTime, isOriginal, featuredFigure, chapters } = entry.data;
+
 const tocItems: string[] = Array.isArray(chapters) && chapters.length > 0
   ? chapters.map((c: any) => c.title)
   : (entry.body || '')
-      .split(String.fromCharCode(10))
+      .split('\n')
       .filter((l: string) => l.startsWith('## '))
-      .map((l: string) => l.replace(/^##s+(?:[0-9]+.s*)?/, '').trim());
+      .map((l: string) => l.replace(/^##\s+(?:[0-9]+\.\s*)?/, '').trim());
 
-const currentIndex = leyendas.findIndex((item) => item.id === entry.id);
+const currentIndex = leyendas.findIndex((item) => item.baseSlug === baseSlug);
 const prevLeyenda = currentIndex > 0 ? leyendas[currentIndex - 1] : null;
 const nextLeyenda = currentIndex >= 0 && currentIndex < leyendas.length - 1 ? leyendas[currentIndex + 1] : null;
 ---
@@ -54,7 +72,7 @@ const nextLeyenda = currentIndex >= 0 && currentIndex < leyendas.length - 1 ? le
 
           <ol class="relative border-l-2 border-[#E5DEC9] ml-2.5 space-y-4">
             {leyendas.map((item) => {
-              const isCurrent = item.id === entry.id;
+              const isCurrent = item.baseSlug === baseSlug;
               return (
                 <li class="pl-5 relative group">
                   <span
@@ -65,7 +83,7 @@ const nextLeyenda = currentIndex >= 0 && currentIndex < leyendas.length - 1 ? le
                     }`}
                   />
                   <a
-                    href={translatePath(`/leyendas/${item.id}/`)}
+                    href={translatePath(`/leyendas/${item.baseSlug}/`)}
                     aria-current={isCurrent ? 'page' : undefined}
                     class={`block rounded-xl transition-all ${
                       isCurrent
@@ -74,12 +92,12 @@ const nextLeyenda = currentIndex >= 0 && currentIndex < leyendas.length - 1 ? le
                     }`}
                   >
                     <div class={`text-[11px] font-bold uppercase tracking-wider ${isCurrent ? 'text-[#8E1323]' : 'text-stone-400 group-hover:text-[#8E1323]'}`}>
-                      {item.data.isOriginal ? tr.legendsOriginalBadge : item.data.era}
+                      {item.entry.data.isOriginal ? tr.legendsOriginalBadge : item.entry.data.era}
                     </div>
                     <div class={`font-serif text-sm leading-snug ${isCurrent ? 'font-bold text-[#161412]' : 'font-semibold text-stone-700 group-hover:text-[#161412]'}`}>
-                      {item.data.title}
+                      {item.entry.data.title}
                     </div>
-                    <div class="text-xs text-stone-500 mt-0.5">{item.data.location}</div>
+                    <div class="text-xs text-stone-500 mt-0.5">{item.entry.data.location}</div>
                   </a>
                 </li>
               );
@@ -131,31 +149,31 @@ const nextLeyenda = currentIndex >= 0 && currentIndex < leyendas.length - 1 ? le
         <nav class="mt-14 pt-8 border-t border-[#E5DEC9] grid grid-cols-1 sm:grid-cols-2 gap-4">
           {prevLeyenda ? (
             <a
-              href={translatePath(`/leyendas/${prevLeyenda.id}/`)}
+              href={translatePath(`/leyendas/${prevLeyenda.baseSlug}/`)}
               class="p-4 rounded-2xl bg-white border border-[#E5DEC9] hover:border-[#8E1323]/40 transition-colors group"
             >
               <div class="text-xs font-semibold text-[#8E1323] mb-1">
-                ← {prevLeyenda.data.isOriginal ? tr.legendsOriginalBadge : prevLeyenda.data.era}
+                ← {prevLeyenda.entry.data.isOriginal ? tr.legendsOriginalBadge : prevLeyenda.entry.data.era}
               </div>
               <div class="font-serif font-bold text-[#161412] group-hover:text-[#8E1323] transition-colors">
-                {prevLeyenda.data.title}
+                {prevLeyenda.entry.data.title}
               </div>
-              <div class="text-xs text-stone-500 mt-0.5">{prevLeyenda.data.location}</div>
+              <div class="text-xs text-stone-500 mt-0.5">{prevLeyenda.entry.data.location}</div>
             </a>
           ) : <div />}
 
           {nextLeyenda && (
             <a
-              href={translatePath(`/leyendas/${nextLeyenda.id}/`)}
+              href={translatePath(`/leyendas/${nextLeyenda.baseSlug}/`)}
               class="p-4 rounded-2xl bg-white border border-[#E5DEC9] hover:border-[#8E1323]/40 transition-colors text-left sm:text-right group"
             >
               <div class="text-xs font-semibold text-[#8E1323] mb-1">
-                {nextLeyenda.data.isOriginal ? tr.legendsOriginalBadge : nextLeyenda.data.era} →
+                {nextLeyenda.entry.data.isOriginal ? tr.legendsOriginalBadge : nextLeyenda.entry.data.era} →
               </div>
               <div class="font-serif font-bold text-[#161412] group-hover:text-[#8E1323] transition-colors">
-                {nextLeyenda.data.title}
+                {nextLeyenda.entry.data.title}
               </div>
-              <div class="text-xs text-stone-500 mt-0.5">{nextLeyenda.data.location}</div>
+              <div class="text-xs text-stone-500 mt-0.5">{nextLeyenda.entry.data.location}</div>
             </a>
           )}
         </nav>

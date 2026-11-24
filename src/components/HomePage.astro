@@ -13,9 +13,14 @@ const tr = homeTranslations[lang];
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 
-const leyendas = (await getCollection('leyendas')).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const allLeyendas = await getCollection('leyendas');
+const baseLeyendas = allLeyendas
+  .filter((e) => !e.id.includes('/'))
+  .sort((a, b) => a.data.order - b.data.order);
+const leyendas = baseLeyendas.map((base) => {
+  const entry = lang === 'es' ? base : (allLeyendas.find((e) => e.id === `${lang}/${base.id}`) ?? base);
+  return { slug: base.id, data: entry.data };
+});
 
 const initialPaw: PawKey = 'left';
 const initialColor: ColorKey = 'line';
@@ -307,7 +312,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           {leyendas.map((leyenda) => (
             <article class="group bg-[#FAF6F0] border border-[#E5DEC9] rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col">
-              <a href={translatePath(`/leyendas/${leyenda.id}/`)} class="block aspect-[3/2] overflow-hidden bg-white relative">
+              <a href={translatePath(`/leyendas/${leyenda.slug}/`)} class="block aspect-[3/2] overflow-hidden bg-white relative">
                 <img
                   src={leyenda.data.coverImage}
                   alt={leyenda.data.coverAlt}
@@ -326,7 +331,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
                 </div>
 
                 <h3 class="font-serif text-xl font-bold text-[#161412] group-hover:text-[#8E1323] transition-colors mb-2.5">
-                  <a href={translatePath(`/leyendas/${leyenda.id}/`)}>
+                  <a href={translatePath(`/leyendas/${leyenda.slug}/`)}>
                     {leyenda.data.title}
                   </a>
                 </h3>
@@ -337,7 +342,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
 
                 <div class="pt-3.5 border-t border-[#E5DEC9]">
                   <a
-                    href={translatePath(`/leyendas/${leyenda.id}/`)}
+                    href={translatePath(`/leyendas/${leyenda.slug}/`)}
                     class="text-sm font-semibold text-[#8E1323] hover:text-[#700E1B] inline-flex items-center gap-1"
                   >
                     {tr.legendsReadMore}

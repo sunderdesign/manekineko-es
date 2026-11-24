@@ -5,28 +5,33 @@ import { languages, defaultLang, useTranslatedPath, type Lang } from '../../../i
 import { homeTranslations } from '../../../i18n/home';
 
 export async function getStaticPaths() {
-  const historias = await getCollection('historia');
+  const allHistorias = await getCollection('historia');
+  const baseHistorias = allHistorias.filter((e) => !e.id.includes('/'));
   const langs = (Object.keys(languages) as Lang[]).filter((l) => l !== defaultLang);
+
   return langs.flatMap((lang) =>
-    historias.map((entry) => ({
-      params: { lang, slug: entry.id },
-      props: { entry, lang },
-    }))
+    baseHistorias.map((base) => {
+      const entry = allHistorias.find((e) => e.id === `${lang}/${base.id}`) || base;
+      return {
+        params: { lang, slug: base.id },
+        props: { entry, baseSlug: base.id, lang },
+      };
+    })
   );
 }
 
-const { entry, lang } = Astro.props as { entry: any; lang: Lang };
+const { entry, baseSlug, lang } = Astro.props as { entry: any; baseSlug: string; lang: Lang };
 const { Content } = await render(entry);
 const tr = homeTranslations[lang];
 const translatePath = useTranslatedPath(lang);
 const { title, subtitle, era, period, location, coverImage, coverAlt, readingTime, featuredFigure } = entry.data;
 
 const tocItems: string[] = (entry.body || '')
-  .split(String.fromCharCode(10))
+  .split('\n')
   .filter((l: string) => l.startsWith('## '))
-  .map((l: string) => l.replace(/^##s+(?:[0-9]+.s*)?/, '').trim());
+  .map((l: string) => l.replace(/^##\s+(?:[0-9]+\.\s*)?/, '').trim());
 
-const currentIndex = tr.eras.findIndex((e) => e.slug === entry.id);
+const currentIndex = tr.eras.findIndex((e) => e.slug === baseSlug);
 const prevEra = currentIndex > 0 ? tr.eras[currentIndex - 1] : null;
 const nextEra = currentIndex >= 0 && currentIndex < tr.eras.length - 1 ? tr.eras[currentIndex + 1] : null;
 ---
@@ -52,7 +57,7 @@ const nextEra = currentIndex >= 0 && currentIndex < tr.eras.length - 1 ? tr.eras
 
           <ol class="relative border-l-2 border-[#E5DEC9] ml-2.5 space-y-4">
             {tr.eras.map((item) => {
-              const isCurrent = item.slug === entry.id;
+              const isCurrent = item.slug === baseSlug;
               return (
                 <li class="pl-5 relative group">
                   <span

@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { homeTranslations } from '../../i18n/home';
 
 export async function getStaticPaths() {
-  const historias = await getCollection('historia');
+  const historias = (await getCollection('historia')).filter((e) => !e.id.includes('/'));
   return historias.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },

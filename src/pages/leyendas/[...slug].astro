@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { homeTranslations } from '../../i18n/home';
 
 export async function getStaticPaths() {
-  const leyendas = (await getCollection('leyendas')).sort(
+  const leyendas = ((await getCollection('leyendas')).filter((e) => !e.id.includes('/'))).sort(
     (a, b) => a.data.order - b.data.order
   );
   return leyendas.map((entry) => ({
