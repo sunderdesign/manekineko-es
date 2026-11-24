@@ -1,4 +1,6 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { useTranslatedPath, type Lang } from '../i18n/ui';
 import { fengShuiTranslations } from '../i18n/fengshui';
@@ -10,6 +12,22 @@ interface Props {
 const { lang } = Astro.props;
 const fsText = fengShuiTranslations[lang];
 const translatePath = useTranslatedPath(lang);
+
+function resolveImage(preferred: string, fallback: string): string {
+  const fullPath = path.join(process.cwd(), 'public', preferred.replace(/^\//, ''));
+  return fs.existsSync(fullPath) ? preferred : fallback;
+}
+
+const hasCustomHero = fs.existsSync(
+  path.join(process.cwd(), 'public', 'images', 'feng-shui', 'hero-genkan.jpg')
+);
+
+const spaceVisuals = [
+  resolveImage('/images/feng-shui/espacio-1-comercio.jpg', '/images/figuras/gotokuji-blanco-15cm-1.jpg'),
+  resolveImage('/images/feng-shui/espacio-2-genkan.jpg', '/images/figuras/gotokuji-blanco-15cm-2.jpg'),
+  resolveImage('/images/feng-shui/espacio-3-sureste.jpg', '/images/timeline-5-tokoname.jpeg'),
+  resolveImage('/images/feng-shui/espacio-4-escritorio.jpg', '/images/figuras/gotokuji-blanco-15cm-4.jpg'),
+];
 
 const faqJsonLd = {
   '@context': 'https://schema.org',
@@ -28,39 +46,92 @@ const faqJsonLd = {
 <BaseLayout title={fsText.seoTitle} description={fsText.seoDescription}>
   <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
 
-  <!-- Cabecera editorial -->
+  <!-- Cabecera editorial en 2 columnas: Texto + Diagrama/Foto Genkan -->
   <section class="bg-seigaiha border-b border-[#E5DEC9]">
-    <div class="max-w-5xl mx-auto px-6 py-12 sm:py-16">
-      <span class="hanko-stamp px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-white/95 inline-block mb-4">
-        {fsText.badge}
-      </span>
-      <h1 class="font-serif text-3xl sm:text-5xl font-bold text-[#161412] leading-tight max-w-3xl">
-        {fsText.heading}
-      </h1>
-      <p class="text-base sm:text-lg text-stone-700 mt-4 leading-relaxed max-w-2xl">
-        {fsText.subheading}
-      </p>
+    <div class="max-w-6xl mx-auto px-6 py-12 sm:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+      <div class="lg:col-span-7">
+        <span class="hanko-stamp px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-white/95 inline-block mb-4">
+          {fsText.badge}
+        </span>
+        <h1 class="font-serif text-3xl sm:text-5xl font-bold text-[#161412] leading-tight">
+          {fsText.heading}
+        </h1>
+        <p class="text-base sm:text-lg text-stone-700 mt-4 leading-relaxed max-w-2xl">
+          {fsText.subheading}
+        </p>
 
-      <div class="mt-7 flex flex-wrap items-center gap-3">
-        <a
-          href={translatePath('/')}
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#8E1323] hover:bg-[#700E1B] text-white text-xs sm:text-sm font-semibold shadow-xs transition-colors"
-        >
-          <span>{fsText.ctaConfigurator}</span>
-          <span aria-hidden="true">→</span>
-        </a>
-        <a
-          href={translatePath('/tienda/')}
-          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-[#FAF6F0] border border-[#E5DEC9] hover:border-[#C6922C] text-[#161412] text-xs sm:text-sm font-semibold transition-colors"
-        >
-          <span>{fsText.ctaCatalog}</span>
-        </a>
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <a
+            href={translatePath('/')}
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#8E1323] hover:bg-[#700E1B] text-white text-xs sm:text-sm font-semibold shadow-xs transition-colors"
+          >
+            <span>{fsText.ctaConfigurator}</span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a
+            href={translatePath('/tienda/')}
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-[#FAF6F0] border border-[#E5DEC9] hover:border-[#C6922C] text-[#161412] text-xs sm:text-sm font-semibold transition-colors"
+          >
+            <span>{fsText.ctaCatalog}</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna visual derecha: Foto hero si existe, o plano arquitectónico Kasō & Bagua -->
+      <div class="lg:col-span-5">
+        {hasCustomHero ? (
+          <figure class="rounded-2xl overflow-hidden border border-[#E5DEC9] bg-white shadow-sm">
+            <img
+              src="/images/feng-shui/hero-genkan.jpg"
+              alt={fsText.heading}
+              class="w-full aspect-[4/3] object-cover"
+            />
+          </figure>
+        ) : (
+          <div class="rounded-2xl border border-[#E5DEC9] bg-white/95 p-5 sm:p-6 shadow-xs">
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-3">
+              <span>家相 • KASŌ &amp; BAGUA</span>
+              <span class="text-[#8E1323]">玄関 GENKAN</span>
+            </div>
+            <svg viewBox="0 0 360 240" class="w-full h-auto rounded-xl bg-[#FAF6F0] border border-[#E5DEC9]" role="img" aria-label="Esquema de orientación Kasō y Bagua">
+              <!-- Cuadrícula Bagua sutil -->
+              <line x1="120" y1="16" x2="120" y2="224" stroke="#E5DEC9" stroke-dasharray="4 4" />
+              <line x1="240" y1="16" x2="240" y2="224" stroke="#E5DEC9" stroke-dasharray="4 4" />
+              <line x1="16" y1="85" x2="344" y2="85" stroke="#E5DEC9" stroke-dasharray="4 4" />
+              <line x1="16" y1="155" x2="344" y2="155" stroke="#E5DEC9" stroke-dasharray="4 4" />
+
+              <!-- Sector Sureste (Riqueza) -->
+              <rect x="24" y="24" width="90" height="54" rx="10" fill="#FFFBEB" stroke="#C6922C" stroke-width="1.5" />
+              <text x="69" y="47" text-anchor="middle" font-size="10" font-weight="700" fill="#92400E">SE • 財運</text>
+              <text x="69" y="63" text-anchor="middle" font-size="9" fill="#78350F">Koban / Gold</text>
+
+              <!-- Escritorio / Estudio -->
+              <rect x="246" y="24" width="90" height="54" rx="10" fill="#FFFFFF" stroke="#D6CFC2" />
+              <text x="291" y="47" text-anchor="middle" font-size="10" font-weight="700" fill="#161412">DESK • 学業</text>
+              <text x="291" y="63" text-anchor="middle" font-size="9" fill="#57534E">10–15 cm</text>
+
+              <!-- Consola con Maneki-neko mirando a la puerta -->
+              <rect x="215" y="112" width="108" height="44" rx="10" fill="#8E1323" />
+              <text x="269" y="131" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">MANEKI-NEKO</text>
+              <text x="269" y="146" text-anchor="middle" font-size="9" fill="#FDE68A">招福 • Eye Level</text>
+
+              <!-- Flecha de orientación hacia la puerta -->
+              <line x1="208" y1="134" x2="112" y2="176" stroke="#8E1323" stroke-width="2.5" stroke-linecap="round" />
+              <polygon points="106,179 118,167 122,179" fill="#8E1323" />
+
+              <!-- Puerta principal / Genkan -->
+              <rect x="24" y="164" width="84" height="52" rx="10" fill="#161412" />
+              <text x="66" y="187" text-anchor="middle" font-size="10" font-weight="700" fill="#FFFFFF">GENKAN</text>
+              <text x="66" y="202" text-anchor="middle" font-size="9" fill="#E2B455">玄関 • Entrada</text>
+            </svg>
+          </div>
+        )}
       </div>
     </div>
   </section>
 
   <!-- Bloque 1: Puente cultural Kasō japonés + Feng Shui -->
-  <section class="max-w-5xl mx-auto px-6 py-12 sm:py-16">
+  <section class="max-w-6xl mx-auto px-6 py-12 sm:py-16">
     <div class="bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-10 shadow-xs space-y-5">
       <h2 class="font-serif text-2xl sm:text-3xl font-bold text-[#161412]">
         {fsText.bridgeTitle}
@@ -88,8 +159,8 @@ const faqJsonLd = {
     </div>
   </section>
 
-  <!-- Bloque 2: Mapa práctico por espacios -->
-  <section class="max-w-5xl mx-auto px-6 pb-14">
+  <!-- Bloque 2: Mapa práctico por espacios con fotografía -->
+  <section class="max-w-6xl mx-auto px-6 pb-14">
     <div class="mb-8">
       <h2 class="font-serif text-2xl sm:text-3xl font-bold text-[#161412]">
         {fsText.spacesTitle}
@@ -100,32 +171,43 @@ const faqJsonLd = {
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {fsText.spaces.map((item) => (
-        <article class="bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-7 shadow-xs flex flex-col justify-between space-y-5">
-          <div class="space-y-3">
-            <span class="inline-block px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase rounded-full bg-[#FAF6F0] border border-[#E5DEC9] text-[#8E1323]">
-              {item.badge}
-            </span>
-            <h3 class="font-serif text-xl font-bold text-[#161412]">
-              {item.space}
-            </h3>
-            <p class="text-sm text-stone-700 leading-relaxed">
-              {item.description}
-            </p>
+      {fsText.spaces.map((item, idx) => (
+        <article class="bg-white border border-[#E5DEC9] rounded-2xl overflow-hidden shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="relative aspect-[16/10] bg-[#FAF6F0] border-b border-[#E5DEC9] overflow-hidden">
+              <img
+                src={spaceVisuals[idx] || '/images/figuras/gotokuji-blanco-15cm-1.jpg'}
+                alt={item.space}
+                loading="lazy"
+                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+              />
+              <span class="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase rounded-full bg-white/95 border border-[#E5DEC9] text-[#8E1323] shadow-2xs">
+                {item.badge}
+              </span>
+            </div>
 
-            <div class="pt-2 space-y-2 text-xs border-t border-[#E5DEC9]/70">
-              <div>
-                <span class="font-bold text-[#161412]">{fsText.orientationLabel}</span>{' '}
-                <span class="text-stone-700">{item.orientation}</span>
-              </div>
-              <div>
-                <span class="font-bold text-[#8E1323]">{fsText.comboLabel}</span>{' '}
-                <span class="font-semibold text-[#161412]">{item.recommendedCombo}</span>
+            <div class="p-6 sm:p-7 space-y-3">
+              <h3 class="font-serif text-xl font-bold text-[#161412]">
+                {item.space}
+              </h3>
+              <p class="text-sm text-stone-700 leading-relaxed">
+                {item.description}
+              </p>
+
+              <div class="pt-3 space-y-2 text-xs border-t border-[#E5DEC9]/70">
+                <div>
+                  <span class="font-bold text-[#161412]">{fsText.orientationLabel}</span>{' '}
+                  <span class="text-stone-700">{item.orientation}</span>
+                </div>
+                <div>
+                  <span class="font-bold text-[#8E1323]">{fsText.comboLabel}</span>{' '}
+                  <span class="font-semibold text-[#161412]">{item.recommendedCombo}</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="pt-2">
+          <div class="px-6 sm:px-7 pb-6">
             <a
               href={`${translatePath('/tienda/')}${item.filterQuery}`}
               class="inline-flex items-center gap-1.5 text-xs font-bold text-[#8E1323] hover:text-[#700E1B] transition-colors"
@@ -140,7 +222,7 @@ const faqJsonLd = {
   </section>
 
   <!-- Bloque 3: Qué hacer y qué evitar -->
-  <section class="max-w-5xl mx-auto px-6 pb-14">
+  <section class="max-w-6xl mx-auto px-6 pb-14">
     <h2 class="font-serif text-2xl sm:text-3xl font-bold text-[#161412] mb-6">
       {fsText.rulesTitle}
     </h2>
@@ -177,7 +259,7 @@ const faqJsonLd = {
   </section>
 
   <!-- Bloque 4: Preguntas Frecuentes (SEO FAQ) -->
-  <section class="max-w-5xl mx-auto px-6 pb-8">
+  <section class="max-w-6xl mx-auto px-6 pb-8">
     <div class="bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-10 shadow-xs">
       <h2 class="font-serif text-2xl font-bold text-[#161412] mb-6">
         {fsText.faqTitle}
