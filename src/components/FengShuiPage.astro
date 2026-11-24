@@ -221,42 +221,39 @@ const faqJsonLd = {
     </div>
   </section>
 
-  <!-- Bloque 3: Qué hacer y qué evitar -->
+  <!-- Bloque 3: Qué hacer y qué evitar con infografías técnicas -->
   <section class="max-w-6xl mx-auto px-6 pb-14">
     <h2 class="font-serif text-2xl sm:text-3xl font-bold text-[#161412] mb-6">
       {fsText.rulesTitle}
     </h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white border border-[#E5DEC9] border-t-4 border-t-emerald-700 rounded-2xl p-6 sm:p-7 shadow-xs">
-        <h3 class="font-serif text-lg font-bold text-emerald-900 mb-4">
-          ✓ {fsText.doTitle}
-        </h3>
-        <ul class="space-y-3 text-sm text-stone-700 leading-relaxed">
-          {fsText.dos.map((rule) => (
-            <li class="flex items-start gap-2.5">
-              <span class="text-emerald-700 font-bold mt-0.5">•</span>
-              <span>{rule}</span>
-            </li>
-          ))}
-        </ul>
+      <div class="bg-white border border-[#E5DEC9] border-t-4 border-t-emerald-700 rounded-2xl overflow-hidden shadow-xs flex flex-col">
+        <div class="bg-[#FAF6F0] border-b border-[#E5DEC9] aspect-[16/9] overflow-hidden">
+          <img src="/images/feng-shui/reglas-si.jpg" alt={fsText.doTitle} loading="lazy" class="w-full h-full object-cover" />
+        </div>
+        <div class="p-6 sm:p-7">
+          <h3 class="font-serif text-lg font-bold text-emerald-900 mb-4">✓ {fsText.doTitle}</h3>
+          <ul class="space-y-3 text-sm text-stone-700 leading-relaxed">
+            {fsText.dos.map((rule) => (<li class="flex items-start gap-2.5"><span class="text-emerald-700 font-bold mt-0.5">•</span><span>{rule}</span></li>))}
+          </ul>
+        </div>
       </div>
 
-      <div class="bg-white border border-[#E5DEC9] border-t-4 border-t-[#8E1323] rounded-2xl p-6 sm:p-7 shadow-xs">
-        <h3 class="font-serif text-lg font-bold text-[#8E1323] mb-4">
-          ✕ {fsText.dontTitle}
-        </h3>
-        <ul class="space-y-3 text-sm text-stone-700 leading-relaxed">
-          {fsText.donts.map((rule) => (
-            <li class="flex items-start gap-2.5">
-              <span class="text-[#8E1323] font-bold mt-0.5">•</span>
-              <span>{rule}</span>
-            </li>
-          ))}
-        </ul>
+      <div class="bg-white border border-[#E5DEC9] border-t-4 border-t-[#8E1323] rounded-2xl overflow-hidden shadow-xs flex flex-col">
+        <div class="bg-[#FAF6F0] border-b border-[#E5DEC9] aspect-[16/9] overflow-hidden">
+          <img src="/images/feng-shui/reglas-no.jpg" alt={fsText.dontTitle} loading="lazy" class="w-full h-full object-cover" />
+        </div>
+        <div class="p-6 sm:p-7">
+          <h3 class="font-serif text-lg font-bold text-[#8E1323] mb-4">✕ {fsText.dontTitle}</h3>
+          <ul class="space-y-3 text-sm text-stone-700 leading-relaxed">
+            {fsText.donts.map((rule) => (<li class="flex items-start gap-2.5"><span class="text-[#8E1323] font-bold mt-0.5">•</span><span>{rule}</span></li>))}
+          </ul>
+        </div>
       </div>
     </div>
   </section>
+
 
   <!-- Bloque 4: Preguntas Frecuentes (SEO FAQ) -->
   <section class="max-w-6xl mx-auto px-6 pb-8">
