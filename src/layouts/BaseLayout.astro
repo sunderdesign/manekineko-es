@@ -629,21 +629,7 @@ const langSwitchOptions = (Object.keys(languages) as Lang[]).map((code) => ({
         const inactiveClasses = ['text-stone-800', 'hover:text-[#8E1323]'];
         let lockUntil = 0;
 
-        const setHomeActiveNav = (target: 'amuleto' | 'evolucion' | 'leyendas') => {
-          document.querySelectorAll('#main-nav [data-nav]').forEach((link) => {
-            const nav = link.getAttribute('data-nav');
-            if (nav !== 'amuleto' && nav !== 'evolucion' && nav !== 'leyendas') return;
-            if (nav === target) {
-              link.classList.remove(...inactiveClasses);
-              link.classList.add(...activeClasses);
-            } else {
-              link.classList.remove(...activeClasses);
-              link.classList.add(...inactiveClasses);
-            }
-          });
-        };
-
-        const lockTarget = (target: 'amuleto' | 'evolucion' | 'leyendas') => {
+        const setHomeActiveNav = (target: string) => { const pairs: [string, string[], string[]][] = [['#main-nav [data-nav]', activeClasses, inactiveClasses], ['#mobile-nav-drawer [data-nav]', ['bg-[#8E1323]', 'text-white', 'shadow-xs'], ['text-stone-800', 'hover:bg-white', 'hover:text-[#8E1323]']]]; for (const [sel, on, off] of pairs) { document.querySelectorAll(sel).forEach((link) => { const nav = link.getAttribute('data-nav'); if (nav !== 'amuleto' && nav !== 'evolucion' && nav !== 'leyendas') return; link.classList.remove(...(nav === target ? off : on)); link.classList.add(...(nav === target ? on : off)); }); } }; const lockTarget = (target: 'amuleto' | 'evolucion' | 'leyendas') => {
           lockUntil = Date.now() + 950;
           setHomeActiveNav(target);
         };
