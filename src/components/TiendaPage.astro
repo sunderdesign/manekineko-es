@@ -1,0 +1,798 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslatedPath, type Lang } from '../i18n/ui';
+import { tiendaTranslations } from '../i18n/tienda';
+import preciosStock from '../data/precios-stock.json';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const tt = tiendaTranslations[lang];
+const translatePath = useTranslatedPath(lang);
+
+const allFiguras = await getCollection('figuras');
+const baseFiguras = allFiguras
+  .filter((e) => !e.id.includes('/'))
+  .sort((a, b) => (a.data.featuredOrder ?? 100) - (b.data.featuredOrder ?? 100));
+
+const stockMap = preciosStock as Record<string, {
+  price: number;
+  currency: string;
+  inStock: boolean;
+}>;
+
+const catalogItems = baseFiguras.map((base) => {
+  const entry = lang === 'es' ? base : (allFiguras.find((e) => e.id === `${lang}/${base.id}`) || base);
+  const stock = stockMap[base.id] || { price: 0, currency: 'EUR', inStock: true };
+  return {
+    slug: base.id,
+    url: translatePath(`/tienda/${base.id}/`),
+    data: entry.data,
+    price: stock.price,
+    currency: stock.currency,
+    inStock: stock.inStock,
+  };
+});
+
+const colorOptions: Array<{ key: keyof typeof tt.colors; swatchClass: string }> = [
+  { key: 'tricolor', swatchClass: 'bg-gradient-to-tr from-stone-900 via-amber-500 to-white border-stone-400' },
+  { key: 'white', swatchClass: 'bg-white border-stone-400' },
+  { key: 'gold', swatchClass: 'bg-gradient-to-tr from-[#B7811E] to-[#FFF1B8] border-amber-500' },
+  { key: 'yellow', swatchClass: 'bg-yellow-300 border-yellow-500' },
+  { key: 'green', swatchClass: 'bg-emerald-600 border-emerald-800' },
+  { key: 'blue', swatchClass: 'bg-sky-600 border-sky-800' },
+  { key: 'purple', swatchClass: 'bg-purple-700 border-purple-900' },
+  { key: 'pink', swatchClass: 'bg-rose-300 border-rose-400' },
+  { key: 'red', swatchClass: 'bg-[#8E1323] border-red-950' },
+  { key: 'black', swatchClass: 'bg-[#18181B] border-black' },
+];
+---
+
+<BaseLayout title={tt.seoTitle} description={tt.seoDescription}>
+  <section class="bg-seigaiha border-b border-[#E5DEC9]">
+    <div class="max-w-6xl mx-auto px-6 py-8 sm:py-10">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <span class="hanko-stamp px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-white/90 inline-block mb-2.5">
+            {tt.badge}
+          </span>
+          <h1 class="font-serif text-3xl sm:text-4xl text-[#161412]">
+            {tt.heading}
+          </h1>
+          <p class="text-sm text-stone-600 mt-1.5 max-w-xl">
+            {tt.subheading}
+          </p>
+        </div>
+
+        <a
+          href={translatePath('/')}
+          class="inline-flex items-center gap-1.5 text-xs font-medium text-[#8E1323] hover:text-[#700E1B] transition-colors self-start md:self-auto"
+        >
+          <span aria-hidden="true">←</span> {tt.backToConfigurator}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 py-10 sm:py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <!-- BARRA LATERAL DE FILTROS -->
+      <aside class="lg:col-span-4 xl:col-span-3 bg-white border border-[#E5DEC9] rounded-2xl p-5 shadow-xs lg:sticky lg:top-24">
+        <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-[#E5DEC9]">
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#8E1323]" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+            </svg>
+            <h2 class="font-serif text-base font-semibold text-[#161412]">
+              {tt.filtersTitle}
+            </h2>
+            <span id="sidebar-filter-count" class="hidden px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-[#8E1323] text-white">
+              0
+            </span>
+          </div>
+
+          <button
+            type="button"
+            id="btn-reset-filters"
+            class="text-[11px] font-medium text-stone-400 hover:text-[#8E1323] transition-colors cursor-pointer hidden"
+          >
+            {tt.clearAll}
+          </button>
+        </div>
+
+        <div class="divide-y divide-[#E5DEC9]">
+          <!-- 1. POSICIÓN DE LAS PATAS -->
+          <details open class="py-4 first:pt-0 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>{tt.pawSection}</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2">
+              {(['left', 'right', 'both'] as const).map((pawKey) => (
+                <button
+                  type="button"
+                  data-filter-paw={pawKey}
+                  class="sidebar-paw-btn w-full flex items-center justify-between px-3 py-2 rounded-xl border border-[#E5DEC9] bg-[#FAF6F0]/60 text-left text-xs transition-all hover:border-[#C6922C] cursor-pointer"
+                >
+                  <div>
+                    <span class="block font-semibold text-[#161412]">{tt.paws[pawKey].title}</span>
+                    <span class="block text-[10px] text-stone-500">{tt.paws[pawKey].desc}</span>
+                  </div>
+                  <span class="paw-indicator w-3.5 h-3.5 rounded-full border border-stone-400 flex items-center justify-center"></span>
+                </button>
+              ))}
+            </div>
+          </details>
+
+          <!-- 2. COLOR DEL ACABADO -->
+          <details open class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>{tt.colorSection}</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 grid grid-cols-2 gap-1.5">
+              {colorOptions.map((c) => (
+                <button
+                  type="button"
+                  data-filter-color={c.key}
+                  class="sidebar-color-btn flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-[#E5DEC9] bg-white text-xs text-stone-700 hover:border-[#C6922C] transition-all cursor-pointer"
+                >
+                  <span class={`w-3.5 h-3.5 rounded-full shrink-0 border ${c.swatchClass}`}></span>
+                  <span class="truncate">{tt.colors[c.key]}</span>
+                </button>
+              ))}
+            </div>
+          </details>
+
+          <!-- 3. RANGO DE PRECIO -->
+          <details open class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>{tt.priceSection}</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-5 px-1.5 mb-1">
+              <div class="relative h-1.5 w-full bg-[#E5DEC9] rounded-full mb-5">
+                <div id="price-track" class="absolute top-0 bottom-0 bg-[#8E1323] rounded-full pointer-events-none" style="left: 0%; right: 0%;"></div>
+                <input type="range" id="range-min" min="0" max="250" step="5" value="0" class="dual-range absolute w-full -top-[5px] h-1.5 appearance-none bg-transparent pointer-events-none z-20" />
+                <input type="range" id="range-max" min="0" max="250" step="5" value="250" class="dual-range absolute w-full -top-[5px] h-1.5 appearance-none bg-transparent pointer-events-none z-30" />
+              </div>
+              <div class="flex items-center gap-3">
+                <label class="block flex-1">
+                  <div class="relative">
+                    <input type="number" id="input-price-min" min="0" max="250" placeholder="0" class="w-full rounded-lg border border-[#E5DEC9] bg-white px-2.5 py-1.5 pr-6 text-xs text-[#161412] focus:border-[#8E1323] focus:outline-none" />
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400 font-medium">€</span>
+                  </div>
+                </label>
+                <span class="text-stone-300">-</span>
+                <label class="block flex-1">
+                  <div class="relative">
+                    <input type="number" id="input-price-max" min="0" max="250" placeholder="250+" class="w-full rounded-lg border border-[#E5DEC9] bg-white px-2.5 py-1.5 pr-6 text-xs text-[#161412] focus:border-[#8E1323] focus:outline-none" />
+                    <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-stone-400 font-medium">€</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </details>
+
+          <!-- 4. MATERIAL -->
+          <details open class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>{tt.materialSection}</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2">
+              {(['ceramica', 'porcelana', 'resina', 'hariko', 'madera', 'metal'] as const).map((matKey) => (
+                <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                  <input type="checkbox" name="material" value={matKey} data-label={tt.materials[matKey]} class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                  <span>{tt.materials[matKey]}</span>
+                </label>
+              ))}
+            </div>
+          </details>
+
+          <!-- 5. TAMAÑO -->
+          <details open class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>{tt.sizeSection}</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2">
+              {(['mini', 'pequeno', 'mediano', 'grande'] as const).map((sizeKey) => (
+                <label class="flex items-center justify-between gap-2 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                  <span class="flex items-center gap-2.5">
+                    <input type="checkbox" name="tamano" value={sizeKey} data-label={tt.sizes[sizeKey].label} class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                    <span>{tt.sizes[sizeKey].label}</span>
+                  </span>
+                  <span class="text-[11px] text-stone-400">{tt.sizes[sizeKey].range}</span>
+                </label>
+              ))}
+            </div>
+          </details>
+
+          <!-- 6. MECANISMO Y DETALLES -->
+          <details class="py-4 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>{tt.extrasSection}</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2">
+              {(['estatico', 'solar', 'koban', 'japon', 'hucha'] as const).map((extKey) => (
+                <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                  <input type="checkbox" name="extra" value={extKey} data-label={tt.extras[extKey]} class="filter-checkbox rounded border-stone-300 text-[#8E1323] focus:ring-[#8E1323]" />
+                  <span>{tt.extras[extKey]}</span>
+                </label>
+              ))}
+            </div>
+          </details>
+
+          <!-- 7. FECHA DE PUBLICACIÓN -->
+          <details class="py-4 last:pb-0 group">
+            <summary class="flex items-center justify-between list-none cursor-pointer text-[11px] font-bold uppercase tracking-widest text-stone-600 select-none">
+              <span>{tt.dateSection}</span>
+              <span class="text-stone-400 transition-transform group-open:rotate-180">▾</span>
+            </summary>
+            <div class="mt-3 space-y-2">
+              {(['all', '7d', '30d', '90d'] as const).map((dateKey) => (
+                <label class="flex items-center gap-2.5 text-xs text-stone-700 cursor-pointer hover:text-[#161412]">
+                  <input type="radio" name="fecha" value={dateKey} checked={dateKey === 'all'} class="text-[#8E1323] focus:ring-[#8E1323]" />
+                  <span>{tt.dates[dateKey]}</span>
+                </label>
+              ))}
+            </div>
+          </details>
+        </div>
+      </aside>
+
+      <!-- ZONA PRINCIPAL -->
+      <div class="lg:col-span-8 xl:col-span-9 space-y-5">
+        <div class="bg-white border border-[#E5DEC9] rounded-2xl p-4 shadow-xs space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span id="catalog-count-label" class="text-xs font-semibold text-[#161412]">
+                {tt.catalogCount.replace('{count}', String(catalogItems.length))}
+              </span>
+            </div>
+
+            <div class="flex items-center gap-2 self-start sm:self-auto">
+              <label for="sort-select" class="text-[11px] font-bold uppercase tracking-wider text-stone-400 shrink-0">
+                {tt.sortBy}
+              </label>
+              <select
+                id="sort-select"
+                class="rounded-xl border border-[#E5DEC9] bg-[#FAF6F0]/70 px-3 py-1.5 text-xs font-medium text-[#161412] focus:border-[#8E1323] focus:bg-white focus:outline-none cursor-pointer"
+              >
+                {(['recientes', 'antiguos', 'precio_asc', 'precio_desc', 'relevancia'] as const).map((sortKey) => (
+                  <option value={sortKey}>{tt.sorts[sortKey]}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div id="active-chips-bar" class="hidden pt-2.5 border-t border-[#E5DEC9]/80 flex flex-wrap items-center gap-1.5"></div>
+        </div>
+
+        <!-- CUADRÍCULA DE FICHAS -->
+        <div id="catalog-grid" class={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 ${catalogItems.length === 0 ? 'hidden' : ''}`}>
+          {catalogItems.map((item) => (
+            <article
+              data-figura-card
+              data-paw={item.data.paw}
+              data-color={item.data.color}
+              data-price={item.price}
+              data-material={item.data.material}
+              data-tamano={item.data.sizeCategory}
+              data-extras={item.data.extras.join(',')}
+              data-published={item.data.publishedAt}
+              data-order={item.data.featuredOrder}
+              class="group bg-white border border-[#E5DEC9] rounded-2xl overflow-hidden shadow-xs hover:shadow-md hover:border-[#C6922C]/70 transition-all duration-300 flex flex-col"
+            >
+              <a href={item.url} class="block aspect-[4/3] overflow-hidden bg-[#FAF6F0] relative">
+                <img
+                  src={item.data.images[0]}
+                  alt={item.data.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                  <span class="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-white/95 text-[#8E1323] border border-[#E5DEC9]">
+                    {tt.colors[item.data.color]}
+                  </span>
+                  <span class="px-2.5 py-0.5 text-[10px] font-semibold rounded-full bg-[#161412]/85 text-white">
+                    {tt.paws[item.data.paw].title}
+                  </span>
+                </div>
+              </a>
+
+              <div class="p-5 flex-1 flex flex-col">
+                <div class="flex items-center justify-between text-[11px] text-stone-500 mb-1.5">
+                  <span>{item.data.dimensions}</span>
+                  <span class={item.inStock ? 'text-emerald-700 font-medium' : 'text-amber-700 font-medium'}>
+                    {item.inStock ? '●' : '○'}
+                  </span>
+                </div>
+
+                <h2 class="font-serif text-lg font-bold text-[#161412] group-hover:text-[#8E1323] transition-colors mb-2 leading-snug">
+                  <a href={item.url}>{item.data.title}</a>
+                </h2>
+
+                <p class="text-xs text-stone-600 leading-relaxed mb-4 flex-1 line-clamp-3">
+                  {item.data.summary}
+                </p>
+
+                <div class="pt-3.5 border-t border-[#E5DEC9] flex items-center justify-between gap-2">
+                  {item.price > 0 ? (
+                    <span class="font-serif text-lg font-bold text-[#161412]">
+                      {item.price.toFixed(2).replace('.', ',')} €
+                    </span>
+                  ) : (
+                    <span class="text-xs text-stone-400">—</span>
+                  )}
+
+                  <a
+                    href={item.url}
+                    class="inline-flex items-center gap-1 text-xs font-semibold text-[#8E1323] hover:text-[#700E1B]"
+                  >
+                    <span>{tt.viewDetails}</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <!-- ESTADO VACÍO / PRÓXIMAMENTE -->
+        <div id="catalog-empty-state" class={`${catalogItems.length > 0 ? 'hidden' : ''} bg-white border border-[#E5DEC9] rounded-2xl p-8 sm:p-14 text-center shadow-xs relative overflow-hidden`}>
+          <div class="max-w-lg mx-auto flex flex-col items-center">
+            <span class="hanko-stamp px-3 py-1 text-[11px] font-bold tracking-widest uppercase bg-[#FAF6F0] mb-6">
+              {tt.emptyBadge}
+            </span>
+
+            <div class="w-40 h-40 sm:w-44 sm:h-44 rounded-full overflow-hidden bg-white border border-dashed border-[#C6922C]/70 shadow-xs flex items-center justify-center p-5 mb-6">
+              <img
+                id="store-preview-cat"
+                src="/MN_1_00_line.svg"
+                alt="Maneki-neko"
+                class="w-28 sm:w-32 h-auto object-contain transition-transform duration-300"
+              />
+            </div>
+
+            <h2 class="font-serif text-2xl sm:text-3xl text-[#161412] mb-3">
+              {tt.emptyTitle}
+            </h2>
+
+            <p id="store-empty-description" class="text-sm sm:text-base text-stone-600 leading-relaxed mb-6">
+              {tt.emptyDefaultDesc}
+            </p>
+
+            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#FAF6F0] border border-[#E5DEC9] text-xs text-stone-600">
+              <span class="w-2 h-2 rounded-full bg-[#C6922C] animate-pulse"></span>
+              <span>{tt.emptyStatus}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style is:global>
+    .dual-range::-webkit-slider-thumb {
+      pointer-events: auto;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background-color: #8E1323;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .dual-range::-moz-range-thumb {
+      pointer-events: auto;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background-color: #8E1323;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+  </style>
+
+  <script
+    id="tienda-i18n-data"
+    type="application/json"
+    set:html={JSON.stringify({
+      pawLabels: {
+        left: tt.paws.left.title,
+        right: tt.paws.right.title,
+        both: tt.paws.both.title,
+      },
+      colorLabels: tt.colors,
+      dateLabels: tt.dates,
+      catalogCountTemplate: tt.catalogCount,
+      emptyDefaultDesc: tt.emptyDefaultDesc,
+      emptyFilteredDesc: tt.emptyFilteredDesc,
+    })}
+  />
+
+  <script>
+    const cfgEl = document.getElementById('tienda-i18n-data');
+    if (cfgEl?.textContent) {
+      const cfg = JSON.parse(cfgEl.textContent);
+      const maxSliderPrice = 250;
+
+      const colorFiles: Record<string, string> = {
+        tricolor: '01_tri',
+        white: '02_white',
+        black: '03_black',
+        gold: '04_golden',
+        yellow: '05_yellow',
+        green: '06_green',
+        blue: '07_blue',
+        purple: '08_purple',
+        pink: '09_pink',
+        red: '10_red',
+      };
+
+      const state = {
+        pata: null as string | null,
+        color: null as string | null,
+        precio_min: '',
+        precio_max: '',
+        material: [] as string[],
+        tamano: [] as string[],
+        extra: [] as string[],
+        fecha: 'all',
+        orden: 'recientes',
+      };
+
+      const pawButtons = document.querySelectorAll<HTMLButtonElement>('.sidebar-paw-btn');
+      const colorButtons = document.querySelectorAll<HTMLButtonElement>('.sidebar-color-btn');
+      const rangeMin = document.getElementById('range-min') as HTMLInputElement | null;
+      const rangeMax = document.getElementById('range-max') as HTMLInputElement | null;
+      const priceTrack = document.getElementById('price-track');
+      const priceMinInput = document.getElementById('input-price-min') as HTMLInputElement | null;
+      const priceMaxInput = document.getElementById('input-price-max') as HTMLInputElement | null;
+      const checkboxes = document.querySelectorAll<HTMLInputElement>('.filter-checkbox');
+      const dateRadios = document.querySelectorAll<HTMLInputElement>('input[name="fecha"]');
+      const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
+      const resetBtn = document.getElementById('btn-reset-filters');
+      const filterCountBadge = document.getElementById('sidebar-filter-count');
+      const chipsBar = document.getElementById('active-chips-bar');
+      const countLabel = document.getElementById('catalog-count-label');
+      const gridEl = document.getElementById('catalog-grid');
+      const emptyStateEl = document.getElementById('catalog-empty-state');
+      const descriptionEl = document.getElementById('store-empty-description');
+      const previewImg = document.getElementById('store-preview-cat') as HTMLImageElement | null;
+      const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-figura-card]'));
+
+      function syncURL() {
+        const url = new URL(window.location.href);
+        const params = url.searchParams;
+        state.pata ? params.set('pata', state.pata) : params.delete('pata');
+        state.color ? params.set('color', state.color) : params.delete('color');
+        state.precio_min ? params.set('precio_min', state.precio_min) : params.delete('precio_min');
+        state.precio_max && state.precio_max !== String(maxSliderPrice) ? params.set('precio_max', state.precio_max) : params.delete('precio_max');
+        state.material.length ? params.set('material', state.material.join(',')) : params.delete('material');
+        state.tamano.length ? params.set('tamano', state.tamano.join(',')) : params.delete('tamano');
+        state.extra.length ? params.set('extra', state.extra.join(',')) : params.delete('extra');
+        state.fecha !== 'all' ? params.set('fecha', state.fecha) : params.delete('fecha');
+        state.orden !== 'recientes' ? params.set('orden', state.orden) : params.delete('orden');
+        window.history.replaceState({}, '', url.toString());
+      }
+
+      function updatePriceTrackUI() {
+        if (!rangeMin || !rangeMax || !priceTrack) return;
+        const minVal = parseInt(rangeMin.value);
+        const maxVal = parseInt(rangeMax.value);
+        priceTrack.style.left = `${(minVal / maxSliderPrice) * 100}%`;
+        priceTrack.style.right = `${100 - (maxVal / maxSliderPrice) * 100}%`;
+      }
+
+      function buildActiveChips() {
+        if (!chipsBar) return [];
+        const chips: { label: string; onRemove: () => void }[] = [];
+
+        if (state.pata && cfg.pawLabels[state.pata]) {
+          chips.push({ label: cfg.pawLabels[state.pata], onRemove: () => { state.pata = null; render(); } });
+        }
+        if (state.color && cfg.colorLabels[state.color]) {
+          chips.push({ label: cfg.colorLabels[state.color], onRemove: () => { state.color = null; render(); } });
+        }
+        if (state.precio_min || (state.precio_max && state.precio_max !== String(maxSliderPrice))) {
+          const minTxt = state.precio_min ? `${state.precio_min} €` : '0 €';
+          const maxTxt = (state.precio_max && state.precio_max !== String(maxSliderPrice)) ? `${state.precio_max} €` : '250+ €';
+          chips.push({ label: `${minTxt} – ${maxTxt}`, onRemove: () => { state.precio_min = ''; state.precio_max = ''; render(); } });
+        }
+
+        checkboxes.forEach((cb) => {
+          if (cb.checked) {
+            const group = cb.name as 'material' | 'tamano' | 'extra';
+            const val = cb.value;
+            chips.push({
+              label: cb.dataset.label || val,
+              onRemove: () => {
+                cb.checked = false;
+                state[group] = state[group].filter((v) => v !== val);
+                render();
+              },
+            });
+          }
+        });
+
+        if (state.fecha !== 'all' && cfg.dateLabels[state.fecha]) {
+          chips.push({
+            label: cfg.dateLabels[state.fecha],
+            onRemove: () => {
+              state.fecha = 'all';
+              dateRadios.forEach((r) => { r.checked = r.value === 'all'; });
+              render();
+            },
+          });
+        }
+
+        chipsBar.innerHTML = '';
+        chipsBar.classList.toggle('hidden', chips.length === 0);
+        chips.forEach((chip) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FAF6F0] border border-[#E5DEC9] text-[11px] font-medium text-[#161412] hover:border-[#8E1323] transition-colors cursor-pointer';
+          btn.innerHTML = `<span>${chip.label}</span><span class="text-stone-400 hover:text-[#8E1323]">×</span>`;
+          btn.addEventListener('click', chip.onRemove);
+          chipsBar.appendChild(btn);
+        });
+        return chips;
+      }
+
+      function filterAndSortCards() {
+        const now = Date.now();
+        const maxDays = state.fecha === '7d' ? 7 : state.fecha === '30d' ? 30 : state.fecha === '90d' ? 90 : null;
+        const minP = state.precio_min ? parseFloat(state.precio_min) : 0;
+        const maxP = state.precio_max ? parseFloat(state.precio_max) : Infinity;
+
+        let visibleCount = 0;
+
+        cards.forEach((card) => {
+          const paw = card.dataset.paw || '';
+          const color = card.dataset.color || '';
+          const price = parseFloat(card.dataset.price || '0');
+          const material = card.dataset.material || '';
+          const tamano = card.dataset.tamano || '';
+          const extras = (card.dataset.extras || '').split(',').filter(Boolean);
+          const published = card.dataset.published ? Date.parse(card.dataset.published) : now;
+
+          let ok = true;
+          if (state.pata && paw !== state.pata) ok = false;
+          if (ok && state.color && color !== state.color) ok = false;
+          if (ok && price > 0 && (price < minP || price > maxP)) ok = false;
+          if (ok && state.material.length > 0 && !state.material.includes(material)) ok = false;
+          if (ok && state.tamano.length > 0 && !state.tamano.includes(tamano)) ok = false;
+          if (ok && state.extra.length > 0 && !state.extra.every((ex) => extras.includes(ex))) ok = false;
+          if (ok && maxDays !== null && (now - published) > maxDays * 86400000) ok = false;
+
+          card.classList.toggle('hidden', !ok);
+          if (ok) visibleCount++;
+        });
+
+        if (gridEl) {
+          const sorted = [...cards].sort((a, b) => {
+            if (state.orden === 'precio_asc') return parseFloat(a.dataset.price || '0') - parseFloat(b.dataset.price || '0');
+            if (state.orden === 'precio_desc') return parseFloat(b.dataset.price || '0') - parseFloat(a.dataset.price || '0');
+            if (state.orden === 'antiguos') return Date.parse(a.dataset.published || '0') - Date.parse(b.dataset.published || '0');
+            if (state.orden === 'relevancia') return parseInt(a.dataset.order || '100') - parseInt(b.dataset.order || '100');
+            return Date.parse(b.dataset.published || '0') - Date.parse(a.dataset.published || '0');
+          });
+          sorted.forEach((c) => gridEl.appendChild(c));
+          gridEl.classList.toggle('hidden', visibleCount === 0);
+        }
+
+        emptyStateEl?.classList.toggle('hidden', visibleCount > 0);
+        if (countLabel) {
+          countLabel.textContent = cfg.catalogCountTemplate.replace('{count}', String(visibleCount));
+        }
+      }
+
+      function render() {
+        pawButtons.forEach((btn) => {
+          const isActive = (btn.dataset.filterPaw || '') === state.pata;
+          const indicator = btn.querySelector('.paw-indicator');
+          btn.classList.toggle('border-[#8E1323]', isActive);
+          btn.classList.toggle('bg-[#FAF6F0]', isActive);
+          btn.classList.toggle('ring-1', isActive);
+          btn.classList.toggle('ring-[#8E1323]', isActive);
+          btn.classList.toggle('border-[#E5DEC9]', !isActive);
+          btn.classList.toggle('bg-[#FAF6F0]/60', !isActive);
+          if (indicator) {
+            indicator.innerHTML = isActive ? '<span class="w-2 h-2 rounded-full bg-[#8E1323]"></span>' : '';
+            indicator.classList.toggle('border-[#8E1323]', isActive);
+            indicator.classList.toggle('border-stone-400', !isActive);
+          }
+        });
+
+        colorButtons.forEach((btn) => {
+          const isActive = (btn.dataset.filterColor || '') === state.color;
+          btn.classList.toggle('border-[#8E1323]', isActive);
+          btn.classList.toggle('bg-[#FAF6F0]', isActive);
+          btn.classList.toggle('font-semibold', isActive);
+          btn.classList.toggle('text-[#161412]', isActive);
+          btn.classList.toggle('ring-1', isActive);
+          btn.classList.toggle('ring-[#8E1323]', isActive);
+          btn.classList.toggle('border-[#E5DEC9]', !isActive);
+          btn.classList.toggle('bg-white', !isActive);
+        });
+
+        const minVal = state.precio_min ? parseInt(state.precio_min) : 0;
+        const maxVal = state.precio_max ? parseInt(state.precio_max) : maxSliderPrice;
+        if (rangeMin && rangeMax) {
+          rangeMin.value = String(minVal);
+          rangeMax.value = String(maxVal);
+        }
+        if (priceMinInput) priceMinInput.value = state.precio_min;
+        if (priceMaxInput) priceMaxInput.value = state.precio_max === String(maxSliderPrice) ? '' : state.precio_max;
+        updatePriceTrackUI();
+
+        const activeChips = buildActiveChips();
+        const count = activeChips.length;
+        resetBtn?.classList.toggle('hidden', count === 0);
+        if (filterCountBadge) {
+          filterCountBadge.textContent = String(count);
+          filterCountBadge.classList.toggle('hidden', count === 0);
+        }
+
+        if (descriptionEl) {
+          if (count > 0) {
+            const summary = activeChips.map((c) => c.label).join(' · ');
+            descriptionEl.textContent = cfg.emptyFilteredDesc.replace('{summary}', summary);
+          } else {
+            descriptionEl.textContent = cfg.emptyDefaultDesc;
+          }
+        }
+
+        if (previewImg) {
+          const prefix = state.pata === 'both' ? '2' : '1';
+          const fileSuffix = state.color && colorFiles[state.color] ? colorFiles[state.color] : '00_line';
+          previewImg.src = `/MN_${prefix}_${fileSuffix}.svg`;
+          previewImg.style.transform = state.pata === 'right' ? 'scaleX(-1)' : 'scaleX(1)';
+        }
+
+        filterAndSortCards();
+        syncURL();
+      }
+
+      function hydrateFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const pata = params.get('pata');
+        if (pata && cfg.pawLabels[pata]) state.pata = pata;
+        const color = params.get('color');
+        if (color && cfg.colorLabels[color]) state.color = color;
+        state.precio_min = params.get('precio_min') || '';
+        state.precio_max = params.get('precio_max') || '';
+
+        (['material', 'tamano', 'extra'] as const).forEach((group) => {
+          const raw = params.get(group);
+          if (raw) state[group] = raw.split(',').filter(Boolean);
+        });
+        checkboxes.forEach((cb) => {
+          const group = cb.name as 'material' | 'tamano' | 'extra';
+          cb.checked = state[group].includes(cb.value);
+        });
+
+        const fecha = params.get('fecha');
+        if (fecha && cfg.dateLabels[fecha]) {
+          state.fecha = fecha;
+          dateRadios.forEach((r) => { r.checked = r.value === fecha; });
+        }
+        const orden = params.get('orden');
+        if (orden && sortSelect) {
+          state.orden = orden;
+          sortSelect.value = orden;
+        }
+      }
+
+      pawButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const key = btn.dataset.filterPaw || null;
+          state.pata = state.pata === key ? null : key;
+          render();
+        });
+      });
+
+      colorButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const key = btn.dataset.filterColor || null;
+          state.color = state.color === key ? null : key;
+          render();
+        });
+      });
+
+      rangeMin?.addEventListener('input', (e) => {
+        let val = parseInt((e.target as HTMLInputElement).value);
+        const max = parseInt(rangeMax?.value || '250');
+        if (val > max - 5) { val = max - 5; (e.target as HTMLInputElement).value = String(val); }
+        state.precio_min = val === 0 ? '' : String(val);
+        updatePriceTrackUI();
+        if (priceMinInput) priceMinInput.value = state.precio_min;
+        filterAndSortCards();
+        syncURL();
+      });
+      rangeMin?.addEventListener('change', render);
+
+      rangeMax?.addEventListener('input', (e) => {
+        let val = parseInt((e.target as HTMLInputElement).value);
+        const min = parseInt(rangeMin?.value || '0');
+        if (val < min + 5) { val = min + 5; (e.target as HTMLInputElement).value = String(val); }
+        state.precio_max = val === maxSliderPrice ? '' : String(val);
+        updatePriceTrackUI();
+        if (priceMaxInput) priceMaxInput.value = state.precio_max;
+        filterAndSortCards();
+        syncURL();
+      });
+      rangeMax?.addEventListener('change', render);
+
+      priceMinInput?.addEventListener('change', () => {
+        let val = parseInt(priceMinInput.value);
+        const max = state.precio_max ? parseInt(state.precio_max) : maxSliderPrice;
+        if (isNaN(val) || val < 0) val = 0;
+        if (val > max - 5) val = max - 5;
+        state.precio_min = val === 0 ? '' : String(val);
+        render();
+      });
+
+      priceMaxInput?.addEventListener('change', () => {
+        let val = parseInt(priceMaxInput.value);
+        const min = state.precio_min ? parseInt(state.precio_min) : 0;
+        if (isNaN(val) || val > maxSliderPrice) val = maxSliderPrice;
+        if (val < min + 5) val = min + 5;
+        state.precio_max = val === maxSliderPrice ? '' : String(val);
+        render();
+      });
+
+      checkboxes.forEach((cb) => {
+        cb.addEventListener('change', () => {
+          const group = cb.name as 'material' | 'tamano' | 'extra';
+          if (cb.checked) {
+            if (!state[group].includes(cb.value)) state[group].push(cb.value);
+          } else {
+            state[group] = state[group].filter((v) => v !== cb.value);
+          }
+          render();
+        });
+      });
+
+      dateRadios.forEach((radio) => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) { state.fecha = radio.value; render(); }
+        });
+      });
+
+      sortSelect?.addEventListener('change', () => {
+        state.orden = sortSelect.value;
+        filterAndSortCards();
+        syncURL();
+      });
+
+      resetBtn?.addEventListener('click', () => {
+        state.pata = null;
+        state.color = null;
+        state.precio_min = '';
+        state.precio_max = '';
+        state.material = [];
+        state.tamano = [];
+        state.extra = [];
+        state.fecha = 'all';
+        if (priceMinInput) priceMinInput.value = '';
+        if (priceMaxInput) priceMaxInput.value = '';
+        checkboxes.forEach((cb) => { cb.checked = false; });
+        dateRadios.forEach((r) => { r.checked = r.value === 'all'; });
+        render();
+      });
+
+      hydrateFromURL();
+      render();
+    }
+  </script>
+</BaseLayout>

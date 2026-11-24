@@ -1,0 +1,368 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslatedPath, type Lang } from '../i18n/ui';
+import { homeTranslations } from '../i18n/home';
+import { tiendaTranslations } from '../i18n/tienda';
+import preciosStock from '../data/precios-stock.json';
+
+interface Props {
+  entry: any;
+  baseSlug: string;
+  lang: Lang;
+  related: Array<{ slug: string; data: any; price: number }>;
+}
+
+const { entry, baseSlug, lang, related } = Astro.props;
+const { Content } = await render(entry);
+const tr = homeTranslations[lang];
+const tt = tiendaTranslations[lang];
+const translatePath = useTranslatedPath(lang);
+
+const {
+  title,
+  subtitle,
+  paw,
+  color,
+  material,
+  dimensions,
+  weight,
+  origin,
+  extras,
+  anatomy,
+  placementAdvice,
+  images,
+} = entry.data;
+
+const stockMap = preciosStock as Record<string, {
+  price: number;
+  currency: string;
+  inStock: boolean;
+  lastChecked: string;
+  affiliateLinks: Record<string, string>;
+}>;
+
+const stock = stockMap[baseSlug] || {
+  price: 0,
+  currency: 'EUR',
+  inStock: true,
+  lastChecked: '',
+  affiliateLinks: { default: '#pendiente-afiliado' },
+};
+
+const rawAffiliateUrl = stock.affiliateLinks[lang] || stock.affiliateLinks.default || '#pendiente-afiliado';
+const hasActiveAffiliateLink = rawAffiliateUrl.startsWith('http://') || rawAffiliateUrl.startsWith('https://');
+
+const pawMeaning = tr.paws[paw as 'left' | 'right' | 'both'];
+const colorMeaning = tr.colors[color as keyof typeof tr.colors];
+
+const colorFileMap: Record<string, string> = {
+  tricolor: '01_tri',
+  white: '02_white',
+  black: '03_black',
+  gold: '04_golden',
+  yellow: '05_yellow',
+  green: '06_green',
+  blue: '07_blue',
+  purple: '08_purple',
+  pink: '09_pink',
+  red: '10_red',
+};
+const schematicSvg = `/MN_${paw === 'both' ? '2' : '1'}_${colorFileMap[color] || '00_line'}.svg`;
+---
+
+<BaseLayout title={`${title} | Manekineko.es`} description={subtitle}>
+  <div class="max-w-6xl mx-auto px-6 py-10 sm:py-14">
+    <nav class="mb-8 flex flex-wrap items-center justify-between gap-4">
+      <a href={translatePath('/tienda/')} class="text-sm font-medium text-[#8E1323] hover:underline">
+        ← {tt.backToCatalog}
+      </a>
+      <a
+        href={`${translatePath('/tienda/')}?color=${color}&pata=${paw}`}
+        class="text-xs font-medium text-stone-500 hover:text-[#8E1323] transition-colors"
+      >
+        {tt.colors[color as keyof typeof tt.colors]} • {tt.paws[paw as 'left' | 'right' | 'both'].title}
+      </a>
+    </nav>
+
+    <!-- BLOQUE PRINCIPAL: GALERÍA + FICHA DE COMPRA Y SIMBOLISMO -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <!-- Galería -->
+      <div class="lg:col-span-6 space-y-4">
+        <div class="bg-white border border-[#E5DEC9] rounded-2xl p-3 shadow-xs">
+          <img
+            id="figura-main-img"
+            src={images[0]}
+            alt={title}
+            class="w-full aspect-[4/3] object-cover rounded-xl"
+          />
+        </div>
+
+        {images.length > 1 && (
+          <div class="grid grid-cols-4 gap-3">
+            {images.map((img: string, idx: number) => (
+              <button
+                type="button"
+                data-thumb-src={img}
+                class={`figura-thumb rounded-xl overflow-hidden border bg-white p-1 transition-all cursor-pointer ${idx === 0 ? 'border-[#8E1323] ring-2 ring-[#8E1323]/20' : 'border-[#E5DEC9] hover:border-[#C6922C]'}`}
+              >
+                <img src={img} alt={`${title} (${idx + 1})`} class="w-full aspect-[4/3] object-cover rounded-lg" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- Datos principales + CTA de referido -->
+      <div class="lg:col-span-6 space-y-6">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-3">
+            <span class="hanko-stamp px-2.5 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-white">
+              {tt.colors[color as keyof typeof tt.colors]}
+            </span>
+            <span class="px-3 py-0.5 text-xs font-semibold rounded-full bg-white border border-[#E5DEC9] text-[#8E1323]">
+              {tt.paws[paw as 'left' | 'right' | 'both'].title}
+            </span>
+          </div>
+
+          <h1 class="font-serif text-3xl sm:text-4xl font-bold text-[#161412] leading-tight mb-3">
+            {title}
+          </h1>
+          <p class="text-base text-stone-600 leading-relaxed">
+            {subtitle}
+          </p>
+        </div>
+
+        <!-- Caja de Precio + Disponibilidad + Enlace de Afiliado -->
+        <div
+          id="live-stock-box"
+          data-slug={baseSlug}
+          data-in-stock-label={tt.inStock}
+          data-out-of-stock-label={tt.outOfStock}
+          class="bg-white border border-[#E5DEC9] border-l-4 border-l-[#8E1323] rounded-2xl p-6 shadow-xs space-y-4"
+        >
+          <div class="flex flex-wrap items-baseline justify-between gap-4">
+            {stock.price > 0 && (
+              <div id="live-price-value" class="font-serif text-3xl font-bold text-[#161412]">
+                {stock.price.toFixed(2).replace('.', ',')} €
+              </div>
+            )}
+
+            <span
+              id="live-stock-badge"
+              class={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${stock.inStock ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-amber-50 text-amber-800 border border-amber-200'}`}
+            >
+              <span>{stock.inStock ? '●' : '○'}</span>
+              <span id="live-stock-text">{stock.inStock ? tt.inStock : tt.outOfStock}</span>
+            </span>
+          </div>
+
+          {hasActiveAffiliateLink ? (
+            <a
+              id="live-buy-btn"
+              href={rawAffiliateUrl}
+              target="_blank"
+              rel="nofollow sponsored noopener"
+              class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#8E1323] hover:bg-[#700E1B] text-white font-semibold text-sm shadow-sm transition-colors"
+            >
+              <span>{tt.buyBtn}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <div class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#FAF6F0] border border-[#E5DEC9] text-stone-500 font-semibold text-sm">
+              <span>{tt.buyPendingBtn}</span>
+            </div>
+          )}
+
+          <p class="text-[11px] text-stone-500 leading-relaxed">
+            {tt.affiliateNote}
+          </p>
+        </div>
+
+        <!-- Conexión directa con el Configurador Simbólico -->
+        <div class="bg-[#FAF6F0] border border-[#E5DEC9] rounded-2xl p-5 flex items-center gap-4">
+          <div class="w-16 h-16 shrink-0 rounded-full bg-white border border-[#C6922C]/50 flex items-center justify-center p-2">
+            <img
+              src={schematicSvg}
+              alt={title}
+              class="w-11 h-auto object-contain"
+              style={paw === 'right' ? 'transform: scaleX(-1);' : undefined}
+            />
+          </div>
+          <div class="text-xs text-stone-700 leading-relaxed">
+            <div class="font-bold uppercase tracking-wider text-[10px] text-[#8E1323] mb-1">
+              {pawMeaning?.tag} • {colorMeaning?.tag}
+            </div>
+            <p>{pawMeaning?.sentence} {colorMeaning?.sentence}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOQUE INFERIOR: DESCRIPCIÓN EDITORIAL + FICHA TÉCNICA COMPLETA -->
+    <div class="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <article class="lg:col-span-7 bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-8 shadow-xs">
+        <div class="article-body text-[#161412] [&>p]:text-base [&>p]:text-stone-700 [&>p]:leading-[1.85] [&>p]:mb-5 [&>h3]:font-serif [&>h3]:text-xl [&>h3]:font-bold [&>h3]:text-[#161412] [&>h3]:mt-7 [&>h3]:mb-3 [&>ul]:my-4 [&>ul]:pl-5 [&>ul]:list-disc [&>ul]:space-y-2.5 [&>ul]:text-stone-700 [&>ul]:leading-relaxed [&_strong]:font-semibold [&_strong]:text-[#161412]">
+          <Content />
+        </div>
+
+        <div class="mt-8 p-5 rounded-xl bg-[#FAF6F0] border-l-4 border-l-[#C6922C]">
+          <h3 class="font-serif text-base font-bold text-[#161412] mb-1.5">
+            {tt.placementTitle}
+          </h3>
+          <p class="text-sm text-stone-700 leading-relaxed">
+            {placementAdvice}
+          </p>
+        </div>
+      </article>
+
+      <aside class="lg:col-span-5 space-y-6">
+        <!-- Tabla de especificaciones artesanales -->
+        <div class="bg-white border border-[#E5DEC9] rounded-2xl p-6 shadow-xs">
+          <h2 class="font-serif text-lg font-bold text-[#161412] mb-4 pb-3 border-b border-[#E5DEC9]">
+            {tt.specsTitle}
+          </h2>
+          <dl class="divide-y divide-[#E5DEC9]/70 text-xs">
+            <div class="py-2.5 flex justify-between gap-4">
+              <dt class="text-stone-500">{tt.specLabels.paw}</dt>
+              <dd class="font-semibold text-[#161412] text-right">{tt.paws[paw as 'left' | 'right' | 'both'].title}</dd>
+            </div>
+            <div class="py-2.5 flex justify-between gap-4">
+              <dt class="text-stone-500">{tt.specLabels.color}</dt>
+              <dd class="font-semibold text-[#161412] text-right">{tt.colors[color as keyof typeof tt.colors]}</dd>
+            </div>
+            <div class="py-2.5 flex justify-between gap-4">
+              <dt class="text-stone-500">{tt.specLabels.material}</dt>
+              <dd class="font-semibold text-[#161412] text-right">{tt.materials[material as keyof typeof tt.materials]}</dd>
+            </div>
+            <div class="py-2.5 flex justify-between gap-4">
+              <dt class="text-stone-500">{tt.specLabels.origin}</dt>
+              <dd class="font-semibold text-[#161412] text-right">{origin}</dd>
+            </div>
+            <div class="py-2.5 flex justify-between gap-4">
+              <dt class="text-stone-500">{tt.specLabels.dimensions}</dt>
+              <dd class="font-semibold text-[#161412] text-right">{dimensions}</dd>
+            </div>
+            {weight && (
+              <div class="py-2.5 flex justify-between gap-4">
+                <dt class="text-stone-500">{tt.specLabels.weight}</dt>
+                <dd class="font-semibold text-[#161412] text-right">{weight}</dd>
+              </div>
+            )}
+          </dl>
+        </div>
+
+        <!-- Rasgos iconográficos (Koban, cascabel, babero, accesorios) -->
+        <div class="bg-white border border-[#E5DEC9] rounded-2xl p-6 shadow-xs">
+          <h2 class="font-serif text-lg font-bold text-[#161412] mb-4 pb-3 border-b border-[#E5DEC9]">
+            {tt.anatomyTitle}
+          </h2>
+          <dl class="divide-y divide-[#E5DEC9]/70 text-xs">
+            <div class="py-2.5 flex justify-between gap-4">
+              <dt class="text-stone-500">{tt.specLabels.koban}</dt>
+              <dd class="font-semibold text-[#161412] text-right">
+                {anatomy.kobanText ? anatomy.kobanText : tt.specLabels.noKoban}
+              </dd>
+            </div>
+            <div class="py-2.5 flex justify-between gap-4">
+              <dt class="text-stone-500">{tt.specLabels.bell}</dt>
+              <dd class="font-semibold text-[#161412] text-right">{anatomy.bell}</dd>
+            </div>
+            <div class="py-2.5 flex justify-between gap-4">
+              <dt class="text-stone-500">{tt.specLabels.bib}</dt>
+              <dd class="font-semibold text-[#161412] text-right">{anatomy.bibColor}</dd>
+            </div>
+            {anatomy.accessory && (
+              <div class="py-2.5 flex justify-between gap-4">
+                <dt class="text-stone-500">{tt.specLabels.accessory}</dt>
+                <dd class="font-semibold text-[#161412] text-right">{anatomy.accessory}</dd>
+              </div>
+            )}
+          </dl>
+
+          {extras.length > 0 && (
+            <div class="mt-4 pt-3 border-t border-[#E5DEC9] flex flex-wrap gap-1.5">
+              {extras.map((ext: keyof typeof tt.extras) => (
+                <span class="px-2.5 py-1 rounded-full bg-[#FAF6F0] border border-[#E5DEC9] text-[11px] font-medium text-stone-700">
+                  {tt.extras[ext]}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </aside>
+    </div>
+
+    {related.length > 0 && (
+      <section class="mt-16 pt-10 border-t border-[#E5DEC9]">
+        <h2 class="font-serif text-2xl font-bold text-[#161412] mb-6">{tt.relatedTitle}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {related.map((rel) => (
+            <a
+              href={translatePath(`/tienda/${rel.slug}/`) }
+              class="group bg-white border border-[#E5DEC9] rounded-2xl overflow-hidden shadow-xs hover:border-[#C6922C] transition-all"
+            >
+              <div class="aspect-[4/3] overflow-hidden bg-[#FAF6F0]">
+                <img src={rel.data.images[0]} alt={rel.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div class="p-4">
+                <h3 class="font-serif text-base font-bold text-[#161412] group-hover:text-[#8E1323] transition-colors">
+                  {rel.data.title}
+                </h3>
+                {rel.price > 0 && (
+                  <div class="text-xs font-semibold text-stone-600 mt-1">
+                    {rel.price.toFixed(2).replace('.', ',')} €
+                  </div>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+
+  <script>
+    // Galería de miniaturas
+    const mainImg = document.getElementById('figura-main-img') as HTMLImageElement | null;
+    const thumbs = document.querySelectorAll<HTMLButtonElement>('.figura-thumb');
+    thumbs.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const src = btn.dataset.thumbSrc;
+        if (mainImg && src) mainImg.src = src;
+        thumbs.forEach((b) => {
+          b.classList.remove('border-[#8E1323]', 'ring-2', 'ring-[#8E1323]/20');
+          b.classList.add('border-[#E5DEC9]');
+        });
+        btn.classList.remove('border-[#E5DEC9]');
+        btn.classList.add('border-[#8E1323]', 'ring-2', 'ring-[#8E1323]/20');
+      });
+    });
+
+    // Sincronización en vivo con /data/precios-stock.json
+    const box = document.getElementById('live-stock-box');
+    const slug = box?.dataset.slug;
+    if (box && slug) {
+      fetch('/data/precios-stock.json', { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data) => {
+          const item = data?.[slug];
+          if (!item) return;
+          const priceEl = document.getElementById('live-price-value');
+          if (priceEl && typeof item.price === 'number' && item.price > 0) {
+            priceEl.textContent = `${item.price.toFixed(2).replace('.', ',')} €`;
+          }
+          const badgeEl = document.getElementById('live-stock-badge');
+          const textEl = document.getElementById('live-stock-text');
+          if (badgeEl && textEl) {
+            const available = Boolean(item.inStock);
+            textEl.textContent = available ? (box.dataset.inStockLabel || '') : (box.dataset.outOfStockLabel || '');
+            badgeEl.className = available
+              ? 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200'
+              : 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200';
+          }
+        })
+        .catch(() => {});
+    }
+  </script>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import FiguraDetailPage from '../../components/FiguraDetailPage.astro';
+import preciosStock from '../../data/precios-stock.json';
+
+export async function getStaticPaths() {
+  const allFiguras = await getCollection('figuras');
+  const baseFiguras = allFiguras.filter((e) => !e.id.includes('/'));
+  const stockMap = preciosStock as Record<string, { price: number }>;
+
+  return baseFiguras.map((entry) => {
+    const related = baseFiguras
+      .filter((other) => other.id !== entry.id)
+      .slice(0, 3)
+      .map((other) => ({
+        slug: other.id,
+        data: other.data,
+        price: stockMap[other.id]?.price || 0,
+      }));
+
+    return {
+      params: { slug: entry.id },
+      props: { entry, baseSlug: entry.id, related },
+    };
+  });
+}
+
+const { entry, baseSlug, related } = Astro.props;
+---
+<FiguraDetailPage entry={entry} baseSlug={baseSlug} lang="es" related={related} />

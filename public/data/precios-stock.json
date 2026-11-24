@@ -1,0 +1,22 @@
+{
+  "gotokuji-blanco-15cm": {
+    "sourceUrl": "",
+    "program": "Pendiente de afiliación (Amazon / Etsy)",
+    "price": 38.0,
+    "currency": "EUR",
+    "inStock": true,
+    "lastChecked": "2026-11-24T04:30:00Z",
+    "affiliateLinks": {
+      "default": "#pendiente-afiliado",
+      "es": "#pendiente-afiliado",
+      "en": "#pendiente-afiliado",
+      "fr": "#pendiente-afiliado",
+      "de": "#pendiente-afiliado",
+      "it": "#pendiente-afiliado",
+      "pt": "#pendiente-afiliado",
+      "ja": "#pendiente-afiliado",
+      "zh": "#pendiente-afiliado",
+      "ru": "#pendiente-afiliado"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import FiguraDetailPage from '../../../components/FiguraDetailPage.astro';
+import { languages, defaultLang, type Lang } from '../../../i18n/ui';
+import preciosStock from '../../../data/precios-stock.json';
+
+export async function getStaticPaths() {
+  const allFiguras = await getCollection('figuras');
+  const baseFiguras = allFiguras.filter((e) => !e.id.includes('/'));
+  const langs = (Object.keys(languages) as Lang[]).filter((l) => l !== defaultLang);
+  const stockMap = preciosStock as Record<string, { price: number }>;
+
+  return langs.flatMap((lang) =>
+    baseFiguras.map((base) => {
+      const entry = allFiguras.find((e) => e.id === `${lang}/${base.id}`) || base;
+      const related = baseFiguras
+        .filter((other) => other.id !== base.id)
+        .slice(0, 3)
+        .map((other) => {
+          const relEntry = allFiguras.find((e) => e.id === `${lang}/${other.id}`) || other;
+          return {
+            slug: other.id,
+            data: relEntry.data,
+            price: stockMap[other.id]?.price || 0,
+          };
+        });
+
+      return {
+        params: { lang, slug: base.id },
+        props: { entry, baseSlug: base.id, lang, related },
+      };
+    })
+  );
+}
+
+const { entry, baseSlug, lang, related } = Astro.props as {
+  entry: any;
+  baseSlug: string;
+  lang: Lang;
+  related: Array<{ slug: string; data: any; price: number }>;
+};
+---
+<FiguraDetailPage entry={entry} baseSlug={baseSlug} lang={lang} related={related} />
