@@ -842,3 +842,65 @@ export const fengShuiTranslations: Record<Lang, {
     ],
   },
 };
+
+export const fengShuiHomeBanner: Record<Lang, {
+  badge: string;
+  title: string;
+  desc: string;
+  cta: string;
+}> = {
+  es: {
+    badge: '風水・家相 • GUÍA DE USO Y UBICACIÓN',
+    title: '¿Ya sabes qué figura elegir? Descubre dónde colocarla',
+    desc: 'Aprende a orientar tu Maneki-neko en el recibidor (genkan), tu negocio o la esquina Sureste según el Kasō japonés y el Feng Shui.',
+    cta: 'Ver guía de Kasō y Feng Shui',
+  },
+  en: {
+    badge: '風水・家相 • PLACEMENT & USAGE GUIDE',
+    title: 'Know which figurine to choose? Discover where to place it',
+    desc: 'Learn how to orient your Maneki-neko in the entryway (genkan), your shop, or the Southeast corner according to Japanese Kasō & Feng Shui.',
+    cta: 'Read Kasō & Feng Shui guide',
+  },
+  fr: {
+    badge: '風水・家相 • GUIDE D’EMPLACEMENT',
+    title: 'Vous avez choisi votre figurine ? Découvrez où la placer',
+    desc: 'Apprenez à orienter votre Maneki-neko dans l’entrée (genkan), votre boutique ou le coin Sud-Est selon le Kasō japonais et le Feng Shui.',
+    cta: 'Voir le guide Kasō et Feng Shui',
+  },
+  de: {
+    badge: '風水・家相 • AUFSTELLUNGS-GUIDE',
+    title: 'Wunschfigur gefunden? Erfahren Sie, wo sie hingehört',
+    desc: 'So richten Sie Ihre Maneki-neko im Eingangsbereich (Genkan), Geschäft oder Südost-Sektor nach japanischem Kasō & Feng Shui aus.',
+    cta: 'Kasō & Feng Shui Guide lesen',
+  },
+  it: {
+    badge: '風水・家相 • GUIDA ALLA POSIZIONE',
+    title: 'Sai già quale statuina scegliere? Scopri dove metterla',
+    desc: 'Impara a orientare il tuo Maneki-neko all’ingresso (genkan), in negozio o nell’angolo Sud-Est secondo il Kasō giapponese e il Feng Shui.',
+    cta: 'Leggi la guida Kasō e Feng Shui',
+  },
+  pt: {
+    badge: '風水・家相 • GUIA DE POSICIONAMENTO',
+    title: 'Já sabe qual figura escolher? Descubra onde colocá-la',
+    desc: 'Aprenda a orientar seu Maneki-neko na entrada (genkan), na loja ou no canto Sudeste segundo o Kasō japonês e o Feng Shui.',
+    cta: 'Ver guia de Kasō e Feng Shui',
+  },
+  ja: {
+    badge: '風水・家相 • 置き場所と飾り方ガイド',
+    title: '招き猫が決まったら、次は「正しい置き場所」へ',
+    desc: '玄関（家相）やお店のカウンター、風水の東南方位など、ご利益を高める向きと飾り方を分かりやすく解説します。',
+    cta: '家相と風水ガイドを見る',
+  },
+  zh: {
+    badge: '風水・家相 • 摆放与方位指南',
+    title: '选好招财猫了吗？了解最旺福的摆放位置',
+    desc: '结合日本玄关家相传统与风水八卦方位，掌握商铺门口、居家玄关与东南财位的最佳朝向。',
+    cta: '查看家相与风水指南',
+  },
+  ru: {
+    badge: '風水・家相 • ГИД ПО РАЗМЕЩЕНИЮ',
+    title: 'Уже выбрали фигурку? Узнайте, куда её поставить',
+    desc: 'Как правильно сориентировать Манэки-нэко в прихожей (гэнкан), магазине или юго-восточном секторе по японскому Касо и фэн-шуй.',
+    cta: 'Открыть гид по Касо и фэн-шуй',
+  },
+};
