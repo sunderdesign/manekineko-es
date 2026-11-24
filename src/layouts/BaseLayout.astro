@@ -36,8 +36,8 @@ const normalizedPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 const normalizedHome = homeHref.replace(/\/$/, '') || '/';
 
 const isHome = normalizedPath === normalizedHome;
-const isLeyendas = normalizedPath.startsWith(leyendasHref.replace(/\/$/, ''));
-const isTienda = normalizedPath.startsWith(figurasHref.replace(/\/$/, ''));
+const isLeyendas = normalizedPath.split('/').filter(Boolean).includes('leyendas');
+const isTienda = normalizedPath.split('/').filter(Boolean).includes('tienda');
 
 const baseNavClass = 'px-3.5 py-2 rounded-full transition-colors';
 const activeNavClass = `${baseNavClass} bg-[#8E1323] text-white hover:bg-[#700E1B] shadow-xs`;
@@ -352,46 +352,80 @@ const langSwitchOptions = (Object.keys(languages) as Lang[]).map((code) => ({
         }
       }
 
-      // 3. Resaltado dinámico entre "El Amuleto" y "Evolución" en la portada
-      const activeClasses = ['bg-[#8E1323]', 'text-white', 'hover:bg-[#700E1B]', 'shadow-xs'];
-      const inactiveClasses = ['text-stone-800', 'hover:text-[#8E1323]'];
-      const mainNav = document.getElementById('main-nav');
-      const homePath = mainNav?.getAttribute('data-home-path') || '/';
-      const currentCleanPath = window.location.pathname.replace(/\/$/, '') || '/';
+      // 3. Resaltado dinámico entre "El Amuleto", "Evolución" y "Leyendas"
+  const activeClasses = ['bg-[#8E1323]', 'text-white', 'hover:bg-[#700E1B]', 'shadow-xs'];
+  const inactiveClasses = ['text-stone-800', 'hover:text-[#8E1323]'];
 
-      function setHomeActiveNav(target: 'amuleto' | 'evolucion') {
-        if (currentCleanPath !== homePath) return;
-        const navLinks = document.querySelectorAll('#main-nav a[data-nav]');
-        navLinks.forEach((link) => {
-          const key = link.getAttribute('data-nav');
-          if (key === target) {
-            link.classList.remove(...inactiveClasses);
-            link.classList.add(...activeClasses);
-          } else {
-            link.classList.remove(...activeClasses);
-            link.classList.add(...inactiveClasses);
-          }
-        });
+  function setHomeActiveNav(target: 'amuleto' | 'evolucion' | 'leyendas') {
+    document.querySelectorAll('[data-nav]').forEach((link) => {
+      const nav = link.getAttribute('data-nav');
+      if (nav !== 'amuleto' && nav !== 'evolucion' && nav !== 'leyendas') return;
+      if (nav === target) {
+        link.classList.remove(...inactiveClasses);
+        link.classList.add(...activeClasses);
+      } else {
+        link.classList.remove(...activeClasses);
+        link.classList.add(...inactiveClasses);
       }
+    });
+  }
 
-      if (currentCleanPath === homePath) {
-        const tradicionSection = document.getElementById('tradicion');
+  if (currentCleanPath === homePath) {
+    const tradicionSection = document.getElementById('tradicion');
+    const leyendasSection = document.getElementById('leyendas');
+    let lockUntil = 0;
 
-        const syncScrollNav = () => {
-          if (!tradicionSection) return;
-          const rect = tradicionSection.getBoundingClientRect();
-          setHomeActiveNav(rect.top <= 200 ? 'evolucion' : 'amuleto');
-        };
+    const lockTarget = (target: 'amuleto' | 'evolucion' | 'leyendas') => {
+      lockUntil = Date.now() + 950;
+      setHomeActiveNav(target);
+    };
 
-        if (window.location.hash === '#tradicion') {
-          setHomeActiveNav('evolucion');
-        } else {
-          syncScrollNav();
+    const syncScrollNav = () => {
+      if (Date.now() < lockUntil) return;
+
+      const atBottom =
+        window.innerHeight + Math.ceil(window.scrollY) >=
+        document.documentElement.scrollHeight - 120;
+
+      if (leyendasSection) {
+        const lRect = leyendasSection.getBoundingClientRect();
+        if (lRect.top <= window.innerHeight * 0.45 || (atBottom && lRect.top < window.innerHeight * 0.85)) {
+          setHomeActiveNav('leyendas');
+          return;
         }
-
-        window.addEventListener('hashchange', syncScrollNav);
-        window.addEventListener('scroll', syncScrollNav, { passive: true });
       }
-    </script>
+
+      if (tradicionSection && tradicionSection.getBoundingClientRect().top <= 220) {
+        setHomeActiveNav('evolucion');
+      } else {
+        setHomeActiveNav('amuleto');
+      }
+    };
+
+    const syncFromHash = () => {
+      if (window.location.hash === '#leyendas') {
+        lockTarget('leyendas');
+      } else if (window.location.hash === '#tradicion') {
+        lockTarget('evolucion');
+      } else {
+        syncScrollNav();
+      }
+    };
+
+    document.querySelectorAll('[data-nav="leyendas"]').forEach((el) => {
+      el.addEventListener('click', () => lockTarget('leyendas'));
+    });
+    document.querySelectorAll('[data-nav="evolucion"]').forEach((el) => {
+      el.addEventListener('click', () => lockTarget('evolucion'));
+    });
+    document.querySelectorAll('[data-nav="amuleto"]').forEach((el) => {
+      el.addEventListener('click', () => lockTarget('amuleto'));
+    });
+
+    syncFromHash();
+    window.addEventListener('hashchange', syncFromHash);
+    window.addEventListener('scroll', syncScrollNav, { passive: true });
+  }
+</script>
   </body>
 </html>

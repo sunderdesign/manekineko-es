@@ -3,8 +3,8 @@ title: "La anciana de Imado y el sueño de Sensō-ji"
 subtitle: "Obligada por la miseria a despedirse de su amado gato en 1852, una humilde mujer de Asakusa recibió en sueños el secreto de arcilla que sacó a ambos de la pobreza."
 era: "Año 1852 • Periodo Edo"
 location: "Imado y Asakusa, Tokio"
-coverImage: "/images/leyenda-usugumo.jpeg"
-coverAlt: "La anciana de Imado vendiendo gatos de arcilla frente al templo Sensō-ji"
+coverImage: "/images/leyenda-imado.jpeg"
+coverAlt: "La anciana de Imado modelando figuras de gatos de arcilla"
 readingTime: "7 min de lectura"
 isOriginal: false
 order: 3

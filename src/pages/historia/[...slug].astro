@@ -16,6 +16,11 @@ const { Content } = await render(entry);
 const tr = homeTranslations.es;
 const { title, subtitle, era, period, location, coverImage, coverAlt, readingTime, featuredFigure } = entry.data;
 
+const tocItems: string[] = (entry.body || '')
+  .split(String.fromCharCode(10))
+  .filter((l: string) => l.startsWith('## '))
+  .map((l: string) => l.replace(/^##s+(?:[0-9]+.s*)?/, '').trim());
+
 const currentIndex = tr.eras.findIndex((e) => e.slug === entry.id);
 const prevEra = currentIndex > 0 ? tr.eras[currentIndex - 1] : null;
 const nextEra = currentIndex >= 0 && currentIndex < tr.eras.length - 1 ? tr.eras[currentIndex + 1] : null;
@@ -90,6 +95,24 @@ const nextEra = currentIndex >= 0 && currentIndex < tr.eras.length - 1 ? tr.eras
 
           <h1 class="font-serif text-3xl sm:text-5xl font-bold text-[#161412] leading-tight mb-4">{title}</h1>
           <p class="text-lg sm:text-xl text-stone-600 leading-relaxed">{subtitle}</p>
+
+          {tocItems.length > 0 && (
+            <nav aria-label="Índice del artículo" class="mt-5 pt-4 border-t border-[#E5DEC9]/80">
+              <ol class="flex flex-col space-y-2 text-sm text-stone-600">
+                {tocItems.map((label, idx) => (
+                  <li>
+                    <a
+                      href={`#seccion-${idx + 1}`}
+                      class="inline-flex items-baseline gap-2 hover:text-[#8E1323] transition-colors"
+                    >
+                      <span class="font-semibold text-[#8E1323]">{idx + 1}.</span>
+                      <span class="underline decoration-[#E5DEC9] underline-offset-4 hover:decoration-[#8E1323]">{label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
         </header>
 
         <figure class="mb-12 rounded-2xl overflow-hidden border border-[#E5DEC9] bg-white shadow-xs">
@@ -145,4 +168,9 @@ const nextEra = currentIndex >= 0 && currentIndex < tr.eras.length - 1 ? tr.eras
       </article>
     </div>
   </div>
+  <script>
+    document.querySelectorAll('.article-body h2').forEach((el, idx) => {
+      el.id = `seccion-${idx + 1}`;
+    });
+  </script>
 </BaseLayout>

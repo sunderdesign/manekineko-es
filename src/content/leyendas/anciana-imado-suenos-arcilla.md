@@ -3,8 +3,8 @@ title: "Usugumo y el gato guardián de Yoshiwara"
 subtitle: "La trágica y prodigiosa historia de la cortesana de Asakusa cuyo gato tricolor dio la vida para salvarla y dio origen a las figuras de cerámica Imado."
 era: "Siglo XVIII • Periodo Edo"
 location: "Yoshiwara y Asakusa, Tokio"
-coverImage: "/images/leyenda-imado.jpeg"
-coverAlt: "Figura de cerámica Imado inspirada en el gato fiel de Usugumo"
+coverImage: "/images/leyenda-usugumo.jpeg"
+coverAlt: "Gato guardián vigilando desde los tejados de Yoshiwara"
 readingTime: "7 min de lectura"
 isOriginal: false
 order: 2

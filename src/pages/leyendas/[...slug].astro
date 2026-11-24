@@ -17,6 +17,12 @@ const { entry, leyendas } = Astro.props;
 const { Content } = await render(entry);
 const tr = homeTranslations.es;
 const { title, subtitle, era, location, coverImage, coverAlt, readingTime, isOriginal, featuredFigure, chapters } = entry.data;
+const tocItems: string[] = Array.isArray(chapters) && chapters.length > 0
+  ? chapters.map((c: any) => c.title)
+  : (entry.body || '')
+      .split(String.fromCharCode(10))
+      .filter((l: string) => l.startsWith('## '))
+      .map((l: string) => l.replace(/^##s+(?:[0-9]+.s*)?/, '').trim());
 
 const currentIndex = leyendas.findIndex((item) => item.id === entry.id);
 const prevLeyenda = currentIndex > 0 ? leyendas[currentIndex - 1] : null;
@@ -26,13 +32,12 @@ const nextLeyenda = currentIndex >= 0 && currentIndex < leyendas.length - 1 ? le
 <BaseLayout title={`${title} | Manekineko.es`} description={subtitle}>
   <div class="max-w-6xl mx-auto px-6 py-10 sm:py-16">
     <nav class="mb-8">
-      <a href="/#leyendas" class="text-sm font-medium text-[#8E1323] hover:underline">
+      <a href={"/#leyendas"} class="text-sm font-medium text-[#8E1323] hover:underline">
         ← {tr.legendsTitle}
       </a>
     </nav>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-      <!-- Menú Lateral de Leyendas -->
       <aside class="lg:col-span-4 lg:sticky lg:top-24 order-2 lg:order-1">
         <div class="bg-white border border-[#E5DEC9] rounded-2xl p-6 shadow-xs">
           <span class="hanko-stamp px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-[#FAF6F0]">
@@ -78,9 +83,8 @@ const nextLeyenda = currentIndex >= 0 && currentIndex < leyendas.length - 1 ? le
         </div>
       </aside>
 
-      <!-- Artículo Principal -->
       <article class="lg:col-span-8 order-1 lg:order-2 max-w-3xl">
-        <header class="mb-10">
+        <header class="mb-8">
           <div class="flex flex-wrap items-center gap-3 text-xs font-medium text-[#8E1323] mb-4">
             <span class="px-3 py-1 rounded-full bg-white border border-[#E5DEC9]">
               {isOriginal ? tr.legendsOriginalBadge : era}
@@ -91,46 +95,34 @@ const nextLeyenda = currentIndex >= 0 && currentIndex < leyendas.length - 1 ? le
 
           <h1 class="font-serif text-3xl sm:text-5xl font-bold text-[#161412] leading-tight mb-4">{title}</h1>
           <p class="text-lg sm:text-xl text-stone-600 leading-relaxed">{subtitle}</p>
+
+          {tocItems.length > 0 && (
+            <nav aria-label="Índice del relato" class="mt-5 pt-4 border-t border-[#E5DEC9]/80">
+              <ol class="flex flex-col space-y-2 text-sm text-stone-600">
+                {tocItems.map((label, idx) => (
+                  <li>
+                    <a
+                      href={`#acto-${idx + 1}`}
+                      class="inline-flex items-baseline gap-2 hover:text-[#8E1323] transition-colors"
+                    >
+                      <span class="font-semibold text-[#8E1323]">{idx + 1}.</span>
+                      <span class="underline decoration-[#E5DEC9] underline-offset-4 hover:decoration-[#8E1323]">{label}</span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
         </header>
 
         <figure class="mb-10 rounded-2xl overflow-hidden border border-[#E5DEC9] bg-white p-2 shadow-xs">
           <img src={coverImage} alt={coverAlt} class="w-full aspect-[3/2] object-cover rounded-xl" />
         </figure>
 
-        {Array.isArray(chapters) && chapters.length > 0 && (
-          <section aria-label="Resumen de los 4 actos" class="mb-12 bg-white border border-[#E5DEC9] rounded-2xl p-6 sm:p-7 shadow-xs">
-            <div class="flex items-center justify-between gap-2 mb-4">
-              <span class="hanko-stamp px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase bg-[#FAF6F0]">
-                物語 • LOS 4 ACTOS DEL RELATO
-              </span>
-              <span class="text-xs text-stone-400">Pulsa para ir a cada escena</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              {chapters.map((ch: any, idx: number) => (
-                <a
-                  href={`#acto-${idx + 1}`}
-                  class="group block p-4 rounded-xl bg-[#FAF6F0]/75 hover:bg-[#FAF6F0] border border-[#E5DEC9] hover:border-[#8E1323]/40 transition-all"
-                >
-                  <div class="text-[11px] font-bold uppercase tracking-wider text-[#8E1323] mb-1">
-                    {ch.act}
-                  </div>
-                  <div class="font-serif text-base font-bold text-[#161412] group-hover:text-[#8E1323] transition-colors leading-snug mb-1">
-                    {ch.title}
-                  </div>
-                  <p class="text-xs text-stone-600 leading-relaxed">
-                    {ch.summary}
-                  </p>
-                </a>
-              ))}
-            </div>
-          </section>
-        )}
-
         <div class="article-body text-[#161412] [&>p]:text-base sm:[&>p]:text-[17px] [&>p]:text-stone-700 [&>p]:leading-[1.85] [&>p]:mb-6 [&>h2]:font-serif [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-bold [&>h2]:text-[#161412] [&>h2]:mt-14 [&>h2]:mb-5 [&>h2]:pt-8 [&>h2]:border-t [&>h2]:border-[#E5DEC9] [&>h2]:leading-snug [&>h2]:scroll-mt-28 [&>h3]:font-serif [&>h3]:text-xl sm:[&>h3]:text-2xl [&>h3]:font-bold [&>h3]:text-[#161412] [&>h3]:mt-9 [&>h3]:mb-3 [&>blockquote]:my-8 [&>blockquote]:border-l-4 [&>blockquote]:border-l-[#8E1323] [&>blockquote]:bg-white [&>blockquote]:py-4 [&>blockquote]:px-6 [&>blockquote]:rounded-r-2xl [&>blockquote]:shadow-xs [&>blockquote]:font-serif [&>blockquote]:italic [&>blockquote]:text-lg [&>blockquote]:text-[#161412] [&>blockquote>p]:mb-0 [&>ul]:my-6 [&>ul]:pl-6 [&>ul]:list-disc [&>ul]:space-y-3 [&>ul]:text-stone-700 [&>ul]:leading-relaxed [&>ol]:my-6 [&>ol]:pl-6 [&>ol]:list-decimal [&>ol]:space-y-3 [&>ol]:text-stone-700 [&>ol]:leading-relaxed [&>p:has(img)]:my-9 [&>p:has(img)]:bg-white [&>p:has(img)]:p-2.5 [&>p:has(img)]:rounded-2xl [&>p:has(img)]:border [&>p:has(img)]:border-[#E5DEC9] [&>p:has(img)]:shadow-xs [&_img]:w-full [&_img]:aspect-[3/2] [&_img]:object-cover [&_img]:rounded-xl [&_strong]:font-semibold [&_strong]:text-[#161412]">
           <Content />
         </div>
 
-        <!-- Navegación Anterior / Siguiente Leyenda -->
         <nav class="mt-14 pt-8 border-t border-[#E5DEC9] grid grid-cols-1 sm:grid-cols-2 gap-4">
           {prevLeyenda ? (
             <a
