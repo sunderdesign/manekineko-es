@@ -50,7 +50,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
 ---
 
 <BaseLayout title={tr.seoTitle} description={tr.seoDescription}>
-  <!-- 1. GRAN EXPLORADOR INTERACTIVO MINIMALISTA -->
+  <!-- 1. EXPLORADOR INTERACTIVO -->
   <section class="bg-seigaiha border-b border-[#E5DEC9] relative overflow-hidden">
     <div class="max-w-6xl mx-auto px-6 py-5 sm:py-7 w-full">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
@@ -76,7 +76,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
           </p>
         </div>
 
-        <!-- Columna Derecha: Medallón + Esquema -->
+        <!-- Columna Derecha -->
         <div class="lg:col-span-7 flex flex-col items-center">
           <div id="schematic-stage" class="relative w-full flex flex-col sm:flex-row items-center justify-center lg:justify-end gap-5 sm:gap-7">
             <svg id="schematic-svg" class="hidden sm:block absolute inset-0 w-full h-full pointer-events-none z-30" aria-hidden="true">
@@ -139,10 +139,9 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
         </div>
       </div>
 
-      <!-- Barra Inferior de Controles -->
+      <!-- Barra Inferior -->
       <div class="mt-5 w-full bg-white/90 backdrop-blur-sm border border-[#E5DEC9] rounded-2xl p-2.5 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-3">
         <div class="flex flex-col md:flex-row items-center justify-center lg:justify-start gap-4 flex-1">
-          <!-- Patas -->
           <div class="flex flex-wrap items-center justify-center gap-2 pl-2">
             <span class="text-[11px] font-bold uppercase tracking-widest text-stone-400 mr-1">{tr.pawLabel}</span>
             <button data-type="paw" data-key="left" class="control-btn active px-3 py-1.5 rounded-lg bg-[#161412] text-white text-xs font-medium transition-colors cursor-pointer">{tr.paws.left.btn}</button>
@@ -152,7 +151,6 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
 
           <div class="hidden md:block h-6 w-px bg-stone-200"></div>
 
-          <!-- Colores -->
           <div class="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <span class="text-[11px] font-bold uppercase tracking-widest text-stone-400 mr-1">{tr.colorLabel}</span>
             {colorButtons.map((btn) => (
@@ -182,7 +180,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
     </div>
   </section>
 
-  <!-- 2. LÍNEA DE TIEMPO HORIZONTAL INTERACTIVA -->
+  <!-- 2. TIMELINE -->
   <section id="tradicion" class="max-w-6xl mx-auto px-6 py-16 sm:py-20">
     <div class="text-center max-w-2xl mx-auto mb-12">
       <div class="inline-flex items-center gap-2.5 mb-2.5">
@@ -294,14 +292,6 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
               {tr.legendsTitle}
             </h2>
           </div>
-
-          <a
-            href={translatePath('/leyendas/')}
-            class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#8E1323] hover:text-[#700E1B] transition-colors"
-          >
-            <span>{tr.legendsViewAll}</span>
-            <span aria-hidden="true">→</span>
-          </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
