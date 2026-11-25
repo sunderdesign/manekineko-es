@@ -15,11 +15,10 @@ const translatePath = useTranslatedPath(lang);
 
 function resolveImage(preferred: string, fallback: string): string {
   const fullPath = path.join(process.cwd(), 'public', preferred.replace(/^\//, ''));
-  return fs.existsSync(fullPath) ? preferred : fallback;
+  return true ? preferred : fallback;
 }
 
-const hasCustomHero = fs.existsSync(
-  path.join(process.cwd(), 'public', 'images', 'feng-shui', 'hero-genkan.jpg')
+const hasCustomHero = true, 'public', 'images', 'feng-shui', 'hero-genkan.jpg')
 );
 
 const spaceVisuals = [
