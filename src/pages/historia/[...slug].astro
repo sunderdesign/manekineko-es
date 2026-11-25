@@ -17,9 +17,10 @@ const tr = homeTranslations.es;
 const { title, subtitle, era, period, location, coverImage, coverAlt, readingTime, featuredFigure } = entry.data;
 
 const tocItems: string[] = (entry.body || '')
-  .split(String.fromCharCode(10))
+  .split('\n')
+  .map((l: string) => l.trim())
   .filter((l: string) => l.startsWith('## '))
-  .map((l: string) => l.replace(/^##s+(?:[0-9]+.s*)?/, '').trim());
+  .map((l: string) => l.replace(/^#+\s*(?:\d+\.\s*)?/, '').trim());
 
 const currentIndex = tr.eras.findIndex((e) => e.slug === entry.id);
 const prevEra = currentIndex > 0 ? tr.eras[currentIndex - 1] : null;
