@@ -23,7 +23,18 @@ const leyendas = baseLeyendas.map((base) => {
   return { slug: base.id, data: entry.data };
 });
 
-const introCopy: Record<string, { tag: string; headlineHtml: string; meaningText: string; lockedHint: string }> = {
+const introCopy: Record<
+  string,
+  {
+    tag: string;
+    headlineHtml: string;
+    meaningText: string;
+    lockedHint: string;
+    noColorTag: string;
+    noColorHeadline: string;
+    noColorHint: string;
+  }
+> = {
   es: {
     tag: 'EN REPOSO • SIN PATA ALZADA',
     headlineHtml:
@@ -31,6 +42,11 @@ const introCopy: Record<string, { tag: string; headlineHtml: string; meaningText
     meaningText:
       'Un Maneki-neko con las patas bajadas aún no llama a la fortuna. Elige primero qué pata quieres levantar y desbloquearás los colores para darle su propósito.',
     lockedHint: 'Elige primero qué pata levantar',
+    noColorTag: 'ELIGE UN COLOR',
+    noColorHeadline:
+      'Alza {paw} para atraer {goal}: <span class="text-[#8E1323] italic">elige un color</span>.',
+    noColorHint:
+      'Escoge un color en la barra inferior para darle su intención y descubrir el significado tradicional de cada acabado.',
   },
   en: {
     tag: 'AT REST • NO PAW RAISED',
@@ -39,6 +55,11 @@ const introCopy: Record<string, { tag: string; headlineHtml: string; meaningText
     meaningText:
       'A Maneki-neko with both paws down isn’t calling fortune yet. Choose which paw to raise first to unlock the colors and define its purpose.',
     lockedHint: 'Choose which paw to raise first',
+    noColorTag: 'CHOOSE A COLOR',
+    noColorHeadline:
+      'Raises {paw} to attract {goal}: <span class="text-[#8E1323] italic">choose a color</span>.',
+    noColorHint:
+      'Pick a color in the bar below to give it its intention and discover the traditional meaning of each finish.',
   },
   fr: {
     tag: 'AU REPOS • AUCUNE PATTE LEVÉE',
@@ -47,6 +68,11 @@ const introCopy: Record<string, { tag: string; headlineHtml: string; meaningText
     meaningText:
       'Un Maneki-neko les pattes baissées n’appelle pas encore la chance. Choisissez d’abord quelle patte lever pour débloquer les couleurs.',
     lockedHint: 'Choisissez d’abord quelle patte lever',
+    noColorTag: 'CHOISISSEZ UNE COULEUR',
+    noColorHeadline:
+      'Il lève {paw} pour attirer {goal} : <span class="text-[#8E1323] italic">choisissez une couleur</span>.',
+    noColorHint:
+      'Sélectionnez une couleur dans la barre ci-dessous pour lui donner son intention et découvrir la signification de chaque finition.',
   },
 };
 
@@ -385,6 +411,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
       anatomy: tr.anatomy,
       eraYears: tr.eras.map((e) => e.year),
       stepTemplate: tr.stepTemplate,
+      intro,
       shopBaseUrl,
     })}
   />
@@ -399,6 +426,11 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
         anatomy: Record<string, { tag: string; name: string; text: string }>;
         eraYears: string[];
         stepTemplate: string;
+        intro: {
+          noColorTag: string;
+          noColorHeadline: string;
+          noColorHint: string;
+        };
         shopBaseUrl: string;
       };
 
@@ -533,14 +565,23 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
         meaningEl.style.opacity = '0.2';
 
         setTimeout(() => {
-          metaTags.textContent = `${p.tag} • ${c.tag}`;
-          const colorSpan = `<span class="${c.accent} italic">${c.adj}</span>`;
           const pawSpan = `<span class="underline decoration-[#8E1323]/40 decoration-2 underline-offset-4">${p.phrase}</span>`;
-          headlineEl.innerHTML = cfg.headlineTemplate
-            .replace('{color}', colorSpan)
-            .replace('{paw}', pawSpan)
-            .replace('{goal}', p.goal);
-          meaningEl.textContent = `${p.sentence} ${c.sentence}`;
+
+          if (currentColor === 'line') {
+            metaTags.textContent = `${p.tag} • ${cfg.intro.noColorTag}`;
+            headlineEl.innerHTML = cfg.intro.noColorHeadline
+              .replace('{paw}', pawSpan)
+              .replace('{goal}', p.goal);
+            meaningEl.textContent = `${p.sentence} ${cfg.intro.noColorHint}`;
+          } else {
+            metaTags.textContent = `${p.tag} • ${c.tag}`;
+            const colorSpan = `<span class="${c.accent} italic">${c.adj}</span>`;
+            headlineEl.innerHTML = cfg.headlineTemplate
+              .replace('{color}', colorSpan)
+              .replace('{paw}', pawSpan)
+              .replace('{goal}', p.goal);
+            meaningEl.textContent = `${p.sentence} ${c.sentence}`;
+          }
 
           headlineEl.style.opacity = '1';
           meaningEl.style.opacity = '1';
