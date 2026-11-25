@@ -76,7 +76,7 @@ const colorOptions: Array<{ key: keyof typeof tt.colors; swatchClass: string }> 
         </a>
       </div>
 
-    <FengShuiHomeBanner lang={lang} />
+      <FengShuiHomeBanner lang={lang} />
     </div>
   </section>
 
@@ -357,7 +357,7 @@ const colorOptions: Array<{ key: keyof typeof tt.colors; swatchClass: string }> 
             <div class="w-40 h-40 sm:w-44 sm:h-44 rounded-full overflow-hidden bg-white border border-dashed border-[#C6922C]/70 shadow-xs flex items-center justify-center p-5 mb-6">
               <img
                 id="store-preview-cat"
-                src="/MN_1_00_line.svg"
+                src="/MN_00_line_0.svg"
                 alt="Maneki-neko"
                 class="w-28 sm:w-32 h-auto object-contain transition-transform duration-300"
               />
@@ -431,14 +431,20 @@ const colorOptions: Array<{ key: keyof typeof tt.colors; swatchClass: string }> 
       const colorFiles: Record<string, string> = {
         tricolor: '01_tri',
         white: '02_white',
-        black: '03_black',
-        gold: '04_golden',
-        yellow: '05_yellow',
-        green: '06_green',
-        blue: '07_blue',
-        purple: '08_purple',
-        pink: '09_pink',
-        red: '10_red',
+        gold: '03_gold',
+        yellow: '04_yellow',
+        green: '05_green',
+        blue: '06_blue',
+        purple: '07_purple',
+        pink: '08_pink',
+        red: '09_red',
+        black: '10_black',
+      };
+
+      const pawSuffixMap: Record<string, string> = {
+        left: '1a',
+        right: '1b',
+        both: '2',
       };
 
       const state = {
@@ -656,10 +662,13 @@ const colorOptions: Array<{ key: keyof typeof tt.colors; swatchClass: string }> 
         }
 
         if (previewImg) {
-          const prefix = state.pata === 'both' ? '2' : '1';
-          const fileSuffix = state.color && colorFiles[state.color] ? colorFiles[state.color] : '00_line';
-          previewImg.src = `/MN_${prefix}_${fileSuffix}.svg`;
-          previewImg.style.transform = state.pata === 'right' ? 'scaleX(-1)' : 'scaleX(1)';
+          if (!state.pata && !state.color) {
+            previewImg.src = '/MN_00_line_0.svg';
+          } else {
+            const pawSuffix = state.pata ? (pawSuffixMap[state.pata] || '1a') : '1a';
+            const colorCode = state.color && colorFiles[state.color] ? colorFiles[state.color] : '00_line';
+            previewImg.src = `/MN_${colorCode}_${pawSuffix}.svg`;
+          }
         }
 
         filterAndSortCards();

@@ -59,16 +59,25 @@ const colorMeaning = tr.colors[color as keyof typeof tr.colors];
 const colorFileMap: Record<string, string> = {
   tricolor: '01_tri',
   white: '02_white',
-  black: '03_black',
-  gold: '04_golden',
-  yellow: '05_yellow',
-  green: '06_green',
-  blue: '07_blue',
-  purple: '08_purple',
-  pink: '09_pink',
-  red: '10_red',
+  gold: '03_gold',
+  yellow: '04_yellow',
+  green: '05_green',
+  blue: '06_blue',
+  purple: '07_purple',
+  pink: '08_pink',
+  red: '09_red',
+  black: '10_black',
 };
-const schematicSvg = `/MN_${paw === 'both' ? '2' : '1'}_${colorFileMap[color] || '00_line'}.svg`;
+
+const pawSuffixMap: Record<string, string> = {
+  left: '1a',
+  right: '1b',
+  both: '2',
+};
+
+const filePrefix = colorFileMap[color] || '00_line';
+const pawSuffix = pawSuffixMap[paw] || '1a';
+const schematicSvg = `/MN_${filePrefix}_${pawSuffix}.svg`;
 ---
 
 <BaseLayout title={`${title} | Manekineko.es`} description={subtitle}>
@@ -186,7 +195,6 @@ const schematicSvg = `/MN_${paw === 'both' ? '2' : '1'}_${colorFileMap[color] ||
               src={schematicSvg}
               alt={title}
               class="w-11 h-auto object-contain"
-              style={paw === 'right' ? 'transform: scaleX(-1);' : undefined}
             />
           </div>
           <div class="text-xs text-stone-700 leading-relaxed">
@@ -302,7 +310,7 @@ const schematicSvg = `/MN_${paw === 'both' ? '2' : '1'}_${colorFileMap[color] ||
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {related.map((rel) => (
             <a
-              href={translatePath(`/tienda/${rel.slug}/`) }
+              href={translatePath(`/tienda/${rel.slug}/`)}
               class="group bg-white border border-[#E5DEC9] rounded-2xl overflow-hidden shadow-xs hover:border-[#C6922C] transition-all"
             >
               <div class="aspect-[4/3] overflow-hidden bg-[#FAF6F0]">
