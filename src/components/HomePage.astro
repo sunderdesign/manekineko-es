@@ -23,22 +23,34 @@ const leyendas = baseLeyendas.map((base) => {
   return { slug: base.id, data: entry.data };
 });
 
-const initialPaw: PawKey = 'left';
-const initialColor: ColorKey = 'line';
+const introCopy: Record<string, { tag: string; headlineHtml: string; meaningText: string; lockedHint: string }> = {
+  es: {
+    tag: 'EN REPOSO • SIN PATA ALZADA',
+    headlineHtml:
+      'Todavía es solo un gato descansando: <span class="underline decoration-[#8E1323]/40 decoration-2 underline-offset-4">alza una pata</span> para hacerlo Maneki-neko.',
+    meaningText:
+      'Un Maneki-neko con las patas bajadas aún no llama a la fortuna. Elige primero qué pata quieres levantar y desbloquearás los colores para darle su propósito.',
+    lockedHint: 'Elige primero qué pata levantar',
+  },
+  en: {
+    tag: 'AT REST • NO PAW RAISED',
+    headlineHtml:
+      'Right now it’s just a cat taking a break: <span class="underline decoration-[#8E1323]/40 decoration-2 underline-offset-4">raise a paw</span> to make it a Maneki-neko.',
+    meaningText:
+      'A Maneki-neko with both paws down isn’t calling fortune yet. Choose which paw to raise first to unlock the colors and define its purpose.',
+    lockedHint: 'Choose which paw to raise first',
+  },
+  fr: {
+    tag: 'AU REPOS • AUCUNE PATTE LEVÉE',
+    headlineHtml:
+      'Ce n’est encore qu’un chat qui se repose : <span class="underline decoration-[#8E1323]/40 decoration-2 underline-offset-4">levez une patte</span> pour en faire un Maneki-neko.',
+    meaningText:
+      'Un Maneki-neko les pattes baissées n’appelle pas encore la chance. Choisissez d’abord quelle patte lever pour débloquer les couleurs.',
+    lockedHint: 'Choisissez d’abord quelle patte lever',
+  },
+};
 
-function buildHeadlineHtml(pawKey: PawKey, colorKey: ColorKey) {
-  const p = tr.paws[pawKey];
-  const c = tr.colors[colorKey];
-  const colorSpan = `<span class="${c.accent} italic">${c.adj}</span>`;
-  const pawSpan = `<span class="underline decoration-[#8E1323]/40 decoration-2 underline-offset-4">${p.phrase}</span>`;
-  return tr.headlineTemplate
-    .replace('{color}', colorSpan)
-    .replace('{paw}', pawSpan)
-    .replace('{goal}', p.goal);
-}
-
-const initialHeadlineHtml = buildHeadlineHtml(initialPaw, initialColor);
-const initialMeaningText = `${tr.paws[initialPaw].sentence} ${tr.colors[initialColor].sentence}`;
+const intro = introCopy[lang] ?? introCopy.es;
 const shopBaseUrl = translatePath('/tienda/');
 
 const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
@@ -67,18 +79,18 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
               招き猫 • {t('nav.amuleto')}
             </span>
             <span id="meta-tags" class="text-[11px] uppercase tracking-[0.16em] text-[#8E1323] font-semibold">
-              {tr.paws[initialPaw].tag} • {tr.colors[initialColor].tag}
+              {intro.tag}
             </span>
           </div>
 
           <h1
             id="dynamic-headline"
             class="font-serif text-2xl sm:text-3xl lg:text-[1.9rem] leading-[1.2] text-[#161412] mb-3 transition-opacity duration-200"
-            set:html={initialHeadlineHtml}
+            set:html={intro.headlineHtml}
           />
 
           <p id="dynamic-meaning" class="text-sm text-stone-700 leading-relaxed max-w-xl mx-auto lg:mx-0 transition-opacity duration-200">
-            {initialMeaningText}
+            {intro.meaningText}
           </p>
         </div>
 
@@ -96,7 +108,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
               
               <img
                 id="interactive-cat"
-                src="/MN_1_00_line.svg"
+                src="/MN_00_line_0.svg"
                 alt="Maneki-neko"
                 class="w-44 sm:w-48 h-auto object-contain relative z-10 transition-transform duration-500 ease-in-out"
               />
@@ -104,7 +116,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
               <button
                 id="hotspot-koban"
                 data-info="koban"
-                class="hotspot absolute z-20 left-[53%] top-[73%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#8E1323] border-2 border-white shadow-md ring-4 ring-[#8E1323]/20 animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
+                class="hotspot absolute z-20 left-[56%] top-[75%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#8E1323] border-2 border-white shadow-md ring-4 ring-[#8E1323]/20 animate-pulse hover:animate-none hover:scale-125 transition-all duration-300 cursor-pointer"
                 aria-label={tr.anatomy.koban.name}
                 title={tr.anatomy.koban.name}
               ></button>
@@ -150,7 +162,7 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
         <div class="flex flex-col md:flex-row items-center justify-center lg:justify-start gap-4 flex-1">
           <div class="flex flex-wrap items-center justify-center gap-2 pl-2">
             <span class="text-[11px] font-bold uppercase tracking-widest text-stone-400 mr-1">{tr.pawLabel}</span>
-            <button data-type="paw" data-key="left" class="control-btn active px-3 py-1.5 rounded-lg bg-[#161412] text-white text-xs font-medium transition-colors cursor-pointer">{tr.paws.left.btn}</button>
+            <button data-type="paw" data-key="left" class="control-btn px-3 py-1.5 rounded-lg bg-[#FAF6F0] text-stone-600 border border-stone-200 text-xs font-medium hover:bg-stone-200 transition-colors cursor-pointer">{tr.paws.left.btn}</button>
             <button data-type="paw" data-key="right" class="control-btn px-3 py-1.5 rounded-lg bg-[#FAF6F0] text-stone-600 border border-stone-200 text-xs font-medium hover:bg-stone-200 transition-colors cursor-pointer">{tr.paws.right.btn}</button>
             <button data-type="paw" data-key="both" class="control-btn px-3 py-1.5 rounded-lg bg-[#FAF6F0] text-stone-600 border border-stone-200 text-xs font-medium hover:bg-stone-200 transition-colors cursor-pointer">{tr.paws.both.btn}</button>
           </div>
@@ -161,19 +173,22 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
             <span class="text-[11px] font-bold uppercase tracking-widest text-stone-400 mr-1">{tr.colorLabel}</span>
             {colorButtons.map((btn) => (
               <button
+                type="button"
+                disabled
                 data-type="color"
                 data-key={btn.key}
                 data-ring={btn.ring}
-                class={`control-color w-6 h-6 rounded-full border shadow-sm transition-transform hover:scale-110 ring-2 ring-offset-2 ring-transparent cursor-pointer ${btn.bgClass}`}
+                data-label={tr.colors[btn.key].label}
+                class={`control-color w-6 h-6 rounded-full border shadow-sm transition-all ring-2 ring-offset-2 ring-transparent opacity-35 cursor-not-allowed ${btn.bgClass}`}
                 aria-label={tr.colors[btn.key].label}
-                title={tr.colors[btn.key].label}
+                title={intro.lockedHint}
               ></button>
             ))}
           </div>
         </div>
 
         <a 
-          href={`${shopBaseUrl}?pata=left`}
+          href={shopBaseUrl}
           id="btn-search-figure"
           class="shrink-0 w-full lg:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#8E1323] to-[#700E1B] text-white font-medium text-sm tracking-wide shadow-md hover:shadow-lg transition-all group"
         >
@@ -410,239 +425,4 @@ const colorButtons: Array<{ key: ColorKey; ring: string; bgClass: string }> = [
       const hotspots = document.querySelectorAll('.hotspot');
       const searchBtn = document.getElementById('btn-search-figure');
 
-      let currentPaw: PawKey = 'left';
-      let currentColor: ColorKey = 'line';
-
-      function updateCatAsset() {
-        const p = cfg.paws[currentPaw];
-        const c = cfg.colors[currentColor];
-        if (!catImage || !p || !c) return;
-
-        const posePrefix = currentPaw === 'both' ? '2' : '1';
-        catImage.src = `/MN_${posePrefix}_${c.file}.svg`;
-        catImage.style.transform = currentPaw === 'right' ? 'scaleX(-1)' : 'scaleX(1)';
-
-        if (kobanSpot) {
-          kobanSpot.classList.remove('left-[53%]', 'left-[58%]', 'left-[56%]', 'top-[73%]', 'top-[75%]');
-          if (currentPaw === 'right') {
-            kobanSpot.classList.add('left-[58%]', 'top-[73%]');
-          } else if (currentPaw === 'both') {
-            kobanSpot.classList.add('left-[56%]', 'top-[75%]');
-          } else {
-            kobanSpot.classList.add('left-[53%]', 'top-[73%]');
-          }
-        }
-      }
-
-      function updateSchematicLine() {
-        const activeSpot = document.querySelector('.hotspot.active-spot');
-        if (!schematicStage || !activeSpot || !anatomyPanel || !schematicLine || !schematicHalo || !schematicEndDot) {
-          schematicLine?.setAttribute('opacity', '0');
-          schematicHalo?.setAttribute('opacity', '0');
-          schematicEndDot?.setAttribute('opacity', '0');
-          return;
-        }
-
-        const stageRect = schematicStage.getBoundingClientRect();
-        const spotRect = activeSpot.getBoundingClientRect();
-        const panelRect = anatomyPanel.getBoundingClientRect();
-
-        if (stageRect.width === 0 || panelRect.left <= spotRect.right) {
-          schematicLine.setAttribute('opacity', '0');
-          schematicHalo.setAttribute('opacity', '0');
-          schematicEndDot.setAttribute('opacity', '0');
-          return;
-        }
-
-        const x1 = spotRect.left + spotRect.width / 2 - stageRect.left;
-        const y1 = spotRect.top + spotRect.height / 2 - stageRect.top;
-        const x2 = panelRect.left - stageRect.left;
-        const y2 = panelRect.top + 18 - stageRect.top;
-        const elbowX = x2 - 16;
-        const pathData = `M ${x1.toFixed(1)} ${y1.toFixed(1)} L ${elbowX.toFixed(1)} ${y2.toFixed(1)} L ${x2.toFixed(1)} ${y2.toFixed(1)}`;
-
-        schematicLine.setAttribute('d', pathData);
-        schematicHalo.setAttribute('d', pathData);
-        schematicEndDot.setAttribute('cx', x2.toFixed(1));
-        schematicEndDot.setAttribute('cy', y2.toFixed(1));
-
-        schematicLine.setAttribute('opacity', '1');
-        schematicHalo.setAttribute('opacity', '0.85');
-        schematicEndDot.setAttribute('opacity', '1');
-      }
-
-      function renderSentence() {
-        const p = cfg.paws[currentPaw];
-        const c = cfg.colors[currentColor];
-        if (!p || !c || !headlineEl || !meaningEl || !metaTags) return;
-
-        headlineEl.style.opacity = '0.2';
-        meaningEl.style.opacity = '0.2';
-
-        setTimeout(() => {
-          metaTags.textContent = `${p.tag} • ${c.tag}`;
-          const colorSpan = `<span class="${c.accent} italic">${c.adj}</span>`;
-          const pawSpan = `<span class="underline decoration-[#8E1323]/40 decoration-2 underline-offset-4">${p.phrase}</span>`;
-          headlineEl.innerHTML = cfg.headlineTemplate
-            .replace('{color}', colorSpan)
-            .replace('{paw}', pawSpan)
-            .replace('{goal}', p.goal);
-          meaningEl.textContent = `${p.sentence} ${c.sentence}`;
-
-          headlineEl.style.opacity = '1';
-          meaningEl.style.opacity = '1';
-
-          if (searchBtn) {
-            const query = currentColor === 'line' ? `?pata=${currentPaw}` : `?color=${currentColor}&pata=${currentPaw}`;
-            searchBtn.setAttribute('href', `${cfg.shopBaseUrl}${query}`);
-          }
-        }, 150);
-      }
-
-      pawBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          pawBtns.forEach((b) => {
-            b.classList.remove('bg-[#161412]', 'text-white', 'border-transparent');
-            b.classList.add('bg-[#FAF6F0]', 'text-stone-600', 'border-stone-200');
-          });
-          btn.classList.remove('bg-[#FAF6F0]', 'text-stone-600', 'border-stone-200');
-          btn.classList.add('bg-[#161412]', 'text-white', 'border-transparent');
-
-          currentPaw = (btn.getAttribute('data-key') as PawKey) || 'left';
-          updateCatAsset();
-
-          const start = performance.now();
-          function animateLine(now: number) {
-            updateSchematicLine();
-            if (now - start < 520) requestAnimationFrame(animateLine);
-          }
-          requestAnimationFrame(animateLine);
-          renderSentence();
-        });
-      });
-
-      colorBtns.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const clickedColor = (btn.getAttribute('data-key') as ColorKey) || 'line';
-          const isDeselecting = clickedColor === currentColor;
-
-          colorBtns.forEach((b) => {
-            const r = b.getAttribute('data-ring');
-            if (r) b.classList.remove(r);
-            b.classList.remove('scale-110');
-            b.classList.add('ring-transparent');
-          });
-
-          if (isDeselecting) {
-            currentColor = 'line';
-          } else {
-            const activeRing = btn.getAttribute('data-ring');
-            btn.classList.remove('ring-transparent');
-            if (activeRing) btn.classList.add(activeRing);
-            btn.classList.add('scale-110');
-            currentColor = clickedColor;
-          }
-
-          updateCatAsset();
-          renderSentence();
-        });
-      });
-
-      function selectAnatomy(spot: Element) {
-        const key = spot.getAttribute('data-info') as AnatomyKey | null;
-        if (!key) return;
-        const info = cfg.anatomy[key];
-        if (!info) return;
-
-        hotspots.forEach((s) => {
-          s.classList.remove('scale-125', 'ring-[#8E1323]/45', 'active-spot');
-          s.classList.add('ring-[#8E1323]/20', 'animate-pulse');
-        });
-        spot.classList.remove('animate-pulse', 'ring-[#8E1323]/20');
-        spot.classList.add('scale-125', 'ring-[#8E1323]/45', 'active-spot');
-
-        if (anatomyPanel && anatomyTag && anatomyName && anatomyText) {
-          anatomyTag.textContent = info.tag;
-          anatomyName.textContent = info.name;
-          anatomyText.textContent = info.text;
-        }
-        updateSchematicLine();
-      }
-
-      hotspots.forEach((spot) => {
-        spot.addEventListener('mouseenter', () => selectAnatomy(spot));
-        spot.addEventListener('click', () => selectAnatomy(spot));
-      });
-
-      window.addEventListener('resize', updateSchematicLine);
-
-      // Timeline
-      const eraNodes = document.querySelectorAll('.era-node');
-      const eraPanels = document.querySelectorAll('.era-panel');
-      const timelineProgress = document.getElementById('timeline-progress');
-      const prevEraBtn = document.getElementById('prev-era') as HTMLButtonElement | null;
-      const nextEraBtn = document.getElementById('next-era') as HTMLButtonElement | null;
-      const eraStepIndicator = document.getElementById('era-step-indicator');
-      let activeEraIndex = 0;
-
-      function activateEra(index: number) {
-        if (index < 0 || index >= eraNodes.length) return;
-        activeEraIndex = index;
-
-        eraNodes.forEach((node, idx) => {
-          const yearEl = node.querySelector('.era-year');
-          const dotEl = node.querySelector('.era-dot');
-          const labelEl = node.querySelector('.era-label');
-
-          if (idx === index) {
-            node.classList.add('active');
-            yearEl?.classList.remove('text-stone-500');
-            yearEl?.classList.add('text-[#8E1323]');
-            dotEl?.classList.remove('bg-white', 'border-[3px]', 'border-[#C6922C]');
-            dotEl?.classList.add('bg-[#8E1323]', 'border-4', 'border-[#FAF6F0]', 'ring-2', 'ring-[#8E1323]', 'scale-125');
-            labelEl?.classList.remove('font-medium', 'text-stone-600');
-            labelEl?.classList.add('font-semibold', 'text-[#161412]');
-          } else if (idx < index) {
-            node.classList.remove('active');
-            yearEl?.classList.remove('text-[#8E1323]');
-            yearEl?.classList.add('text-stone-500');
-            dotEl?.classList.remove('bg-white', 'border-4', 'border-[#FAF6F0]', 'ring-2', 'ring-[#8E1323]', 'scale-125', 'border-[#C6922C]');
-            dotEl?.classList.add('bg-[#8E1323]', 'border-[3px]', 'border-[#8E1323]');
-            labelEl?.classList.remove('font-semibold', 'text-[#161412]');
-            labelEl?.classList.add('font-medium', 'text-stone-600');
-          } else {
-            node.classList.remove('active');
-            yearEl?.classList.remove('text-[#8E1323]');
-            yearEl?.classList.add('text-stone-500');
-            dotEl?.classList.remove('bg-[#8E1323]', 'border-4', 'border-[#FAF6F0]', 'ring-2', 'ring-[#8E1323]', 'scale-125', 'border-[#8E1323]');
-            dotEl?.classList.add('bg-white', 'border-[3px]', 'border-[#C6922C]');
-            labelEl?.classList.remove('font-semibold', 'text-[#161412]');
-            labelEl?.classList.add('font-medium', 'text-stone-600');
-          }
-        });
-
-        if (timelineProgress) {
-          const pct = (index / (eraNodes.length - 1)) * 80;
-          timelineProgress.style.width = `${pct}%`;
-        }
-
-        eraPanels.forEach((panel, idx) => {
-          panel.classList.toggle('hidden', idx !== index);
-        });
-
-        if (prevEraBtn) prevEraBtn.disabled = index === 0;
-        if (nextEraBtn) nextEraBtn.disabled = index === eraNodes.length - 1;
-        if (eraStepIndicator) {
-          eraStepIndicator.textContent = cfg.stepTemplate
-            .replace('{current}', String(index + 1))
-            .replace('{total}', String(eraNodes.length))
-            .replace('{year}', cfg.eraYears[index] || '');
-        }
-      }
-
-      eraNodes.forEach((node, idx) => node.addEventListener('click', () => activateEra(idx)));
-      prevEraBtn?.addEventListener('click', () => activateEra(activeEraIndex - 1));
-      nextEraBtn?.addEventListener('click', () => activateEra(activeEraIndex + 1));
-    }
-  </script>
-</BaseLayout>
+      let current
