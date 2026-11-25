@@ -12,9 +12,14 @@ const { lang } = Astro.props;
 const b = fengShuiHomeBanner[lang];
 const translatePath = useTranslatedPath(lang);
 
-const hasHeroImg = fs.existsSync(
-  path.join(process.cwd(), 'public', 'images', 'feng-shui', 'hero-genkan.jpg')
-);
+const zoomImgPath = path.join(process.cwd(), 'public', 'images', 'guia-ubicacion-zoom.jpg');
+const legacyImgPath = path.join(process.cwd(), 'public', 'images', 'feng-shui', 'hero-genkan.jpg');
+
+const heroImgSrc = fs.existsSync(zoomImgPath)
+  ? '/images/guia-ubicacion-zoom.jpg'
+  : fs.existsSync(legacyImgPath)
+    ? '/images/feng-shui/hero-genkan.jpg'
+    : null;
 ---
 
 <section aria-label={b.badge} class="max-w-6xl mx-auto px-5 sm:px-8 pt-6 pb-2">
@@ -23,13 +28,15 @@ const hasHeroImg = fs.existsSync(
 
     <div class="p-5 sm:p-7 flex flex-col md:flex-row items-center justify-between gap-6">
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
-        {hasHeroImg ? (
-          <img
-            src="/images/feng-shui/hero-genkan.jpg"
-            alt={b.title}
-            loading="lazy"
-            class="w-full sm:w-28 h-32 sm:h-24 rounded-xl object-cover border border-[#E5DEC9] shrink-0"
-          />
+        {heroImgSrc ? (
+          <div class="w-full sm:w-40 h-36 sm:h-28 rounded-xl overflow-hidden border border-[#E5DEC9] shrink-0 bg-[#FAF6F0]">
+            <img
+              src={heroImgSrc}
+              alt={b.title}
+              loading="lazy"
+              class="w-full h-full object-cover object-[48%_48%] scale-[1.65] transition-transform duration-500"
+            />
+          </div>
         ) : (
           <div class="w-14 h-14 rounded-2xl bg-[#FAF6F0] border border-[#E5DEC9] flex flex-col items-center justify-center shrink-0 text-[#8E1323]">
             <span class="font-serif text-lg font-bold leading-none">風水</span>
